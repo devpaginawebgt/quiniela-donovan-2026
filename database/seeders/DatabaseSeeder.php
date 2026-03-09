@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
             CodigoSeeder::class,
             CountrySeeder::class,
             CompanySeeder::class,
+            VisitorSeeder::class,
             BranchSeeder::class,
             UserTypeSeeder::class,
             UserSeeder::class,

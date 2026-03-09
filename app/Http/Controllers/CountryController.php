@@ -35,12 +35,16 @@ class CountryController extends Controller
 
             }
 
-            return new CountryResource($country);
+            $country = new CountryResource($country);
+
+            return $this->successResponse($country);
 
         }
 
         $countries = $this->countryService->getCountries();
 
-        return CountryResource::collection($countries);
+        $countries = CountryResource::collection($countries);
+
+        return $this->successResponse($countries);
     }
 }

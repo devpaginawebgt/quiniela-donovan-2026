@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class Visitor extends Model
 {
     protected $fillable = [
-        'name'
+        'name',
+        'lastname',
+        'is_active'
     ];
 }

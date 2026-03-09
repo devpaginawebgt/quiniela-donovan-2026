@@ -10,6 +10,8 @@ use App\Http\Controllers\PremioController;
 use App\Http\Controllers\ResultadoPartidoController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserPushTokenController;
+use App\Http\Controllers\VisitorController;
+use App\Models\Visitor;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -37,6 +39,10 @@ Route::middleware('api.key')->group(function() {
         Route::get('', 'index');
     });
     
+    Route::controller(VisitorController::class)->prefix('visitadores')->group(function() {
+        Route::get('', 'index');
+    });
+
 });
 
 // Rutas protegidas
