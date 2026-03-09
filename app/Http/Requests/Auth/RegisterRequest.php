@@ -30,8 +30,10 @@ class RegisterRequest extends FormRequest
             'email'            => ['required', 'email', 'max:255', 'unique:users'],
             'direccion'        => ['required', 'string', 'max:255'],
             'pais_id'          => ['required', 'integer', 'exists:countries,id'],
+            'user_type_id'     => ['required', 'integer', 'exists:user_types,id'],
+
             'company_id'       => ['required', 'integer', 'exists:companies,id'],
-            'branch_id'        => ['required', 'integer', 'exists:branches,id'],
+            'branch'           => ['required', 'string', 'min:3', 'max:255'],
         ];
     }
 

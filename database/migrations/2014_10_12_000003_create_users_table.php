@@ -28,15 +28,15 @@ class CreateUsersTable extends Migration
             $table->unsignedBigInteger('pais_id');
             $table->string('direccion');
 
-            // Campos variables
-            
+            // Campos doctor
+            $table->string('colegiado')->nullable();
             $table->string('region')->nullable();
             $table->string('capital')->nullable();
+            $table->unsignedBigInteger('visitor_id')->nullable();
 
+            // Campos dependiente
             $table->unsignedBigInteger('company_id')->nullable();
-            $table->unsignedBigInteger('branch_id')->nullable();
-
-            // Otros campos 
+            $table->string('branch')->nullable();
 
             $table->unsignedBigInteger('user_type_id');
             $table->integer('status_user')->index()->default(1);
@@ -46,15 +46,9 @@ class CreateUsersTable extends Migration
             $table->rememberToken();
             $table->timestamps();
 
-            $table->foreign('company_id')
+            $table->foreign('codigo_id')
                 ->references('id')
-                ->on('companies')
-                ->onUpdate('cascade')
-                ->onDelete('restrict');
-
-            $table->foreign('branch_id')
-                ->references('id')
-                ->on('branches')
+                ->on('codigos')
                 ->onUpdate('cascade')
                 ->onDelete('restrict');
 
@@ -64,11 +58,23 @@ class CreateUsersTable extends Migration
                 ->onUpdate('cascade')
                 ->onDelete('restrict');
 
-            $table->foreign('codigo_id')
+            $table->foreign('visitor_id')
                 ->references('id')
-                ->on('codigos')
+                ->on('visitors')
                 ->onUpdate('cascade')
                 ->onDelete('restrict');
+
+            $table->foreign('company_id')
+                ->references('id')
+                ->on('companies')
+                ->onUpdate('cascade')
+                ->onDelete('restrict');
+
+            // $table->foreign('branch_id')
+            //     ->references('id')
+            //     ->on('branches')
+            //     ->onUpdate('cascade')
+            //     ->onDelete('restrict');
                 
             $table->foreign('pais_id')
                 ->references('id')

@@ -29,6 +29,7 @@ class User extends Authenticatable
         'telefono',
         'email',
         'direccion',
+        'colegiado',
         'pais_id',
         'puntos',
         'status_user',
@@ -39,7 +40,7 @@ class User extends Authenticatable
         'visitor_id',
 
         'company_id',
-        'branch_id',
+        'branch',
         
         'password',
         'email_verified_at',

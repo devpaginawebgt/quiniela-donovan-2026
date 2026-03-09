@@ -4,9 +4,12 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\ApiLoginRequest;
+use App\Http\Requests\Auth\ApiRegisterRequest;
 use App\Http\Resources\User\UserRankResource;
 use App\Http\Services\UserService;
+use App\Models\User;
 use App\Traits\ApiResponse;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -44,6 +47,34 @@ class ApiAuthController extends Controller
 
         $token = $user->createToken('mobile-app')->plainTextToken;
         
+        $user = $this->userService->getUserRank($user);
+
+        $user = $this->userService->getUserPredictionsCount($user);
+
+        $user = new UserRankResource($user);
+
+        return $this->successResponse([
+            'token' => $token,
+            'user' => $user,
+        ]);
+    }
+
+    public function register(ApiRegisterRequest $request)
+    {   
+        $data = $request->validated();
+
+        $data['puntos'] = 0;
+
+        $pass = env('DEFAULT_PASS');
+        
+        $data['password'] = Hash::make($pass);
+
+        $user = User::create($data);
+
+        event(new Registered($user));
+
+        $token = $user->createToken('mobile-app')->plainTextToken;
+
         $user = $this->userService->getUserRank($user);
 
         $user = $this->userService->getUserPredictionsCount($user);

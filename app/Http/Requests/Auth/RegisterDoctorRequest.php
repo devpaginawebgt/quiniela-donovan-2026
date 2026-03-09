@@ -30,6 +30,8 @@ class RegisterDoctorRequest extends FormRequest
             'email'            => ['required', 'email', 'max:255', 'unique:users'],
             'direccion'        => ['required', 'string', 'max:255'],
             'pais_id'          => ['required', 'integer', 'exists:countries,id'],
+            'user_type_id'     => ['required', 'integer', 'exists:user_types,id'],
+
             'region'           => ['required', 'string', 'min:2', 'max:100'],
             'capital'          => ['required', 'string', 'min:2', 'max:100'],
             'visitor_id'       => ['required', 'integer', 'exists:visitors,id'],
