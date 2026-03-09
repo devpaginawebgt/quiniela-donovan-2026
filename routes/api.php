@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\ApiAuthController;
+use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\EquipoController;
 use App\Http\Controllers\EstadioController;
@@ -40,6 +41,10 @@ Route::middleware('api.key')->group(function() {
     });
     
     Route::controller(VisitorController::class)->prefix('visitadores')->group(function() {
+        Route::get('', 'index');
+    });
+
+    Route::controller(CompanyController::class)->prefix('cadenas')->group(function() {
         Route::get('', 'index');
     });
 

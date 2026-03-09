@@ -17,7 +17,7 @@ class VisitorController extends Controller
 
     public function index(Request $request)
     {   
-        $visitors = $this->visitorService->getVisitors();
+        $visitors = $this->visitorService->getVisitors($request);
 
         $visitors = VisitorResource::collection($visitors);
 
