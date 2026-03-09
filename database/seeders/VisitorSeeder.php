@@ -72,6 +72,9 @@ class VisitorSeeder extends Seeder
             [ 'name' => 'Luis Diego',        'lastname' => 'Carrascosa Gutiérrez', 'country_id' => 1],
             [ 'name' => 'Mario José',        'lastname' => 'Ortiz Ruiz',           'country_id' => 1],
             [ 'name' => 'Humberto Josué',    'lastname' => 'Calderón Alvarado',    'country_id' => 1],
+
+            [ 'name' => 'Visitador',         'lastname' => 'PWG 1',                'country_id' => 2],
+            [ 'name' => 'Visitador',         'lastname' => 'PWG 2',                'country_id' => 2],
         ];
 
         foreach($visitadores as $visitador) {
