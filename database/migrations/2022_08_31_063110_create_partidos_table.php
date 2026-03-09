@@ -21,7 +21,14 @@ class CreatePartidosTable extends Migration
             $table->unsignedBigInteger('estadio_id');
             $table->integer('jugado')->default(0);
             $table->integer('estado')->index()->default(0);
+            $table->unsignedBigInteger('brand_id')->nullable();
             $table->timestamps();
+
+            $table->foreign('brand_id')
+                ->references('id')
+                ->on('brands')
+                ->onUpdate('cascade')
+                ->onDelete('set null');
 
             $table->foreign('estadio_id')
                 ->references('id')
