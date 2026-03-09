@@ -24,12 +24,12 @@ class ApiRegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nombres'          => ['required', 'string', 'max:60'],
-            'apellidos'        => ['required', 'string', 'max:60'],
+            'nombres'          => ['required', 'string', 'min:2', 'max:60'],
+            'apellidos'        => ['required', 'string', 'min:2', 'max:60'],
             'numero_documento' => ['required', 'string', 'min:6', 'max:20', 'unique:users,numero_documento'],
             'telefono'         => ['required', 'integer', 'digits:8'],
-            'email'            => ['required', 'email', 'max:255', 'unique:users'],
-            'direccion'        => ['required', 'string', 'max:255'],
+            'email'            => ['required', 'email', 'min:5', 'max:255', 'unique:users'],
+            'direccion'        => ['required', 'string', 'min:5', 'max:255'],
             'pais_id'          => ['required', 'integer', 'exists:countries,id'],
             'user_type_id'     => ['required', 'integer', 'exists:user_types,id'],
 
@@ -109,13 +109,13 @@ class ApiRegisterRequest extends FormRequest
             'nombres.required' => 'Por favor, ingrese su nombre.',
             'nombres.string'   => 'El campo nombre debe contener texto.',
             'nombres.min'      => 'El campo nombre debe contener al menos 2 caracteres.',
-            'nombres.max'      => 'El campo nombre no debe superar los 40 caracteres.',
+            'nombres.max'      => 'El campo nombre no debe superar los 60 caracteres.',
 
             // APELLIDOS
             'apellidos.required' => 'Por favor, ingrese su apellido.',
             'apellidos.string'   => 'El campo apellido debe contener texto.',
             'apellidos.min'      => 'El campo apellido debe contener al menos 2 caracteres.',
-            'apellidos.max'      => 'El campo apellido no debe superar los 40 caracteres.',
+            'apellidos.max'      => 'El campo apellido no debe superar los 60 caracteres.',
 
             // NUMERO DOCUMENTO
             'numero_documento.required' => 'Por favor, ingrese su número de documento.',
@@ -124,9 +124,10 @@ class ApiRegisterRequest extends FormRequest
             'numero_documento.max'      => 'El número de documento no puede tener más de 20 caracteres.',
             'numero_documento.unique'   => 'Ya existe un usuario registrado con este número de documento.',
 
+            // TELEFONO
             'telefono.required' => 'Por favor, ingrese su número de teléfono.',
-            'telefono.string'   => 'El teléfono debe contener texto.',
-            'telefono.max'      => 'El teléfono no debe superar los 8 caracteres.',
+            'telefono.integer'  => 'El campo teléfono debe ser un número válido.',
+            'telefono.digits'   => 'El campo teléfono debe tener 8 dígitos.',
 
             // EMAIL
             'email.required' => 'Por favor, ingrese su correo electrónico.',
@@ -134,6 +135,12 @@ class ApiRegisterRequest extends FormRequest
             'email.min'      => 'El correo electrónico debe contener al menos 5 caracteres.',
             'email.max'      => 'El correo electrónico no debe superar los 255 caracteres.',
             'email.unique'   => 'Ya existe un usuario registrado con este correo electrónico.',
+
+            // DIRECCION
+            'direccion.required' => 'Por favor, ingrese su dirección.',
+            'direccion.string'   => 'El campo dirección debe contener texto.',
+            'direccion.min'      => 'El campo dirección debe contener al menos 5 caracteres.',
+            'direccion.max'      => 'El campo dirección no debe superar los 255 caracteres.',
 
             // PAIS
             'pais_id.required' => 'Por favor seleccione su país.',
