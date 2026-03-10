@@ -11,6 +11,7 @@ use App\Http\Controllers\JornadaController;
 use App\Http\Controllers\ModuleController;
 use App\Http\Controllers\PremioController;
 use App\Http\Controllers\ResultadoPartidoController;
+use App\Http\Controllers\TermsController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserPushTokenController;
 use App\Http\Controllers\VisitorController;
@@ -47,6 +48,10 @@ Route::middleware('api.key')->group(function() {
     });
 
     Route::controller(CompanyController::class)->prefix('cadenas')->group(function() {
+        Route::get('', 'index');
+    });
+
+    Route::controller(TermsController::class)->prefix('terminos-y-condiciones')->group(function() {
         Route::get('', 'index');
     });
 
