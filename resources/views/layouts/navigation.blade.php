@@ -1,7 +1,7 @@
-<nav x-data="{ open: false }" class="bg-[--complementary-primary-color] border-b border-[--complementary-light-color]">
+<nav x-data="{ open: false }" class="bg-complementary-primary border-b border-complementary-light">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-around h-16 text-[--light-color]">
+        <div class="flex justify-around h-16 text-light">
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
@@ -43,7 +43,7 @@
             <div class="hidden sm:flex sm:items-center sm:ml-2">
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
-                        <button class="flex items-center text-xs font-semibold text-[--complementary-light-color] hover:text-[--complementary-primary-color] hover:bg-[--secondary-color] focus:text-[--complementary-primary-color] focus:bg-[--secondary-color] transition p-2 rounded-lg duration-150 ease-in-out">
+                        <button class="flex items-center text-xs font-semibold text-complementary-light hover:text-complementary-primary hover:bg-secondary focus:text-complementary-primary focus:bg-secondary transition p-2 rounded-lg duration-150 ease-in-out">
                             <div>{{ Auth::user()->nombres . " " . Auth::user()->apellidos }}</div>
 
                             <div class="ml-1">

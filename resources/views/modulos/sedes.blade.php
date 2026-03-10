@@ -12,7 +12,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-center items-start gap-8 transition-all">
 
                     @foreach($estadios as $estadio)
-                        <div class="max-w-md bg-[--complementary-primary-color] rounded-lg transform ease-in duration-150 hover:scale-105 overflow-hidden shadow-lg">
+                        <div class="max-w-md bg-complementary-primary rounded-lg transform ease-in duration-150 hover:scale-105 overflow-hidden shadow-lg">
                             <div class="flex">
                                 <img
                                     class="rounded-t-lg hover:cursor-pointer btn-bandera w-full object-cover"

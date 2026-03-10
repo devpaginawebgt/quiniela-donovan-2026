@@ -11,11 +11,11 @@
                 <h5 class="text-3xl text-center font-bold my-8">Grupos conformados</h5>
                 <div class="flex flex-col">
                     <div class="xl:w-1/6 w-1/2 mx-auto mb-4">
-                        <label for="grupos" class="block mb-2 text-sm font-medium text-[--light-color] text-center">Seleccione: </label>
+                        <label for="grupos" class="block mb-2 text-sm font-medium text-light text-center">Seleccione: </label>
                         <div class="flex items-center justify-center">
                             <select
                                 id="grupos"
-                                class="bg-[--complementary-primary-color] border border-[--complementary-light-color] text-[--light-color] font-semibold text-center cursor-pointer rounded-lg block w-1/2 p-2.5"
+                                class="bg-complementary-primary border border-complementary-light text-light font-semibold text-center cursor-pointer rounded-lg block w-1/2 p-2.5"
                                 {{-- onchange="verEquiposGrupo(this)" --}}
                             >
                                 @foreach($grupos as $grupo)
@@ -32,7 +32,7 @@
 
                     <div class="w-full lg:w-3/4 overflow-x-auto relative shadow-md sm:rounded-lg mx-auto mb-12">
                         <table class="xl:w-full text-sm text-left">
-                            <thead class="text-xs bg-[--dark-color] uppercase">
+                            <thead class="text-xs bg-dark uppercase">
                                 <tr>
                                     <th scope="col" class="py-3 px-6">Equipo</th>
                                     <th scope="col" class="py-3 px-6">PJ</th>
@@ -47,7 +47,7 @@
                             <tbody id="body-equipos-grupo">
                                 @if (!empty($equipos_grupo))
                                     @foreach($equipos_grupo as $equipo)
-                                        <tr class="bg-[--complementary-primary-color] border-b border-zinc-400 text-[--light-color]">
+                                        <tr class="bg-complementary-primary border-b border-zinc-400 text-light">
                                             <th scope="row" class="py-4 px-6 font-medium whitespace-nowrap flex items-center justify-between w-full">
                                                 <img
                                                     src="{{ $equipo->imagen }}"
@@ -89,7 +89,7 @@
                         Jornada 1
                     </p>
 
-                    <div class="shadow-md mx-auto w-full lg:w-3/4 bg-[--complementary-primary-color] rounded-2xl overflow-hidden p-4 mb-12">
+                    <div class="shadow-md mx-auto w-full lg:w-3/4 bg-complementary-primary rounded-2xl overflow-hidden p-4 mb-12">
                         <ul id="partidos-jornada-1">
 
                             @if(!empty($jornada_uno))
@@ -149,7 +149,7 @@
                         Jornada 2
                     </p>
 
-                    <div class="shadow-md mx-auto w-full lg:w-3/4 bg-[--complementary-primary-color] rounded-2xl overflow-hidden p-4 mb-12">
+                    <div class="shadow-md mx-auto w-full lg:w-3/4 bg-complementary-primary rounded-2xl overflow-hidden p-4 mb-12">
                         <ul id="partidos-jornada-2">
 
                             @if(!empty($jornada_dos))
@@ -209,7 +209,7 @@
                         Jornada 3
                     </p>
 
-                    <div class="shadow-md mx-auto w-full lg:w-3/4 bg-[--complementary-primary-color] rounded-2xl overflow-hidden p-4">
+                    <div class="shadow-md mx-auto w-full lg:w-3/4 bg-complementary-primary rounded-2xl overflow-hidden p-4">
                         <ul id="partidos-jornada-3">
 
                             @if(!empty($jornada_tres))

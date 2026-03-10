@@ -11,7 +11,7 @@
                 <h5 class="text-3xl text-center font-bold my-8">Selecciones clasificadas</h5>
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 justify-center items-start gap-8 transition-all">
                     @foreach ($equipos as $equipo)
-                    <div class="w-full max-w-sm bg-[--complementary-primary-color] text-white transform ease-in duration-150 hover:scale-105 rounded-lg px-2 py-6 mx-auto shadow-lg">
+                    <div class="w-full max-w-sm bg-complementary-primary text-white transform ease-in duration-150 hover:scale-105 rounded-lg px-2 py-6 mx-auto shadow-lg">
                         <div class="flex">
                             <img
                                 class="rounded-lg mx-auto hover:cursor-pointer btn-bandera w-32 h-20 cursor-pointer"

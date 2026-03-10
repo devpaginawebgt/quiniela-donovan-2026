@@ -15,7 +15,7 @@
                             class="block mb-2 text-sm font-medium text-center">Jornada: </label>
                         <select
                             id="jornadas"
-                            class="bg-[--complementary-primary-color] border border-[--complementary-light-color] text-[--light-color] font-semibold text-center cursor-pointer rounded-lg block p-2.5 w-full"
+                            class="bg-complementary-primary border border-complementary-light text-light font-semibold text-center cursor-pointer rounded-lg block p-2.5 w-full"
                             {{-- onchange="verPartidosJornada(this)" --}}
                         >
                             @foreach($jornadas as $jornada)
@@ -34,7 +34,7 @@
                             <svg class="animate-spin spinner-load" viewBox="0 0 24 24"></svg>
                         </div>
 
-                        <ul id="partidos-jornada-general" class="bg-[--complementary-primary-color] p-4 rounded-xl">
+                        <ul id="partidos-jornada-general" class="bg-complementary-primary p-4 rounded-xl">
                             
                         </ul>
                     </div>

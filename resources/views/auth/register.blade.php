@@ -224,7 +224,7 @@
 
             <div class="col-span-2 flex flex-col items-start gap-4 mt-2">
                 {{-- <a
-                    class="w-full bg-[--secondary-color] text-[--dark-color] font-semibold rounded-md text-sm px-4 py-2 hover:brightness-[1.10] focus:ring-4 focus:ring-[--light-color] text-center"
+                    class="w-full bg-secondary text-dark font-semibold rounded-md text-sm px-4 py-2 hover:brightness-[1.10] focus:ring-4 focus:ring-light text-center"
                     href="{{ route('ingresa') }}"
                 >
                     {{ __('Registrarme') }}
@@ -233,7 +233,7 @@
                     {{ __('Registrarme') }}
                 </x-button>
 
-                <a class="text-sm text-[--complementary-light-color] hover:text-[--light-color]" href="{{ route('ingresa') }}">
+                <a class="text-sm text-complementary-light hover:text-light" href="{{ route('ingresa') }}">
                     {{ __('Ya estoy registrado') }}
                 </a>
             </div>
@@ -245,14 +245,14 @@
         class="hidden overflow-hidden fixed top-0 right-0 left-0 z-50 w-screen inset-0 min-h-screen bg-[gray-800] bg-opacity-50 backdrop-blur-sm"
     >
         <div class="relative w-full min-h-screen flex justify-center items-center">
-            <div class="relative rounded-sm shadow p-6 h-full bg-[--complementary-primary-color] border border-white flex flex-col items-center justify-center w-full max-w-2xl text-center">
+            <div class="relative rounded-sm shadow p-6 h-full bg-complementary-primary border border-white flex flex-col items-center justify-center w-full max-w-2xl text-center">
                 <p class="text-lg mb-6">
                     Antes de continuar lee cuidadosamente el siguiente documento de Términos y Condiciones para participar en el sistema de Quiniela
                 </p>
 
                 <div class="flex justify-between rounded-md overflow-hidden mb-6">
                     <a
-                        class="w-full flex items-center gap-3 text-sm text-[--light-color] py-3 px-3 bg-[--primary-color] hover:brightness-[1.20]"
+                        class="w-full flex items-center gap-3 text-sm text-light py-3 px-3 bg-primary hover:brightness-[1.20]"
                         href="/docs/terminos-y-condiciones-donovan.pdf"
                         target="_blank"
                     >
@@ -261,7 +261,7 @@
                     </a>
 
                     <a
-                        class="flex items-center gap-2 py-3 px-3 bg-[--primary-color] hover:brightness-[1.20]"
+                        class="flex items-center gap-2 py-3 px-3 bg-primary hover:brightness-[1.20]"
                         href="/docs/terminos-y-condiciones-donovan.pdf"
                         download
                     >
@@ -279,7 +279,7 @@
                 <button
                     id="btnAceptar"
                     onclick="hideElement(this.parentElement.parentElement.parentElement)"
-                    class="hidden mx-auto bg-[--secondary-color] text-[--dark-color] font-semibold rounded-sm text-sm px-4 py-2 text-center hover:brightness-[1.10] focus:ring-4 focus:ring-[--light-color]"
+                    class="hidden mx-auto bg-secondary text-dark font-semibold rounded-sm text-sm px-4 py-2 text-center hover:brightness-[1.10] focus:ring-4 focus:ring-light"
                 >
                     Acepto los Términos y Condiciones
                 </button>

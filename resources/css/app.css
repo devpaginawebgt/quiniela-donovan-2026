@@ -1,3 +1,17 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@import "./styles.css" layer(base);
+@plugin "flowbite/plugin";
+@source "../views/**/*.blade.php";
+@source "../../public/js/*.js";
+
+@theme {
+    --font-sans: 'Arial', ui-sans-serif, system-ui, sans-serif;
+    --color-primary: #2b336b;
+    --color-secondary: #FFDD00;
+    --color-dark: #101820;
+    --color-light: #FFFFFF;
+    --color-complementary-primary: #1F2A44;
+    --color-complementary-secondary: #84754E;
+    --color-complementary-dark: #63666A;
+    --color-complementary-light: #D9D9D6;
+}

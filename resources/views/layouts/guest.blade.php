@@ -19,7 +19,7 @@
         <script src="{{asset('js/app.js')}}"></script> --}}
     </head>
     <body>
-        <div class="font-sans text-[--light-color] antialiased">
+        <div class="font-sans text-light antialiased">
             {{ $slot }}
         </div>
         <script>

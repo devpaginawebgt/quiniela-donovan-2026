@@ -1,14 +1,4 @@
-:root {
-    --primary-color: #2b336b;
-    --secondary-color: #FFDD00;
-    --dark-color: #101820;
-    --light-color: #FFFFFF;
 
-    --complementary-primary-color: #1F2A44;
-    --complementary-secondary-color: #84754E;
-    --complementary-dark-color: #63666A;
-    --complementary-light-color: #D9D9D6;
-}
 
 html {
     color: var(--light-color);
