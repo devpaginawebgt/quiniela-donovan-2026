@@ -120,3 +120,8 @@ html {
     scrollbar-width: thin;
     scrollbar-color: #D9D9D6 #1F2A44;
 }
+
+select.form-select-custom option {
+    background-color: #1F2A44;
+    color: #FFFFFF;
+}
