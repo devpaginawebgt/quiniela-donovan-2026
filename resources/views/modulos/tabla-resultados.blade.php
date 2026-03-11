@@ -28,9 +28,9 @@
 
             <div class="overflow-x-auto relative shadow-md sm:rounded-lg mx-auto">
 
-                <table class="w-full text-sm text-left bg-[--complementary-primary-color]" id="ranking-table">
+                <table class="w-full text-sm text-left bg-complementary-primary" id="ranking-table">
 
-                    <thead class="text-xs uppercase bg-[--dark-color]">
+                    <thead class="text-xs uppercase bg-dark">
 
                         <tr>
 

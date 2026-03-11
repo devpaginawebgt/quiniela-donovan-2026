@@ -33,8 +33,14 @@ Route::middleware(['auth'])->as('web.')->group(function() {
 
     // Inicio
 
+    Route::prefix('inicio')->group(function() {
+        Route::controller(JornadaController::class)->group(function() {
+            Route::get('proximos-partidos', 'proximosPartidosWeb')->name('inicio');
+        });
+    });
+
     Route::controller(HomeController::class)->group(function() {
-        Route::get('inicio', 'index')->name('inicio');
+        Route::get('inicio', 'index');
     });
 
     // Selecciones
@@ -87,6 +93,12 @@ Route::middleware(['auth'])->as('web.')->group(function() {
     Route::controller(PremioController::class)->group(function() {
         Route::get('/ver-tabla-premios', 'verTablaPremios')->name('ver-tabla-premios');
     });
+
+    // Perfil
+
+    Route::get('/perfil', function () {
+        return view('modulos.perfil');
+    })->name('perfil');
     
 
     // Rutas para super-admin

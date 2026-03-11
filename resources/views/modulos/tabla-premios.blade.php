@@ -14,7 +14,7 @@
 
             <div class="overflow-x-auto relative shadow-md sm:rounded-lg mx-auto max-w-screen-lg">
                 <table class="w-full text-left">
-                    <thead class="text-xs uppercase bg-[--dark-color]">
+                    <thead class="text-xs uppercase bg-dark">
                         <tr>
                             <th scope="col" class="py-3 px-6">
                                 Posicion
@@ -58,7 +58,7 @@
                                 }                                
                             @endphp
 
-                            <tr class="bg-[--complementary-primary-color] border-b border-zinc-400">
+                            <tr class="bg-complementary-primary border-b border-zinc-400">
                                 <th scope="row" class="py-4 px-6 font-medium whitespace-nowrap text-xl">
                                     <span class="flex gap-2 items-center justify-center h-full" style="{{ $positionStyle }}">
                                         {!! $positionText !!}

@@ -20,6 +20,13 @@ class ModuleSeeder extends Seeder
             [ 'name' => 'App - Selecciones',       'code' => 'app-selecciones' ],
             [ 'name' => 'App - Grupos',            'code' => 'app-grupos' ],
             [ 'name' => 'App - Sedes',             'code' => 'app-sedes' ],
+
+            [ 'name' => 'Web - Próximos Partidos', 'code' => 'web-proximos-partidos' ],
+            [ 'name' => 'Web - Mis Pronósticos',   'code' => 'web-mis-pronosticos' ],
+            [ 'name' => 'Web - Calendario',        'code' => 'web-calendario' ],
+            [ 'name' => 'Web - Selecciones',       'code' => 'web-selecciones' ],
+            [ 'name' => 'Web - Grupos',            'code' => 'web-grupos' ],
+            [ 'name' => 'Web - Sedes',             'code' => 'web-sedes' ],
         ]; 
 
         foreach($modules as $module) {

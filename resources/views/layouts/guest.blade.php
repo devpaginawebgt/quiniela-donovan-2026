@@ -12,14 +12,9 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/css/styles.css', 'resources/js/app.js'])
-
-        {{-- <script src="https://cdn.tailwindcss.com"></script>
-        <link rel="stylesheet" href="{{asset('css/app.css')}}">
-        <link rel="stylesheet" href="{{asset('css/styles.css')}}">
-        <script src="{{asset('js/app.js')}}"></script> --}}
     </head>
     <body>
-        <div class="font-sans text-[--light-color] antialiased">
+        <div class="font-sans text-light antialiased">
             {{ $slot }}
         </div>
         <script>

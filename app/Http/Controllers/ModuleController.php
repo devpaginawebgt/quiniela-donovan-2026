@@ -27,11 +27,7 @@ class ModuleController extends Controller
             return $this->errorResponse('No se encontró el módulo', 422);
         }
 
-        $user = $request->user();
-
-        $banners = $module->banners
-            ->where('line_id', $user->line_id)
-            ->where('is_active', true);        
+        $banners = $module->banners->where('is_active', true);
 
         $banners = BannerResource::collection($banners);
 

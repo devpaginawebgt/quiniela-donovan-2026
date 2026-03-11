@@ -60,7 +60,6 @@ class ApiRegisterRequest extends FormRequest
             ],
             'visitor_id' => [
                 'nullable',
-                'required_if:user_type_id,2',
                 'prohibited_unless:user_type_id,2',
                 'integer',
                 'exists:visitors,id',
@@ -181,8 +180,7 @@ class ApiRegisterRequest extends FormRequest
             'capital.max'               => 'El campo capital no puede tener más de 100 caracteres.',
 
             // VISITOR
-            'visitor_id.required_if'       => 'Por favor, seleccione un visitador.',
-            'visitor_id.prohibited_unless' => 'El visitador solo aplica para usuarios tipo doctor.',
+            'visitor_id.prohibited_unless' => 'El campo visitador no aplica para usuarios tipo dependiente.',
             'visitor_id.integer'           => 'El visitador seleccionado no es válido.',
             'visitor_id.exists'            => 'El visitador seleccionado no existe en nuestros registros.',
 

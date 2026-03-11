@@ -1,14 +1,4 @@
-:root {
-    --primary-color: #2b336b;
-    --secondary-color: #FFDD00;
-    --dark-color: #101820;
-    --light-color: #FFFFFF;
 
-    --complementary-primary-color: #1F2A44;
-    --complementary-secondary-color: #84754E;
-    --complementary-dark-color: #63666A;
-    --complementary-light-color: #D9D9D6;
-}
 
 html {
     color: var(--light-color);
@@ -104,4 +94,34 @@ html {
 .hide-input-arrows {
     -moz-appearance: textfield; /* Firefox */
     appearance: none;
+}
+
+/* Scrollbar personalizada */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: #1F2A44; /* complementary-primary */
+    border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #D9D9D6;
+    border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #FFDD00; /* secondary */
+}
+
+* {
+    scrollbar-width: thin;
+    scrollbar-color: #D9D9D6 #1F2A44;
+}
+
+select.form-select-custom option {
+    background-color: #1F2A44;
+    color: #FFFFFF;
 }

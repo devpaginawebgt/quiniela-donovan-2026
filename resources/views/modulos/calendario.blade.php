@@ -1,9 +1,5 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-white leading-tight">
-            {{ __('Mundial 2026 México | Estados Unidos | Canadá') }}
-        </h2>
-    </x-slot>
+    <x-inicio-header :activeTab="'proximos'" />
 
     <div class="max-w-screen-2xl my-6 mx-auto sm:px-6 lg:px-8" id="selecciones-container">
         <div class="overflow-hidden shadow-sm sm:rounded-lg">
@@ -15,7 +11,7 @@
                             class="block mb-2 text-sm font-medium text-center">Jornada: </label>
                         <select
                             id="jornadas"
-                            class="bg-[--complementary-primary-color] border border-[--complementary-light-color] text-[--light-color] font-semibold text-center cursor-pointer rounded-lg block p-2.5 w-full"
+                            class="bg-complementary-primary border border-complementary-light text-light font-semibold text-center cursor-pointer rounded-lg block p-2.5 w-full"
                             {{-- onchange="verPartidosJornada(this)" --}}
                         >
                             @foreach($jornadas as $jornada)
@@ -34,7 +30,7 @@
                             <svg class="animate-spin spinner-load" viewBox="0 0 24 24"></svg>
                         </div>
 
-                        <ul id="partidos-jornada-general" class="bg-[--complementary-primary-color] p-4 rounded-xl">
+                        <ul id="partidos-jornada-general" class="bg-complementary-primary p-4 rounded-xl">
                             
                         </ul>
                     </div>
