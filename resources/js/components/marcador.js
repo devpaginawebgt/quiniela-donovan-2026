@@ -1,6 +1,5 @@
 /**
- * Inicializa los botones +/- de marcador mediante event delegation.
- * Compatible con prediction-card y quiniela (no requiere onclick en el template).
+ * Inicializa los botones +/- de marcador. Utiliza event listeners.
  * Los botones deben tener la clase btn-marcador-increase o btn-marcador-decrease.
  */
 export const initMarcadorButtons = () => {

@@ -42,8 +42,8 @@
                     <x-search-input id="buscar-partidos" name="buscar_partidos" placeholder="Buscar Partidos" />
                 </div>
 
-                <form action="{{ route('web.inicio.proximos-partidos') }}" method="GET" class="w-full max-w-lg mx-auto mb-4">
-                    <x-form-select id="select-proximos-partidos" name="jornada" label="Jornada:" onchange="this.closest('form').submit()">
+                <form id="form-proximos-partidos" action="{{ route('web.inicio.proximos-partidos') }}" method="GET" class="w-full max-w-lg mx-auto mb-4">
+                    <x-form-select id="select-proximos-partidos" name="jornada" label="Jornada:">
                         @foreach($jornadas as $jornada)
                             <option value="{{ $jornada->id }}" {{ $jornada->id === $jornada_activa ? 'selected' : '' }}>
                                 {{ $jornada->name }}
@@ -102,7 +102,7 @@
 
                     @if (isset($partidosJornada) && $partidosJornada->isNotEmpty())
 
-                        <ul id="partidos-jornada-general" class="grid grid-cols-1 md:grid-cols-2 2xl:gap-12 max-w-6xl mx-auto gap-4 lg:gap-8 items-center">
+                        <ul id="partidos-jornada-general" class="grid grid-cols-1 md:grid-cols-2 2xl:gap-12 max-w-6xl mx-auto gap-4 lg:gap-8 items-center min-h-96">
 
                             @foreach ($partidosJornada as $registro)
                                 <x-prediction-card :registro="$registro" />
