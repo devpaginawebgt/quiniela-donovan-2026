@@ -40,8 +40,8 @@
                     <x-search-input id="buscar-partidos" name="buscar_partidos" placeholder="Buscar partido" />
                 </div>
 
-                <form action="{{ route('web.inicio.mis-predicciones') }}" method="GET" class="w-full max-w-lg mx-auto mb-6">
-                    <x-form-select id="select-mis-predicciones" name="jornada" label="Jornada:" onchange="this.closest('form').submit()">
+                <form id="form-mis-predicciones" action="{{ route('web.inicio.mis-predicciones') }}" method="GET" class="w-full max-w-lg mx-auto mb-6">
+                    <x-form-select id="select-mis-predicciones" name="jornada" label="Jornada:">
                         @foreach($jornadas as $jornada)
                             <option value="{{ $jornada->id }}" {{ $jornada->id === $jornada_activa ? 'selected' : '' }}>
                                 {{ $jornada->name }}
