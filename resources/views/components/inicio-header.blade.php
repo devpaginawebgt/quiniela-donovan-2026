@@ -66,7 +66,7 @@
             </li>
 
             <li role="presentation">
-                <a href="{{ route('web.ver-sedes') }}"
+                <a href="{{ route('web.inicio.estadios') }}"
                    role="tab"
                    aria-selected="{{ $activeTab === 'estadios' ? 'true' : 'false' }}"
                    @if($activeTab === 'estadios') aria-current="page" @endif

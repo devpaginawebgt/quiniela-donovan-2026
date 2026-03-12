@@ -38,6 +38,10 @@ Route::middleware(['auth'])->as('web.')->group(function() {
             Route::get('calendario', 'calendarioWeb')->name('calendario');
         });
 
+        Route::controller(EstadioController::class)->group(function() {
+            Route::get('estadios', 'estadiosWeb')->name('estadios');
+        });
+
         Route::get('', function () {
             return redirect()->route('web.inicio.proximos-partidos');
         });
@@ -64,12 +68,6 @@ Route::middleware(['auth'])->as('web.')->group(function() {
 
         Route::post('/partidos-grupo', 'partidosGrupo');
         Route::get('/partidos-jornada/{jornada}', 'partidosJornada');
-    });
-
-    // Estadios
-
-    Route::controller(EstadioController::class)->group(function() {
-        Route::get('/ver-sedes', 'verEstadios')->name('ver-sedes');
     });
 
     // Partidos y resultados

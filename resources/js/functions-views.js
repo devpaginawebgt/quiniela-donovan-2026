@@ -1,4 +1,6 @@
 
+import './views/estadios.js';
+
 const toggleDetalles = (btn) => {
     const panel = btn.nextElementSibling;
     const icon  = btn.querySelector('svg');
