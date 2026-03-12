@@ -160,7 +160,7 @@
                             name="prediccion_equipo2_{{ $registro->partido_id }}"
                             min="0" max="25"
                             value="{{ $prediccion_equipo_dos }}"
-                            class="marcador-equipo-1 marcador-equipo border border-light text-light bg-complementary-primary/50 text-center rounded-lg hide-input-arrows w-10 h-9 lg:w-12 lg:h-12 text-base lg:text-xl font-bold"
+                            class="marcador-equipo-2 marcador-equipo border border-light text-light bg-complementary-primary/50 text-center rounded-lg hide-input-arrows w-10 h-9 lg:w-12 lg:h-12 text-base lg:text-xl font-bold"
                         >
 
                         <button type="button" onclick="increaseBookmar(this)">

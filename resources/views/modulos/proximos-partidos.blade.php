@@ -43,7 +43,7 @@
                 </div>
 
                 <form action="{{ route('web.inicio') }}" method="GET" class="w-full max-w-lg mx-auto mb-4">
-                    <x-form-select id="select-proximos-partidos" name="select-proximos-partidos" label="Jornada:" onchange="this.closest('form').submit()">
+                    <x-form-select id="select-proximos-partidos" name="jornada" label="Jornada:" onchange="this.closest('form').submit()">
                         @foreach($jornadas as $jornada)
                             <option value="{{ $jornada->id }}" {{ $jornada->id === $jornada_activa ? 'selected' : '' }}>
                                 {{ $jornada->name }}

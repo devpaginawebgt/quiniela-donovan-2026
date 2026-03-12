@@ -8,14 +8,14 @@ const slideToggle = (id) => {
 window.slideToggle = slideToggle;
 
 const increaseBookmar = (btn) => {
-    let marcador = btn.parentElement.parentElement.querySelector('.marcador-equipo');
+    let marcador = btn.parentElement.querySelector('.marcador-equipo');
     marcador.value++;
 }
 
 window.increaseBookmar = increaseBookmar;
 
 const decreaseBookmar = (btn) => {
-    let marcador = btn.parentElement.parentElement.querySelector('.marcador-equipo');
+    let marcador = btn.parentElement.querySelector('.marcador-equipo');
     (marcador.value > 0 ? marcador.value-- : marcador = marcador);
 }
 
