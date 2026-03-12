@@ -17,14 +17,14 @@ class ModuleSeeder extends Seeder
             [ 'name' => 'App - Próximos Partidos', 'code' => 'app-proximos-partidos' ],
             [ 'name' => 'App - Mis Pronósticos',   'code' => 'app-mis-pronosticos' ],
             [ 'name' => 'App - Calendario',        'code' => 'app-calendario' ],
-            [ 'name' => 'App - Selecciones',       'code' => 'app-selecciones' ],
+            [ 'name' => 'App - Estadios',          'code' => 'app-estadios' ],
             [ 'name' => 'App - Grupos',            'code' => 'app-grupos' ],
             [ 'name' => 'App - Sedes',             'code' => 'app-sedes' ],
 
             [ 'name' => 'Web - Próximos Partidos', 'code' => 'web-proximos-partidos' ],
             [ 'name' => 'Web - Mis Pronósticos',   'code' => 'web-mis-pronosticos' ],
             [ 'name' => 'Web - Calendario',        'code' => 'web-calendario' ],
-            [ 'name' => 'Web - Selecciones',       'code' => 'web-selecciones' ],
+            [ 'name' => 'Web - Estadios',          'code' => 'web-estadios' ],
             [ 'name' => 'Web - Grupos',            'code' => 'web-grupos' ],
             [ 'name' => 'Web - Sedes',             'code' => 'web-sedes' ],
         ]; 

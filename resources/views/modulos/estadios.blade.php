@@ -37,7 +37,7 @@
                 <x-user-stats :user="$user" />
 
                 <div class="w-full max-w-lg mx-auto mb-6">
-                    <x-search-input id="buscar-estadios" name="buscar_estadios" placeholder="Buscar Selecciones" />
+                    <x-search-input id="buscar-estadios" name="buscar_estadios" placeholder="Buscar Estadios" />
                 </div>
 
                 <div id="estadios-grid" class="grid grid-cols-1 md:grid-cols-2 2xl:gap-12 max-w-6xl mx-auto gap-4 lg:gap-8 items-start">
