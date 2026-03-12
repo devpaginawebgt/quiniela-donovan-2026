@@ -25,51 +25,52 @@ use App\Http\Controllers\UserController;
 
 Route::middleware(['auth'])->as('web.')->group(function() {
 
-    // Redirección por defecto
-    
-    Route::get('/', function () {
-        return redirect()->route('web.inicio');
-    });
-
     // Inicio
 
-    Route::prefix('inicio')->group(function() {
+    Route::prefix('inicio')->as('inicio.')->group(function() {
+
+        Route::controller(ResultadoPartidoController::class)->group(function() {
+            Route::get('proximos-partidos', 'proximosPartidosWeb')->name('proximos-partidos');
+            Route::get('mis-predicciones', 'misPrediccionesWeb')->name('mis-predicciones');
+        });
+
         Route::controller(JornadaController::class)->group(function() {
-            Route::get('proximos-partidos', 'proximosPartidosWeb')->name('inicio');
+            Route::get('calendario', 'calendarioWeb')->name('calendario');
+        });
+
+        Route::controller(EstadioController::class)->group(function() {
+            Route::get('estadios', 'estadiosWeb')->name('estadios');
+        });
+
+        Route::controller(GrupoController::class)->group(function() {            
+            Route::get('grupos', 'gruposWeb')->name('grupos');
+        });
+
+        Route::controller(EquipoController::class)->group(function() {
+            Route::get('equipos', 'equiposWeb')->name('equipos');
+        });
+
+        Route::get('', function () {
+            return redirect()->route('web.inicio.proximos-partidos');
         });
     });
 
-    Route::controller(HomeController::class)->group(function() {
-        Route::get('inicio', 'index');
-    });
-
     // Selecciones
-
-    Route::controller(EquipoController::class)->prefix('selecciones')->as('selecciones.')->group(function() {
-        Route::get('', 'indexWeb')->name('index');
-    });
 
     // Grupos
 
     Route::controller(GrupoController::class)->prefix('grupos')->as('grupos.')->group(function() {
         Route::get('/{grupo_id}/equipos', 'getEquiposWeb')->name('equipos');
         Route::get('/{grupo_id}/jornadas', 'getJornadasWeb')->name('jornadas');
-        Route::get('', 'indexWeb')->name('index');
     });
 
     // Jornadas
 
     Route::controller(JornadaController::class)->prefix('jornadas')->group(function() {
-        Route::get('', 'jornadasWeb')->name('jornadas');
+        // Route::get('', 'jornadasWeb')->name('jornadas');
 
         Route::post('/partidos-grupo', 'partidosGrupo');
         Route::get('/partidos-jornada/{jornada}', 'partidosJornada');
-    });
-
-    // Estadios
-
-    Route::controller(EstadioController::class)->group(function() {
-        Route::get('/ver-sedes', 'verEstadios')->name('ver-sedes');
     });
 
     // Partidos y resultados
@@ -107,6 +108,10 @@ Route::middleware(['auth'])->as('web.')->group(function() {
 
         Route::get('/actualizar-puntos-usuarios', 'actualizarPuntosParticipantesALL');
 
+    });
+
+    Route::get('/', function () {
+        return redirect()->route('web.inicio.proximos-partidos');
     });
 
 });

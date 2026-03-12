@@ -20,7 +20,6 @@
             'resources/css/app.css',
             'resources/css/styles.css',
             'resources/js/app.js',
-            'resources/js/functions-views.js',
             'resources/js/functions.js'
         ])
     </head>

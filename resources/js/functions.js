@@ -1,3 +1,10 @@
+import './views/estadios.js';
+import './views/equipos.js';
+import './views/grupos.js';
+import './views/calendario.js';
+import './views/proximos-partidos.js';
+import './views/mis-predicciones.js';
+
 // Helpers
 
 function toggleLoader() {
@@ -22,11 +29,6 @@ async function getJornadasGrupo( grupo ) {
 
 }
 
-async function getPartidosJornadaGeneral(jornada) {
-
-    return await axios.get(`/jornadas/partidos-jornada/${jornada}`);
-
-}
 
 async function verEquiposGrupo(idGrupo) {
     try {
@@ -72,25 +74,6 @@ async function verEquiposGrupo(idGrupo) {
     }
 }
 
-async function verPartidosJornada(idJornada) {
-
-    try {
-        
-        const respuestaPartidos = await getPartidosJornadaGeneral(idJornada);
-
-        const partidos = respuestaPartidos.data.data;
-    
-        pintarPartidosJornadaGeneral(partidos);
-
-    } catch (err) {
-
-        alert('Ocurrió un error al obtener los partidos de la jornada.');
-        console.error(err);
-
-    }
-
-
-}
 
 const verPartidosJornadaQuiniela = async (jornada) => {
 
@@ -184,51 +167,6 @@ const pintarPartidosGrupo = (jornada) => {
 
 }
 
-function pintarPartidosJornadaGeneral(partidos) {
-
-    let espacioJornada = document.querySelector(`#partidos-jornada-general`);
-
-    const filas = partidos.map(partido => {
-
-        const opcionesFecha = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-        const fechaPartido = new Date(partido.fechaPartido).toLocaleDateString('es-GT', opcionesFecha);
-        const horaPartido = new Date(partido.fechaPartido).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
-
-        return `<li class="flex justify-around py-6 border-b border-gray-400 items-center">
-
-            <div class="w-1/2 flex-col lg:flex-row xl:w-1/4 flex items-center justify-between">
-
-                <img src="${partido.equipoUno.imagen}" alt="SELECCION" class="h-10 w-14 object-cover mx-4 rounded-md shadow-md">
-
-                <p class="font-semibold">${partido.equipoUno.nombre}</p>
-
-            </div>
-
-            <div class="w-full xl:w-1/3 my-4 mt-44 lg:my-0 absolute lg:relative">
-
-                <p class="text-center">${fechaPartido}</p>
-
-                <p class="text-center">${horaPartido}</p>
-
-            </div>
-
-            <div class="w-1/2 flex-col lg:flex-row xl:w-1/4 flex items-center justify-between">
-
-                <img src="${partido.equipoDos.imagen}" alt="SELECCION" class="h-10 w-14 object-cover mx-4 rounded-md shadow-md">
-
-                <p class="font-semibold">${partido.equipoDos.nombre}</p>
-
-            </div>
-
-        </li>`;
-
-    });    
-
-    espacioJornada.innerHTML = filas.join(' ');
-
-}
-
-
 
 document.addEventListener('DOMContentLoaded', async () => {
 
@@ -245,26 +183,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (!idGrupo) return;
 
             verEquiposGrupo(idGrupo);
-
-        })
-
-    }
-
-    const inputCalendario = document.getElementById('jornadas');
-
-    if (inputCalendario) {
-
-        const idJornadaCalendario = inputCalendario.value;
-        
-        verPartidosJornada(idJornadaCalendario);
-
-        inputCalendario.addEventListener('change', function(e) {
-
-            const idJornadaCalendario = inputCalendario.value;
-
-            if (!idJornadaCalendario) return;
-
-            verPartidosJornada(idJornadaCalendario);
 
         })
 

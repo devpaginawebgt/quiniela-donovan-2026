@@ -1,5 +1,5 @@
 <x-app-layout>
-    <x-inicio-header :activeTab="'calendario'" />
+    <x-inicio-header :activeTab="'pronosticos'" />
 
     {{-- Banner Carousel --}}
     @if($banners->isNotEmpty())
@@ -32,32 +32,39 @@
         <div class="overflow-hidden shadow-sm sm:rounded-lg">
             <div class="px-6 pb-6">
 
-                <h5 class="text-3xl 2xl:text-4xl text-center font-bold mt-8 mb-4">Calendario de Partidos</h5>
+                <h5 class="text-3xl 2xl:text-4xl text-center font-bold mt-8 mb-4">Mis Pronósticos</h5>
 
                 <x-user-stats :user="$user" />
 
                 <div class="w-full max-w-lg mx-auto mb-4">
-                    <x-search-input id="buscar-partidos" name="buscar_partidos" placeholder="Buscar Partidos" />
+                    <x-search-input id="buscar-partidos" name="buscar_partidos" placeholder="Buscar partido" />
                 </div>
 
-                <div class="w-full max-w-lg mx-auto mb-6">
-                    <x-form-select id="jornadas" name="jornada" label="Jornada:">
+                <form id="form-mis-predicciones" action="{{ route('web.inicio.mis-predicciones') }}" method="GET" class="w-full max-w-lg mx-auto mb-6">
+                    <x-form-select id="select-mis-predicciones" name="jornada" label="Jornada:">
                         @foreach($jornadas as $jornada)
-                            <option value="{{ $jornada->id }}" {{ $jornada->is_current === true ? 'selected' : '' }}>
+                            <option value="{{ $jornada->id }}" {{ $jornada->id === $jornada_activa ? 'selected' : '' }}>
                                 {{ $jornada->name }}
                             </option>
                         @endforeach
                     </x-form-select>
-                </div>
+                </form>
 
-                <ul id="partidos-jornada-general" class="grid grid-cols-1 md:grid-cols-2 2xl:gap-12 max-w-6xl mx-auto gap-4 lg:gap-8 items-start min-h-96">
-                    <li class="col-span-2 flex justify-center py-8">
-                        <svg class="animate-spin w-8 h-8 text-secondary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
-                        </svg>
-                    </li>
-                </ul>
+                @if(isset($resultados) && $resultados->isNotEmpty())
+
+                    <ul id="partidos-jornada-general" class="grid grid-cols-1 md:grid-cols-2 2xl:gap-12 max-w-6xl mx-auto gap-4 lg:gap-8 items-start min-h-80">
+                        @foreach($resultados as $registro)
+                            <x-result-card :registro="$registro" />
+                        @endforeach
+                    </ul>
+
+                @else
+
+                    <p class="text-2xl text-complementary-light w-full text-center py-12">
+                        No hay partidos finalizados en esta jornada
+                    </p>
+
+                @endif
 
             </div>
         </div>

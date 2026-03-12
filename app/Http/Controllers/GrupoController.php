@@ -8,7 +8,10 @@ use App\Http\Resources\Grupo\GrupoResource;
 use App\Http\Resources\Jornada\JornadaGrupoResource;
 use App\Http\Services\EquipoService;
 use App\Http\Services\GrupoService;
+use App\Http\Services\ModuleService;
 use App\Http\Services\PartidoService;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Services\UserService;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
 
@@ -17,6 +20,8 @@ class GrupoController extends Controller
     use ApiResponse;
 
     public function __construct(
+        private readonly UserService $userService,
+        private readonly ModuleService $moduleService,
         private readonly GrupoService $grupoService,
         private readonly EquipoService $equipoService,
         private readonly PartidoService $partidoService,
@@ -85,8 +90,19 @@ class GrupoController extends Controller
 
     // Funciones para la web
 
-    public function indexWeb()
+    public function gruposWeb()
     {
+        // Banners
+
+        $banners = $this->moduleService->getBanners(7);
+
+        // User Info
+
+        $user = Auth::user();
+        
+        $user = $this->userService->getUserRank($user);
+
+        $user = $this->userService->getUserPredictionsCount($user);
 
         $this->partidoService->actualizarPuntosEquipos();
 
@@ -111,6 +127,8 @@ class GrupoController extends Controller
         $jornada_tres = $jornadas->firstWhere('id', 3);
 
         return view('modulos.grupos', [
+            'banners' => $banners,
+            'user' => $user,
             'grupos' => $grupos,
             'equipos_grupo' => $equipos_grupo,
             'jornada_uno' => $jornada_uno,

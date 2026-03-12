@@ -4,13 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\Jornada\JornadaResource;
 use App\Http\Resources\Partido\PartidoResource;
-use App\Http\Services\EquipoService;
 use App\Http\Services\ModuleService;
 use App\Http\Services\PartidoService;
 use App\Http\Services\UserService;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class JornadaController extends Controller
 {
@@ -18,9 +17,8 @@ class JornadaController extends Controller
     
     public function __construct(
         private readonly UserService $userService,
-        private readonly ModuleService $moduleService,
         private readonly PartidoService $partidoService,
-        private readonly EquipoService $equipoService
+        private readonly ModuleService $moduleService,
     ) {}
         
     public function getJornadas() 
@@ -61,17 +59,15 @@ class JornadaController extends Controller
 
     }
 
-    // Funciones de la web
+    public function calendarioWeb() {
 
-    public function proximosPartidosWeb(Request $request)
-    {
         // Banners
 
-        $banners = $this->moduleService->getBanners(7);
+        $banners = $this->moduleService->getBanners(9);
 
         // User Info
 
-        $user = $request->user();
+        $user = Auth::user();
         
         $user = $this->userService->getUserRank($user);
 
@@ -81,18 +77,11 @@ class JornadaController extends Controller
 
         $jornadas = $this->partidoService->getJornadas();
 
-        return view('modulos.proximos-partidos', [
+        return view('modulos.calendario', [
             'jornadas' => $jornadas,
             'banners'  => $banners,
             'user'     => $user,
         ]);
-    }
-
-    public function jornadasWeb() {
-
-        $jornadas = $this->partidoService->getJornadas();
-
-        return view('modulos.calendario', [ 'jornadas' => $jornadas ]);
 
     }
 

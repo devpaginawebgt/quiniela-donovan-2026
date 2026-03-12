@@ -6,12 +6,14 @@ use App\Http\Requests\Prediccion\PrediccionRequest;
 use App\Http\Resources\Prediccion\PrediccionResource;
 use App\Http\Resources\Prediccion\PrediccionSolicitudResource;
 use App\Http\Resources\Resultado\ResultadoResource;
+use App\Http\Services\ModuleService;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Services\PartidoService;
 use App\Http\Services\PrediccionService;
+use App\Http\Services\UserService;
 use App\Traits\ApiResponse;
 
 class ResultadoPartidoController extends Controller
@@ -21,6 +23,8 @@ class ResultadoPartidoController extends Controller
     // Inyección de servicios
 
     public function __construct(
+        private readonly UserService $userService,
+        private readonly ModuleService $moduleService,
         private readonly PartidoService $partidoService,
         private readonly PrediccionService $prediccionService
     ) {}
@@ -143,7 +147,7 @@ class ResultadoPartidoController extends Controller
 
         $resultados = $this->prediccionService->getResultados($id_jornada, $user_id);
 
-         $resultados = ResultadoResource::collection($resultados);
+        $resultados = ResultadoResource::collection($resultados);
 
         return $this->successResponse($resultados);
 
@@ -200,6 +204,82 @@ class ResultadoPartidoController extends Controller
         ]);
 
     }
+
+    // Funciones de la web
+
+    public function proximosPartidosWeb(Request $request)
+    {
+        $user = Auth::user();
+
+        $this->actualizacionDataGeneral($user->id);
+
+        // Banners
+
+        $banners = $this->moduleService->getBanners(7);
+
+        // User Info
+        
+        $user = $this->userService->getUserRank($user);
+
+        $user = $this->userService->getUserPredictionsCount($user);
+
+        // Jornadas
+
+        $jornadas = $this->partidoService->getJornadas();
+
+        $jornada_activa = $jornadas->firstWhere('is_current', true);
+
+        $jornada_filtrada = (int)$request->get('jornada') ?: $jornada_activa->id;
+
+        // Partidos con predicciones del usuario
+
+        $partidosJornada = $this->prediccionService->getPrediccionesJornada($jornada_filtrada, $user->id);
+
+        return view('modulos.proximos-partidos', [
+            'jornadas'        => $jornadas,
+            'banners'         => $banners,
+            'user'            => $user,
+            'jornada_activa'  => $jornada_filtrada,
+            'partidosJornada' => $partidosJornada,
+        ]);
+    }
+
+    public function misPrediccionesWeb(Request $request)
+    {
+        $user = Auth::user();
+
+        $this->actualizacionDataGeneral($user->id);
+
+        // Banners
+
+        $banners = $this->moduleService->getBanners(8);        
+
+        // User Info
+        
+        $user = $this->userService->getUserRank($user);
+
+        $user = $this->userService->getUserPredictionsCount($user);
+
+        // Jornadas
+
+        $jornadas = $this->partidoService->getJornadas();
+
+        $jornada_activa = $jornadas->firstWhere('is_current', true);
+
+        $jornada_filtrada = (int)$request->get('jornada') ?: $jornada_activa->id;
+
+        // Partidos con predicciones del usuario
+
+        $resultados = $this->prediccionService->getResultados($jornada_filtrada, $user->id);
+
+        return view('modulos.mis-predicciones', [
+            'jornadas'        => $jornadas,
+            'banners'         => $banners,
+            'user'            => $user,
+            'jornada_activa'  => $jornada_filtrada,
+            'resultados'      => $resultados,
+        ]);
+    }
     
     public function guardarPrediccionesForm(Request $request)
     {
@@ -245,15 +325,19 @@ class ResultadoPartidoController extends Controller
             }
 
             if ($count_error == 0) {
-                $message = "1OK";
+                $flash_type = 'success';
+                $flash_msg  = 'Se guardaron tus predicciones correctamente.';
             } else {
-                $message = "2OK";
+                $flash_type = 'warning';
+                $flash_msg  = 'Algunos pronósticos no se guardaron porque el partido ya está por iniciar.';
             }
         } catch (\Throwable $th) {
-            $message = $th;
-        }        
+            $flash_type = 'error';
+            $flash_msg  = 'Hubo un problema al guardar tus datos, inténtalo más tarde.';
+        }
 
-        return redirect("ver-quiniela/$request->jornada/$message");
+        return redirect()->route('web.inicio.proximos-partidos', ['jornada' => $request->jornada])
+            ->with($flash_type, $flash_msg);
     }
 
     // Lógica de API
