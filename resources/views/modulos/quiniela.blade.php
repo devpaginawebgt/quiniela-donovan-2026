@@ -113,7 +113,7 @@
 
                                 <li class="bg-complementary-primary p-8 rounded-3xl flex flex-col relative">
 
-                                    @php          
+                                    @php
                                         $partido    = $registro->partido;
                                         $equipoUno  = $registro->equipoUno;
                                         $equipoDos  = $registro->equipoDos;
@@ -122,7 +122,7 @@
 
                                         $pronosticado = !empty($prediccion);
                                         $prediccion_equipo_uno = empty($prediccion) ? '' : $prediccion->goles_equipo_1;
-                                        $prediccion_equipo_dos = empty($prediccion) ? '' : $prediccion->goles_equipo_2;                                        
+                                        $prediccion_equipo_dos = empty($prediccion) ? '' : $prediccion->goles_equipo_2;
                                     @endphp
 
                                     @if($pronosticado)
@@ -189,7 +189,7 @@
 
                                         <div class="px-18">
 
-                                            <span class="font-semibold text-2xl">VS</span>                                            
+                                            <span class="font-semibold text-2xl">VS</span>
 
                                         </div>
 
@@ -203,12 +203,12 @@
                                                     class="w-20 h-14 object-cover rounded-xl shadow-md"
                                                 >
 
-                                                <p class="font-semibold text-xs xs:text-md lg:text-base">{{ $equipoDos->nombre }}</p>                                                
+                                                <p class="font-semibold text-xs xs:text-md lg:text-base">{{ $equipoDos->nombre }}</p>
 
                                             </div>
 
                                         </div>
-                                        
+
                                     </div>
 
 
@@ -219,38 +219,38 @@
                                         @if ($partido->estado === 1)
                                             <div class="mb-6">
                                                 <p class="text-center mb-2">Resultado del partido:</p>
-    
+
                                                 <div class="resultadoPartido flex justify-center gap-8 items-center text-3xl font-bold">
-                                                    <p> {{ $resultado->goles_equipo_1 }} </p> 
-                                                    - 
+                                                    <p> {{ $resultado->goles_equipo_1 }} </p>
+                                                    -
                                                     <p> {{ $resultado->goles_equipo_2 }} </p>
                                                 </div>
                                             </div>
                                         @endif
-                                        
+
                                         <p class="text-center text-sm text-complementary-light mb-3">
                                             Tu pronóstico
                                         </p>
 
-                                        <div class="flex items-center justify-center gap-8"> 
-                                            
+                                        <div class="flex items-center justify-center gap-8">
+
                                             <div>
                                                 @if ($partido->estado === 0)
-        
+
                                                     <input type="number" name="partidos[]"
                                                         value="{{ $registro->partido_id }}" hidden
                                                         class="hidden partido-jornada-quiniela">
-        
+
                                                     <div class="flex justify-center items-center w-auto gap-4">
-        
+
                                                         <button type="button" onclick="decreaseBookmar(this)" class="">
                                                             <span>
                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 32 32"><path fill="currentColor" d="M28 16c0-6.627-5.373-12-12-12S4 9.373 4 16s5.373 12 12 12s12-5.373 12-12m2 0c0 7.732-6.268 14-14 14S2 23.732 2 16S8.268 2 16 2s14 6.268 14 14m-20-1a1 1 0 1 0 0 2h12a1 1 0 1 0 0-2z"/></svg>
                                                             </span>
                                                         </button>
-        
+
                                                         <div>
-        
+
                                                             <input
                                                                 type="number"
                                                                 name="prediccion_equipo1_{{ $registro->partido_id }}"
@@ -259,15 +259,15 @@
                                                                 value="{{ $prediccion_equipo_uno }}"
                                                                 class="marcador-equipo-1 marcador-equipo border border-light text-light bg-transparent text-center rounded-md hide-input-arrows px-0 py-1"
                                                             >
-        
+
                                                         </div>
-        
+
                                                         <button type="button" onclick="increaseBookmar(this)">
                                                             <span>
                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 32 32"><path fill="currentColor" d="M15 10a1 1 0 1 1 2 0v5h5a1 1 0 1 1 0 2h-5v5a1 1 0 1 1-2 0v-5h-5a1 1 0 1 1 0-2h5zm15 6c0 7.732-6.268 14-14 14S2 23.732 2 16S8.268 2 16 2s14 6.268 14 14m-2 0c0-6.627-5.373-12-12-12S4 9.373 4 16s5.373 12 12 12s12-5.373 12-12"/></svg>
                                                             </span>
                                                         </button>
-        
+
                                                     </div>
                                                 @elseif ($partido->estado === 2)
                                                     <div class="flex flex-col justify-items-center">
@@ -283,7 +283,7 @@
                                                     </div>
                                                 @endif
                                             </div>
-    
+
                                             <div>
                                                 @if($partido->estado === 0 || $pronosticado)
                                                     <span class="text-2xl">
@@ -295,34 +295,34 @@
                                                     </span>
                                                 @endif
                                             </div>
-    
+
                                             <div>
                                                 @if ($partido->estado === 0)
                                                     <div class="flex justify-center items-center w-auto gap-4">
-        
+
                                                         <button type="button" onclick="decreaseBookmar(this)" class="">
                                                             <span>
                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 32 32"><path fill="currentColor" d="M28 16c0-6.627-5.373-12-12-12S4 9.373 4 16s5.373 12 12 12s12-5.373 12-12m2 0c0 7.732-6.268 14-14 14S2 23.732 2 16S8.268 2 16 2s14 6.268 14 14m-20-1a1 1 0 1 0 0 2h12a1 1 0 1 0 0-2z"/></svg>
                                                             </span>
                                                         </button>
-        
+
                                                         <div>
-        
+
                                                             <input type="number"
                                                                 name="prediccion_equipo2_{{ $registro->partido_id }}"
-                                                                min="0" 
+                                                                min="0"
                                                                 max="10"
                                                                 value="{{ $prediccion_equipo_dos }}"
                                                                 class="marcador-equipo-1 marcador-equipo border border-light text-light bg-transparent text-center rounded-md hide-input-arrows px-0 py-1">
-        
+
                                                         </div>
-        
+
                                                         <button type="button" onclick="increaseBookmar(this)">
                                                             <span>
                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 32 32"><path fill="currentColor" d="M15 10a1 1 0 1 1 2 0v5h5a1 1 0 1 1 0 2h-5v5a1 1 0 1 1-2 0v-5h-5a1 1 0 1 1 0-2h5zm15 6c0 7.732-6.268 14-14 14S2 23.732 2 16S8.268 2 16 2s14 6.268 14 14m-2 0c0-6.627-5.373-12-12-12S4 9.373 4 16s5.373 12 12 12s12-5.373 12-12"/></svg>
                                                             </span>
                                                         </button>
-        
+
                                                     </div>
                                                 @elseif ($partido->estado === 2)
                                                     <div class="flex flex-col justify-items-center">
@@ -340,7 +340,7 @@
                                             </div>
 
 
-                                        </div>                                      
+                                        </div>
 
                                         @if ($partido->estado === 1)
                                             <div class="puntosGenerados font-semibold text-center mt-4 text-xl">
@@ -349,24 +349,6 @@
                                         @endif
                                     </div>
 
-
-
-
-                                    {{-- @if($registro->estado === 2)
-                                        <div class="text-xl w-full flex items-center justify-center mt-8 text-complementary-light">
-                                            @php
-                                                $random_id = rand(0, 2);
-                                                $messages = [
-                                                    '¡No te pierdas el partido!',
-                                                    '¿Quién ganará?',
-                                                    'Sintoniza el partido'
-                                                ];
-                                                $message = $messages[$random_id];
-                                            @endphp
-
-                                            {{ $message }}
-                                        </div>
-                                    @endif --}}
                                 </li>
                                 @endforeach
 

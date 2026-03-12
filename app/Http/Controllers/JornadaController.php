@@ -7,6 +7,7 @@ use App\Http\Resources\Partido\PartidoResource;
 use App\Http\Services\EquipoService;
 use App\Http\Services\ModuleService;
 use App\Http\Services\PartidoService;
+use App\Http\Services\PrediccionService;
 use App\Http\Services\UserService;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
@@ -20,7 +21,8 @@ class JornadaController extends Controller
         private readonly UserService $userService,
         private readonly ModuleService $moduleService,
         private readonly PartidoService $partidoService,
-        private readonly EquipoService $equipoService
+        private readonly EquipoService $equipoService,
+        private readonly PrediccionService $prediccionService
     ) {}
         
     public function getJornadas() 
@@ -81,10 +83,20 @@ class JornadaController extends Controller
 
         $jornadas = $this->partidoService->getJornadas();
 
+        $jornada_activa = $jornadas->firstWhere('is_current', true);
+
+        $jornada_filtrada = (int)$request->get('jornada') ?: $jornada_activa->id;
+
+        // Partidos con predicciones del usuario
+
+        $partidosJornada = $this->prediccionService->getPrediccionesJornada($jornada_filtrada, $user->id);
+
         return view('modulos.proximos-partidos', [
-            'jornadas' => $jornadas,
-            'banners'  => $banners,
-            'user'     => $user,
+            'jornadas'        => $jornadas,
+            'banners'         => $banners,
+            'user'            => $user,
+            'jornada_activa'  => $jornada_filtrada,
+            'partidosJornada' => $partidosJornada,
         ]);
     }
 

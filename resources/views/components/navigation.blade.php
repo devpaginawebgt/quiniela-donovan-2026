@@ -1,7 +1,7 @@
 <input type="hidden" id="user_id" value="{{ Auth::user()->id }}">
 
 {{-- Bottom Navigation Bar --}}
-<nav class="fixed bottom-0 left-0 right-0 z-50 bg-complementary-primary border-t border-secondary">
+<nav class="fixed bottom-0 left-0 right-0 z-40 bg-complementary-primary border-t border-secondary">
     <div class="flex justify-around items-center h-16 max-w-lg mx-auto px-4">
 
         {{-- Inicio --}}
