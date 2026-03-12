@@ -40,7 +40,7 @@
                     <x-search-input id="buscar-selecciones" name="buscar_selecciones" placeholder="Buscar Selecciones" />
                 </div>
 
-                <div id="selecciones-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 2xl:gap-8 max-w-6xl mx-auto">
+                <div id="selecciones-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 2xl:gap-8 max-w-6xl mx-auto min-h-60">
                     @foreach($equipos as $equipo)
                         <x-team-card :equipo="$equipo" />
                     @endforeach
