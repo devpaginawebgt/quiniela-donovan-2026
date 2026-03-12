@@ -97,102 +97,30 @@
     </div>
 
     {{-- Jornadas section (collapsible) --}}
+
     <div id="jornadas-section" class="hidden max-w-screen-2xl mx-auto px-4 pb-24 sm:px-6 lg:px-8">
 
-        <h5 class="text-2xl font-bold text-center my-6">Jornadas</h5>
+        <h5 id="titulo-jornadas-grupo" class="text-2xl font-bold text-center mt-6 mb-4">
+            Jornadas de Partidos del Grupo {{ ($grupos->firstWhere('is_current', true))->name }}
+        </h5>
 
-        <p class="text-xl font-semibold mb-3">Jornada 1</p>
-        <div class="shadow-md mx-auto w-full lg:w-3/4 bg-complementary-primary rounded-2xl overflow-hidden p-4 mb-8">
-            <ul>
-                @if(!empty($jornada_uno))
-                    @foreach($jornada_uno['partidos'] as $equipos_partido)
-                        @php
-                            $fecha_utc  = $equipos_partido->partido->fecha_partido;
-                            $timezone   = auth()->user()->country->timezone;
-                            $fecha_local = $fecha_utc->copy()->timezone($timezone)->locale('es');
-                            $fecha_partido = $fecha_local->isoFormat('dddd, D [de] MMMM [de] YYYY');
-                            $hora_partido  = $fecha_local->translatedFormat('h:i a');
-                        @endphp
-                        <li class="flex justify-around py-6 lg:py-4 border-b border-zinc-400 items-center mb-4">
-                            <div class="w-1/2 flex-col lg:flex-row xl:w-1/4 flex items-center justify-between">
-                                <img src="{{ $equipos_partido->equipoUno->imagen }}" alt="SELECCION" class="h-10 w-14 object-cover mx-4 border rounded-md shadow-md">
-                                <p class="font-semibold">{{ $equipos_partido->equipoUno->nombre }}</p>
-                            </div>
-                            <div class="w-full xl:w-1/3 absolute lg:relative">
-                                <p class="text-center">{{ $fecha_partido }}</p>
-                                <p class="text-center">{{ $hora_partido }}</p>
-                            </div>
-                            <div class="w-1/2 flex-col lg:flex-row xl:w-1/4 flex items-center justify-between">
-                                <img src="{{ $equipos_partido->equipoDos->imagen }}" alt="SELECCION" class="h-10 w-14 mx-4 object-cover border rounded-md shadow-md">
-                                <p class="font-semibold">{{ $equipos_partido->equipoDos->nombre }}</p>
-                            </div>
-                        </li>
-                    @endforeach
-                @endif
-            </ul>
+        {{-- Buscador de partidos --}}
+        <div class="w-full max-w-lg mx-auto mb-6">
+            <x-search-input id="buscar-partidos-grupo" name="buscar_partidos_grupo" placeholder="Buscar Partidos" />
         </div>
 
-        <p class="text-xl font-semibold mb-3">Jornada 2</p>
-        <div class="shadow-md mx-auto w-full lg:w-3/4 bg-complementary-primary rounded-2xl overflow-hidden p-4 mb-8">
-            <ul>
-                @if(!empty($jornada_dos))
-                    @foreach($jornada_dos['partidos'] as $equipos_partido)
-                        @php
-                            $fecha_utc  = $equipos_partido->partido->fecha_partido;
-                            $timezone   = auth()->user()->country->timezone;
-                            $fecha_local = $fecha_utc->copy()->timezone($timezone)->locale('es');
-                            $fecha_partido = $fecha_local->isoFormat('dddd, D [de] MMMM [de] YYYY');
-                            $hora_partido  = $fecha_local->translatedFormat('h:i a');
-                        @endphp
-                        <li class="flex justify-around py-6 lg:py-4 border-b border-zinc-400 items-center mb-4">
-                            <div class="w-1/2 flex-col lg:flex-row xl:w-1/4 flex items-center justify-between">
-                                <img src="{{ $equipos_partido->equipoUno->imagen }}" alt="SELECCION" class="h-10 w-14 object-cover mx-4 border rounded-md shadow-md">
-                                <p class="font-semibold">{{ $equipos_partido->equipoUno->nombre }}</p>
-                            </div>
-                            <div class="w-full xl:w-1/3 absolute lg:relative">
-                                <p class="text-center">{{ $fecha_partido }}</p>
-                                <p class="text-center">{{ $hora_partido }}</p>
-                            </div>
-                            <div class="w-1/2 flex-col lg:flex-row xl:w-1/4 flex items-center justify-between">
-                                <img src="{{ $equipos_partido->equipoDos->imagen }}" alt="SELECCION" class="h-10 w-14 mx-4 object-cover border rounded-md shadow-md">
-                                <p class="font-semibold">{{ $equipos_partido->equipoDos->nombre }}</p>
-                            </div>
-                        </li>
-                    @endforeach
-                @endif
-            </ul>
+        {{-- Spinner jornadas --}}
+        <div id="jornadas-spinner" class="hidden">
+            <div class="flex justify-center py-8">
+                <svg class="animate-spin w-8 h-8 text-secondary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                </svg>
+            </div>
         </div>
 
-        <p class="text-xl font-semibold mb-3">Jornada 3</p>
-        <div class="shadow-md mx-auto w-full lg:w-3/4 bg-complementary-primary rounded-2xl overflow-hidden p-4">
-            <ul>
-                @if(!empty($jornada_tres))
-                    @foreach($jornada_tres['partidos'] as $equipos_partido)
-                        @php
-                            $fecha_utc  = $equipos_partido->partido->fecha_partido;
-                            $timezone   = auth()->user()->country->timezone ?? 'GMT-6';
-                            $fecha_local = $fecha_utc->copy()->timezone($timezone)->locale('es');
-                            $fecha_partido = $fecha_local->isoFormat('dddd, D [de] MMMM [de] YYYY');
-                            $hora_partido  = $fecha_local->translatedFormat('h:i a');
-                        @endphp
-                        <li class="flex justify-around py-6 lg:py-4 border-b border-zinc-400 items-center mb-4">
-                            <div class="w-1/2 flex-col lg:flex-row xl:w-1/4 flex items-center justify-between">
-                                <img src="{{ $equipos_partido->equipoUno->imagen }}" alt="SELECCION" class="h-10 w-14 object-cover mx-4 border rounded-md shadow-md">
-                                <p class="font-semibold">{{ $equipos_partido->equipoUno->nombre }}</p>
-                            </div>
-                            <div class="w-full xl:w-1/3 absolute lg:relative">
-                                <p class="text-center">{{ $fecha_partido }}</p>
-                                <p class="text-center">{{ $hora_partido }}</p>
-                            </div>
-                            <div class="w-1/2 flex-col lg:flex-row xl:w-1/4 flex items-center justify-between">
-                                <img src="{{ $equipos_partido->equipoDos->imagen }}" alt="SELECCION" class="h-10 w-14 mx-4 object-cover border rounded-md shadow-md">
-                                <p class="font-semibold">{{ $equipos_partido->equipoDos->nombre }}</p>
-                            </div>
-                        </li>
-                    @endforeach
-                @endif
-            </ul>
-        </div>
+        {{-- Contenedor de jornadas con partidos --}}
+        <div id="jornadas-partidos-list"></div>
 
     </div>
 

@@ -21,7 +21,7 @@ export const renderMatchCard = (partido) => {
     const equipos = `${partido.equipoUno.nombre} ${partido.equipoDos.nombre}`.toLowerCase();
 
     return `<li
-        class="match-card bg-complementary-primary border border-secondary rounded-3xl flex flex-col overflow-hidden"
+        class="match-card bg-complementary-primary border border-secondary rounded-3xl flex flex-col overflow-hidden w-full min-w-72 max-w-xl"
         data-equipos="${equipos}"
     >
         ${brandHtml}
