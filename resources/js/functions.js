@@ -283,36 +283,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     }
 
-    const inputCalendario = document.getElementById('jornadas');
-
-    if (inputCalendario) {
-
-        const idJornadaCalendario = inputCalendario.value;
-
-        verPartidosJornada(idJornadaCalendario);
-
-        inputCalendario.addEventListener('change', function(e) {
-
-            const idJornadaCalendario = inputCalendario.value;
-
-            if (!idJornadaCalendario) return;
-
-            verPartidosJornada(idJornadaCalendario);
-
-        })
-
-    }
-
-    const inputBuscarPartidos = document.getElementById('buscar-partidos');
-
-    if (inputBuscarPartidos) {
-
-        inputBuscarPartidos.addEventListener('input', function() {
-            filtrarMatchCards(this.value);
-        });
-
-    }
-
     const inputQuiniela = document.getElementById('quiniela');
 
     if (inputQuiniela) {

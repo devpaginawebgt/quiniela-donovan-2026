@@ -1,5 +1,8 @@
 
 import './views/estadios.js';
+import './views/calendario.js';
+import './views/proximos-partidos.js';
+import './views/mis-predicciones.js';
 
 const toggleDetalles = (btn) => {
     const panel = btn.nextElementSibling;

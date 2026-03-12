@@ -7,8 +7,8 @@
         {{-- Inicio --}}
         <a href="{{ route('web.inicio.proximos-partidos') }}"
            class="flex flex-col items-center gap-1 text-xs font-medium transition-colors duration-150
-                  {{ request()->routeIs('web.inicio.proximos-partidos') ? 'text-complementary-light' : 'text-complementary-light hover:text-secondary' }}">
-            @if (request()->routeIs('web.inicio.proximos-partidos'))
+                  {{ request()->routeIs('web.inicio.*') ? 'text-complementary-light' : 'text-complementary-light hover:text-secondary' }}">
+            @if (request()->routeIs('web.inicio.*'))
                 <span class="bg-secondary rounded-full px-3 py-1 flex items-center gap-1 text-complementary-primary">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"

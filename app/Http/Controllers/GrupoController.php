@@ -85,7 +85,7 @@ class GrupoController extends Controller
 
     // Funciones para la web
 
-    public function indexWeb()
+    public function gruposWeb()
     {
 
         $this->partidoService->actualizarPuntosEquipos();

@@ -17,7 +17,8 @@
     $hora_fmt    = $fecha_local->translatedFormat('h:i a');
 @endphp
 
-<li class="bg-complementary-primary border border-secondary rounded-3xl flex flex-col overflow-hidden">
+<li class="bg-complementary-primary border border-secondary rounded-3xl flex flex-col overflow-hidden"
+    data-equipos="{{ strtolower($equipoUno->nombre . ' ' . $equipoDos->nombre) }}">
 
     {{-- Header: Brand --}}
     @if(!empty($partido->brand))

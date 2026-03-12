@@ -42,6 +42,10 @@ Route::middleware(['auth'])->as('web.')->group(function() {
             Route::get('estadios', 'estadiosWeb')->name('estadios');
         });
 
+        Route::controller(GrupoController::class)->group(function() {            
+            Route::get('grupos', 'gruposWeb')->name('grupos');
+        });
+
         Route::get('', function () {
             return redirect()->route('web.inicio.proximos-partidos');
         });
@@ -58,7 +62,6 @@ Route::middleware(['auth'])->as('web.')->group(function() {
     Route::controller(GrupoController::class)->prefix('grupos')->as('grupos.')->group(function() {
         Route::get('/{grupo_id}/equipos', 'getEquiposWeb')->name('equipos');
         Route::get('/{grupo_id}/jornadas', 'getJornadasWeb')->name('jornadas');
-        Route::get('', 'indexWeb')->name('index');
     });
 
     // Jornadas
