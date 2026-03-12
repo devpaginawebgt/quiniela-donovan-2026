@@ -1,4 +1,11 @@
+import { initResultCardToggle } from '../components/result-card.js';
+
+initResultCardToggle();
+
 document.addEventListener('DOMContentLoaded', () => {
+
+    // Logica para filtrar los registros de resultados
+
     const buscar = document.getElementById('buscar-partidos');
     const lista  = document.getElementById('partidos-jornada-general');
     if (!buscar || !lista || !document.getElementById('select-mis-predicciones')) return;
@@ -9,4 +16,5 @@ document.addEventListener('DOMContentLoaded', () => {
             card.style.display = (card.dataset.equipos ?? '').includes(term) ? '' : 'none';
         });
     });
+    
 });

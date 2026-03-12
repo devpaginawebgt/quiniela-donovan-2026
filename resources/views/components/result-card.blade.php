@@ -70,9 +70,8 @@
         <div>
             <button
                 type="button"
-                onclick="toggleDetalles(this)"
                 aria-expanded="false"
-                class="flex items-center justify-between w-full text-light font-semibold text-sm pt-4 pb-6 cursor-pointer"
+                class="result-card-toggle flex items-center justify-between w-full text-light font-semibold text-sm pt-4 pb-6 cursor-pointer"
             >
                 <span>Mostrar Detalles</span>
                 <svg class="w-4 h-4 shrink-0 transition-transform duration-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">

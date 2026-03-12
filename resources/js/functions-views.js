@@ -6,24 +6,6 @@ import './views/calendario.js';
 import './views/proximos-partidos.js';
 import './views/mis-predicciones.js';
 
-const toggleDetalles = (btn) => {
-    const panel = btn.nextElementSibling;
-    const icon  = btn.querySelector('svg');
-    const open  = btn.getAttribute('aria-expanded') === 'true';
-
-    if (open) {
-        panel.style.maxHeight = panel.scrollHeight + 'px';
-        requestAnimationFrame(() => { panel.style.maxHeight = '0px'; });
-        btn.setAttribute('aria-expanded', 'false');
-        icon.style.transform = 'rotate(0deg)';
-    } else {
-        panel.style.maxHeight = panel.scrollHeight + 'px';
-        btn.setAttribute('aria-expanded', 'true');
-        icon.style.transform = 'rotate(180deg)';
-    }
-}
-
-window.toggleDetalles = toggleDetalles;
 
 const slideToggle = (id) => {
     const contenidoSeleccion = document.querySelector(`.container-${id}`);
