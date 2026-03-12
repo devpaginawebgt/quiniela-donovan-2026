@@ -34,6 +34,10 @@ Route::middleware(['auth'])->as('web.')->group(function() {
             Route::get('mis-predicciones', 'misPrediccionesWeb')->name('mis-predicciones');
         });
 
+        Route::controller(JornadaController::class)->group(function() {
+            Route::get('calendario', 'calendarioWeb')->name('calendario');
+        });
+
         Route::get('', function () {
             return redirect()->route('web.inicio.proximos-partidos');
         });
@@ -56,7 +60,7 @@ Route::middleware(['auth'])->as('web.')->group(function() {
     // Jornadas
 
     Route::controller(JornadaController::class)->prefix('jornadas')->group(function() {
-        Route::get('', 'jornadasWeb')->name('jornadas');
+        // Route::get('', 'jornadasWeb')->name('jornadas');
 
         Route::post('/partidos-grupo', 'partidosGrupo');
         Route::get('/partidos-jornada/{jornada}', 'partidosJornada');

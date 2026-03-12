@@ -4,16 +4,21 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\Jornada\JornadaResource;
 use App\Http\Resources\Partido\PartidoResource;
+use App\Http\Services\ModuleService;
 use App\Http\Services\PartidoService;
+use App\Http\Services\UserService;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class JornadaController extends Controller
 {
     use ApiResponse;
     
     public function __construct(
+        private readonly UserService $userService,
         private readonly PartidoService $partidoService,
+        private readonly ModuleService $moduleService,
     ) {}
         
     public function getJornadas() 
@@ -54,11 +59,29 @@ class JornadaController extends Controller
 
     }
 
-    public function jornadasWeb() {
+    public function calendarioWeb() {
+
+        // Banners
+
+        $banners = $this->moduleService->getBanners(9);
+
+        // User Info
+
+        $user = Auth::user();
+        
+        $user = $this->userService->getUserRank($user);
+
+        $user = $this->userService->getUserPredictionsCount($user);
+
+        // Jornadas
 
         $jornadas = $this->partidoService->getJornadas();
 
-        return view('modulos.calendario', [ 'jornadas' => $jornadas ]);
+        return view('modulos.calendario', [
+            'jornadas' => $jornadas,
+            'banners'  => $banners,
+            'user'     => $user,
+        ]);
 
     }
 
