@@ -94,7 +94,7 @@ class GrupoController extends Controller
     {
         // Banners
 
-        $banners = $this->moduleService->getBanners(7);
+        $banners = $this->moduleService->getBanners(11);
 
         // User Info
 

@@ -1,4 +1,6 @@
 <x-app-layout>
+    <x-inicio-header :activeTab="''" />
+
     <div class="flex flex-col items-center justify-center min-h-[60vh] text-center px-6">
         <div class="bg-complementary-primary border border-complementary-light rounded-2xl p-10 max-w-sm w-full">
             <svg class="mx-auto mb-4 w-16 h-16 text-secondary opacity-70" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">

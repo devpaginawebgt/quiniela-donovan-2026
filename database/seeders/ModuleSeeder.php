@@ -19,14 +19,14 @@ class ModuleSeeder extends Seeder
             [ 'name' => 'App - Calendario',        'code' => 'app-calendario' ],
             [ 'name' => 'App - Estadios',          'code' => 'app-estadios' ],
             [ 'name' => 'App - Grupos',            'code' => 'app-grupos' ],
-            [ 'name' => 'App - Sedes',             'code' => 'app-sedes' ],
+            [ 'name' => 'App - Equipos',           'code' => 'app-equipos' ],
 
             [ 'name' => 'Web - Próximos Partidos', 'code' => 'web-proximos-partidos' ],
             [ 'name' => 'Web - Mis Pronósticos',   'code' => 'web-mis-pronosticos' ],
             [ 'name' => 'Web - Calendario',        'code' => 'web-calendario' ],
             [ 'name' => 'Web - Estadios',          'code' => 'web-estadios' ],
             [ 'name' => 'Web - Grupos',            'code' => 'web-grupos' ],
-            [ 'name' => 'Web - Sedes',             'code' => 'web-sedes' ],
+            [ 'name' => 'Web - Equipos',           'code' => 'web-' ],
         ]; 
 
         foreach($modules as $module) {
