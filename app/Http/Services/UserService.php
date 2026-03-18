@@ -3,6 +3,7 @@
 namespace App\Http\Services;
 
 use App\Http\Requests\Auth\ApiLoginRequest;
+use App\Models\Brand;
 use App\Models\Country;
 use App\Models\EquipoPartido;
 use App\Models\User;
@@ -83,6 +84,17 @@ class UserService {
         $user->partidos = (object) $partidos;
 
         return $user;
+    }
+
+    public function setUserBrands($participantes) 
+    {
+        $brand = Brand::find(1);
+
+        $participantes->each(function ($user) use ($brand) {
+            $user->brand = $user->posicion === 1 ? $brand : null;
+        });
+
+        return $participantes;
     }
 
 }
