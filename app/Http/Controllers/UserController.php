@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Resources\User\UserRankingResource;
 use App\Http\Resources\User\UserRankResource;
 use App\Http\Resources\User\UserResource;
+use App\Http\Services\BrandService;
 use App\Http\Services\UserService;
+use App\Models\Brand;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,6 +18,7 @@ class UserController extends Controller
 
     public function __construct(
         private readonly UserService $userService,
+        private readonly BrandService $brandService,
     ) {}
 
     // API responses
@@ -65,9 +68,11 @@ class UserController extends Controller
 
         $id_pais = (int) $user->pais_id;
 
-        $participantes = $this->userService->getRanking($id_pais);
+        $users = $this->userService->getRanking($id_pais);
 
-        $participantes = UserRankingResource::collection($participantes);
+        $users = $this->userService->setUserBrands($users, $id_pais);
+
+        $participantes = UserRankingResource::collection($users);
 
         return $this->successResponse($participantes);
 

@@ -2,6 +2,8 @@
 
 namespace App\Http\Resources\User;
 
+use App\Http\Resources\Brand\BrandResource;
+use App\Http\Services\HelperService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -14,10 +16,12 @@ class UserRankingResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $color = '';
+        $decoracion = null;
+        $color      = '';
 
         switch($this->posicion) {
             case 1:
+                $decoracion = HelperService::ImagePath('/images/decoracion/trophy_overlay.png');
                 $color = '#FFBF00';
                 break;
 
@@ -30,6 +34,7 @@ class UserRankingResource extends JsonResource
                 break;
                 
             default:
+                $decoracion = null;
                 $color = '#FFFFFF';
                 break;
         }
@@ -44,6 +49,8 @@ class UserRankingResource extends JsonResource
             'puntos'        => $this->puntos,
             'posicion'      => $this->posicion,
             'color'         => $color,
+            'decoracion'    => $decoracion,
+            'marca'         => $this->brand ? new BrandResource($this->brand) : null,
             'fechaRegistro' => $fecha_registro->format('Y-m-d H:i:s'),
         ];
     }

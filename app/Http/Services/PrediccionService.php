@@ -225,6 +225,7 @@ class PrediccionService {
             'equipo_partidos.equipo_2', 
             'equipo_partidos.partido_id',
         ])
+            ->has('resultado')
             ->whereHas('partido', function(Builder $query) use($id_jornada) {
                 $query->where('jornada_id', $id_jornada)
                     ->where('estado', 1);
