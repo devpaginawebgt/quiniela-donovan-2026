@@ -4,6 +4,7 @@ namespace App\Http\Services;
 
 use App\Http\Requests\Auth\ApiLoginRequest;
 use App\Models\Brand;
+use App\Models\BrandPosition;
 use App\Models\Country;
 use App\Models\EquipoPartido;
 use App\Models\User;
@@ -86,15 +87,23 @@ class UserService {
         return $user;
     }
 
-    public function setUserBrands($participantes) 
+    public function setUserBrands($users, $country_id) 
     {
-        $brand = Brand::find(1);
+        $first_position = BrandPosition::where('country_id', $country_id)
+            ->where('position', 1)
+            ->first();
 
-        $participantes->each(function ($user) use ($brand) {
-            $user->brand = $user->posicion === 1 ? $brand : null;
-        });
+        if (isset($first_position) && ! empty($first_position)) {
 
-        return $participantes;
+            $first_position_brand = $first_position->brand;
+    
+            $users->each(function ($user) use ($first_position_brand) {
+                $user->brand = $user->posicion === 1 ? $first_position_brand : null;
+            });
+
+        }
+
+        return $users;
     }
 
 }

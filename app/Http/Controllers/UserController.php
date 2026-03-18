@@ -68,11 +68,11 @@ class UserController extends Controller
 
         $id_pais = (int) $user->pais_id;
 
-        $participantes = $this->userService->getRanking($id_pais);
+        $users = $this->userService->getRanking($id_pais);
 
-        $participantes = $this->userService->setUserBrands($participantes);
+        $users = $this->userService->setUserBrands($users, $id_pais);
 
-        $participantes = UserRankingResource::collection($participantes);
+        $participantes = UserRankingResource::collection($users);
 
         return $this->successResponse($participantes);
 
