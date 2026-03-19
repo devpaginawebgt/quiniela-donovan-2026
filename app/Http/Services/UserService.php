@@ -47,6 +47,31 @@ class UserService {
 
     }
 
+    public function getRankingWeb($id_pais, $page = 1, $perPage = 100)
+    {
+        $query = User::select('id', 'nombres', 'apellidos', 'puntos')
+            ->selectRaw('RANK() OVER (ORDER BY puntos DESC, nombres ASC) as posicion')
+            ->has('predictions')
+            ->where('status_user', 1)
+            ->where('pais_id', $id_pais)
+            ->where('puntos', '>', 0);
+
+        $items = $query->skip(($page - 1) * $perPage)
+            ->take($perPage + 1)
+            ->get();
+
+        $hasMore = $items->count() > $perPage;
+
+        if ($hasMore) {
+            $items = $items->slice(0, $perPage)->values();
+        }
+
+        return [
+            'data' => $items,
+            'has_more' => $hasMore,
+        ];
+    }
+
     public function getUserRank($user)
     {
         $rankingQuery = User::select('id', 'nombres', 'apellidos', 'pais_id', 'puntos', 'created_at')
@@ -62,8 +87,6 @@ class UserService {
             ->value('posicion');
 
         $user->posicion = $rank;
-
-
 
         return $user;
     }

@@ -87,6 +87,7 @@ Route::middleware(['auth'])->as('web.')->group(function() {
 
     Route::controller(UserController::class)->as('users')->group(function() {
         Route::get('ranking', 'indexWeb')->name('.ranking');
+        Route::get('ranking/data', 'getRankingData')->name('.ranking.data');
     });
 
     // Premios

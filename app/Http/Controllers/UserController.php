@@ -8,6 +8,7 @@ use App\Http\Resources\User\UserResource;
 use App\Http\Services\BrandService;
 use App\Http\Services\UserService;
 use App\Models\Brand;
+use App\Models\BrandPosition;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -80,18 +81,32 @@ class UserController extends Controller
 
     // Funciones para la web
 
-    public function indexWeb() 
+    public function indexWeb()
     {
         $user = Auth::user();
 
+        $country_id = (int) $user->pais_id;
+
+        $first_place = BrandPosition::where('country_id', $country_id)
+            ->where('position', 1)
+            ->first();
+
+        $first_place_brand = $first_place->brand;
+
+        $brands = Brand::all();
+
+        return view('modulos.ranking', compact('brands', 'first_place_brand'));
+    }
+
+    public function getRankingData(Request $request)
+    {
+        $user = Auth::user();
         $id_pais = (int) $user->pais_id;
+        $page = (int) $request->query('page', 1);
 
-        $participantes = $this->userService->getRanking($id_pais);
+        $result = $this->userService->getRankingWeb($id_pais, $page);
 
-        return view('modulos.tabla-resultados', [
-            'participantes' => $participantes
-        ]);
-
+        return response()->json($result);
     }
 
     public function verParticipantes()
