@@ -29,7 +29,7 @@
     @endif
 
     <div class="max-w-screen-2xl my-6 mx-auto sm:px-6 lg:px-8">
-        <div class="overflow-hidden shadow-sm sm:rounded-lg">
+        <div class="overflow-hidden">
             <div class="px-6 pb-6">
 
                 <h5 class="text-3xl 2xl:text-4xl text-center font-bold mt-8 mb-4">Mis Pronósticos</h5>

@@ -2,7 +2,7 @@
     <x-inicio-header :activeTab="''" />
 
     <div class="max-w-screen-2xl my-6 mx-auto sm:px-6 lg:px-8">
-        <div class="overflow-hidden shadow-sm sm:rounded-lg">
+        <div class="overflow-hidden sm:rounded-lg">
             <div class="px-6 pb-6">
 
                 <h1 class="text-2xl lg:text-3xl text-center font-bold mb-4">Premios Ganadores</h1>
