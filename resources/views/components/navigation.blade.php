@@ -94,7 +94,7 @@
         </a>
 
         {{-- Perfil --}}
-        <a href="{{ route('web.perfil') }}"
+        <a href="{{ route('web.users.perfil') }}"
            class="flex flex-col items-center gap-1 text-xs font-medium transition-colors duration-150
                   {{ request()->routeIs('web.perfil') ? 'text-complementary-light' : 'text-complementary-light hover:text-secondary' }}">
             @if (request()->routeIs('web.perfil'))

@@ -88,20 +88,14 @@ Route::middleware(['auth'])->as('web.')->group(function() {
     Route::controller(UserController::class)->as('users')->group(function() {
         Route::get('ranking', 'indexWeb')->name('.ranking');
         Route::get('ranking/data', 'getRankingData')->name('.ranking.data');
+        Route::get('/perfil', 'perfil')->name('.perfil');
     });
 
     // Premios
 
     Route::controller(PremioController::class)->group(function() {
         Route::get('/recompensas', 'recompensas')->name('recompensas');
-    });
-
-    // Perfil
-
-    Route::get('/perfil', function () {
-        return view('modulos.perfil');
-    })->name('perfil');
-    
+    });    
 
     // Rutas para super-admin
 

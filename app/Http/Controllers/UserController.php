@@ -9,6 +9,7 @@ use App\Http\Services\BrandService;
 use App\Http\Services\UserService;
 use App\Models\Brand;
 use App\Models\BrandPosition;
+use App\Models\Country;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -109,6 +110,18 @@ class UserController extends Controller
         return response()->json($result);
     }
 
+    public function perfil()
+    {
+        $user = Auth::user();
+
+        $user = $this->userService->getUserRank($user);
+        $user = $this->userService->getUserPredictionsCount($user);
+
+        return view('modulos.perfil', [
+            'user' => $user,
+        ]);
+    }
+
     public function verParticipantes()
     {
 
@@ -118,5 +131,5 @@ class UserController extends Controller
             'participantes' => $participantes
         ]);
 
-    }    
+    }
 }
