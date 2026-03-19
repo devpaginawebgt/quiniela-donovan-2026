@@ -93,7 +93,7 @@ Route::middleware(['auth'])->as('web.')->group(function() {
     // Premios
 
     Route::controller(PremioController::class)->group(function() {
-        Route::get('/ver-tabla-premios', 'verTablaPremios')->name('ver-tabla-premios');
+        Route::get('/recompensas', 'recompensas')->name('recompensas');
     });
 
     // Perfil

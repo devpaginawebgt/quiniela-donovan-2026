@@ -4,6 +4,7 @@ import './views/grupos.js';
 import './views/calendario.js';
 import './views/proximos-partidos.js';
 import './views/mis-predicciones.js';
+import './views/recompensas.js';
 
 // Helpers
 
