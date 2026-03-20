@@ -6,7 +6,7 @@
     <div id="modal-terms-backdrop" class="absolute inset-0 bg-black/70 opacity-0 transition-opacity duration-300"></div>
 
     {{-- Panel --}}
-    <div id="modal-terms-panel" class="relative bg-complementary-primary rounded-t-3xl sm:rounded-3xl overflow-hidden w-full sm:max-w-xl max-h-[90dvh] flex flex-col translate-y-full opacity-0 transition-[transform,opacity] duration-300 ease-out p-4">
+    <div id="modal-terms-panel" class="relative bg-complementary-primary rounded-t-3xl sm:rounded-3xl overflow-hidden w-full sm:max-w-3xl max-h-[90dvh] flex flex-col translate-y-full opacity-0 transition-[transform,opacity] duration-300 ease-out p-4">
 
         {{-- Header --}}
         <div class="shrink-0 pt-4 pb-4 px-6">

@@ -107,15 +107,15 @@
                                 </button>
                             </li>
                         </ul>
-                    </div>
+                    </div>            
 
                     {{-- Tab Content --}}
                     <div id="register-tab-content">
                         <div class="hidden" id="dependiente-panel" role="tabpanel" aria-labelledby="dependiente-tab">
-                            <x-register-dependent-form />
+                            <x-register-dependent-form :companies="$companies" :country="$country" />
                         </div>
                         <div class="hidden" id="doctor-panel" role="tabpanel" aria-labelledby="doctor-tab">
-                            <x-register-doctor-form />
+                            <x-register-doctor-form :visitors="$visitors" :country="$country" />
                         </div>
                     </div>
 

@@ -17,7 +17,9 @@ class VisitorController extends Controller
 
     public function index(Request $request)
     {   
-        $visitors = $this->visitorService->getVisitors($request);
+        $country_id = $request->input('country_id');
+
+        $visitors = $this->visitorService->getVisitorsByCountry($country_id);
 
         $visitors = VisitorResource::collection($visitors);
 

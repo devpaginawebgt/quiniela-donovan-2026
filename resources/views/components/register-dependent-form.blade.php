@@ -1,7 +1,7 @@
 <form
     method="POST"
     action="{{ route('register') }}"
-    class="formulario-auth grid grid-cols-1 md:grid-cols-2 gap-4 2xl:gap-6 w-full max-w-xl mx-auto"
+    class="formulario-auth grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-xl mx-auto"
 >
     @csrf
 
@@ -13,6 +13,8 @@
         id="dep_nombres"
         name="nombres"
         placeholder="Ingrese sus nombres"
+        minlength="2"
+        maxlength="60"
         :required="true"
     >
         <x-slot name="prefix">
@@ -27,6 +29,8 @@
         id="dep_apellidos"
         name="apellidos"
         placeholder="Ingrese sus apellidos"
+        minlength="2"
+        maxlength="60"
         :required="true"
     >
         <x-slot name="prefix">
@@ -41,7 +45,8 @@
         id="dep_numero_documento"
         name="numero_documento"
         placeholder="Ingrese su DPI"
-        maxlength="13"
+        minlength="6"
+        maxlength="20"
         :required="true"
     >
         <x-slot name="prefix">
@@ -57,6 +62,8 @@
         name="telefono"
         placeholder="Ingrese su teléfono"
         maxlength="8"
+        pattern="[0-9]{8}"
+        title="Solo se permiten 8 dígitos numéricos"
         :required="true"
     >
         <x-slot name="prefix">
@@ -72,6 +79,8 @@
         name="email"
         type="email"
         placeholder="correo@ejemplo.com"
+        minlength="5"
+        maxlength="255"
         :required="true"
     >
         <x-slot name="prefix">
@@ -80,47 +89,46 @@
             </svg>
         </x-slot>
     </x-auth-input>
-
-    @php
-        $paises = [1 => 'Guatemala', 2 => 'Honduras'];
-    @endphp
-    <x-auth-select label="País" id="dep_pais_id" name="pais_id" :required="true">
+        
+    <x-auth-select label="País" id="doc_pais_id" name="pais_id" :required="true">
         <x-slot name="prefix">
             <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M3 3v1.5M3 21v-6m0 0 2.77-.693a9 9 0 0 1 6.208.682l.108.054a9 9 0 0 0 6.086.71l3.114-.732a48.524 48.524 0 0 1-.005-10.499l-3.11.732a9 9 0 0 1-6.085-.711l-.108-.054a9 9 0 0 0-6.208-.682L3 4.5M3 15V4.5" />
             </svg>
         </x-slot>
-        @foreach ($paises as $value => $nombre_pais)
-            <option value="{{ $value }}" {{ old('pais_id') == $value ? 'selected' : '' }}>{{ $nombre_pais }}</option>
-        @endforeach
+        <option :value="$country->id" {{ old('pais_id') === $country->id ? 'selected' : '' }}>
+            {{ $country->name }}
+        </option>
     </x-auth-select>
 
-    <x-auth-input
-        label="Dirección del Dependiente"
-        id="dep_direccion"
-        name="direccion"
-        placeholder="Ingrese su dirección"
-        maxlength="200"
-        :required="true"
-    >
-        <x-slot name="prefix">
-            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
-            </svg>
-        </x-slot>
-    </x-auth-input>
+    <div class="col-span-2">
+        <x-auth-input
+            label="Dirección del Dependiente"
+            id="dep_direccion"
+            name="direccion"
+            placeholder="Ingrese su dirección"
+            minlength="5"
+            maxlength="255"
+            :required="true"
+        >
+            <x-slot name="prefix">
+                <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
+                </svg>
+            </x-slot>
+        </x-auth-input>
+    </div>
 
-    @php
-        $cadenas = [1 => 'Cadena 1', 2 => 'Cadena 2'];
-    @endphp
     <x-auth-select label="Cadena" id="dep_cadena" name="company_id" :required="true">
         <x-slot name="prefix">
             <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 21v-7.5a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 .75.75V21m-4.5 0H2.36m11.14 0H18m0 0h3.64m-1.39 0V9.349M3.75 21V9.349m0 0a3.001 3.001 0 0 0 3.75-.615A2.993 2.993 0 0 0 9.75 9.75c.896 0 1.7-.393 2.25-1.016a2.993 2.993 0 0 0 2.25 1.016c.896 0 1.7-.393 2.25-1.016A3.001 3.001 0 0 0 20.25 9.35m-16.5 0a3.004 3.004 0 0 1-2.25-1.016 2.993 2.993 0 0 1-1.5.266" />
             </svg>
         </x-slot>
-        @foreach ($cadenas as $value => $nombre_cadena)
-            <option value="{{ $value }}" {{ old('company_id') == $value ? 'selected' : '' }}>{{ $nombre_cadena }}</option>
+        @foreach ($companies as $company)
+            <option value="{{ $company->id }}" {{ old('company_id') == $company->id ? 'selected' : '' }}>
+                {{ $company->name }}
+            </option>
         @endforeach
     </x-auth-select>
 
@@ -128,7 +136,9 @@
         label="Sucursal"
         id="dep_sucursal"
         name="branch"
-        placeholder="Sucursal donde laboraz"
+        placeholder="Sucursal donde labora"
+        minlength="3"
+        maxlength="255"
         :required="true"
     >
         <x-slot name="prefix">

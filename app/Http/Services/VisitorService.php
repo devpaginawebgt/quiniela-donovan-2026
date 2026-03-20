@@ -8,10 +8,8 @@ use Illuminate\Http\Request;
 
 class VisitorService {
 
-    public function getVisitors(Request $request)
+    public function getVisitorsByCountry($country_id)
     {
-        $country_id = $request->input('country_id');
-
         return Visitor::where('is_active', true)
             ->when(is_numeric($country_id), function (Builder $query) use($country_id) {
                 return $query->where('country_id', $country_id);
