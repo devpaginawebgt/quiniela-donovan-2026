@@ -1,4 +1,4 @@
-import { initTermsModal } from './components/terms-modal';
+import { initTermsModal } from '../components/terms-modal';
 
 document.addEventListener('DOMContentLoaded', () => {
     initTermsModal();

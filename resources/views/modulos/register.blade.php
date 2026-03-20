@@ -9,7 +9,7 @@
 
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
 
-        @vite(['resources/css/app.css', 'resources/css/styles.css', 'resources/js/app.js', 'resources/js/register.js'])
+        @vite(['resources/css/app.css', 'resources/css/styles.css', 'resources/js/app.js', 'resources/js/views/register.js'])
     </head>
     <body class="font-sans text-light antialiased bg-complementary-primary">
         <div class="min-h-screen w-full flex flex-col justify-center items-center p-6">
