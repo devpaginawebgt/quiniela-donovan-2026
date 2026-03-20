@@ -37,6 +37,7 @@ export const initTermsModal = () => {
         btn.addEventListener('click', (e) => {
             e.preventDefault();
             activeForm = btn.closest('form');
+            if (!activeForm.reportValidity()) return;
             openModal();
         });
     });
