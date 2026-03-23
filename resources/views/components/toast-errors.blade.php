@@ -16,7 +16,7 @@
      aria-live="polite">
 
     @foreach ($allErrors as $index => $error)
-    <div class="toast-item flex items-center w-full p-4 rounded-lg shadow-lg bg-red-900/90 border border-complementary-dark/30 text-light"
+    <div class="toast-item flex items-center w-full p-4 rounded-lg shadow-lg bg-red-900 border border-complementary-dark/30 text-light"
          role="alert"
          style="animation: toast-slide-in 0.4s ease-out both; animation-delay: {{ $index * 100 }}ms;">
 

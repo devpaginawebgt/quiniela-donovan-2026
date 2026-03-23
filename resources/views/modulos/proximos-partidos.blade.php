@@ -1,6 +1,7 @@
 <x-app-layout>
     <div id="toast-container"
-         class="fixed top-4 left-1/2 -translate-x-1/2 z-50 flex flex-col items-center gap-3 w-full max-w-sm px-4 hidden"
+         class="fixed top-4 left-1/2 -translate-x-1/2 z-50 flex-col items-center gap-3 w-full max-w-sm px-4"
+         style="display: none;"
          aria-live="polite">
     </div>
 
@@ -56,36 +57,6 @@
                         @endforeach
                     </x-form-select>
                 </form>
-
-                @if(session('success'))
-                <div id="alert-success" class="flex items-center gap-3 w-full max-w-lg mx-auto mb-4 p-4 rounded-lg bg-green-700/20 border border-green-600 text-green-300" role="alert">
-                    <svg class="shrink-0 w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20"><path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/></svg>
-                    <span class="text-sm font-medium">{{ session('success') }}</span>
-                    <button type="button" class="ms-auto" data-dismiss-target="#alert-success" aria-label="Close">
-                        <svg class="w-3 h-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/></svg>
-                    </button>
-                </div>
-                @endif
-
-                @if(session('warning'))
-                <div id="alert-warning" class="flex items-center gap-3 w-full max-w-lg mx-auto mb-4 p-4 rounded-lg bg-yellow-400/10 border border-yellow-400 text-yellow-300" role="alert">
-                    <svg class="shrink-0 w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20"><path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM10 15a1 1 0 1 1 0-2 1 1 0 0 1 0 2Zm1-4a1 1 0 0 1-2 0V6a1 1 0 0 1 2 0v5Z"/></svg>
-                    <span class="text-sm font-medium">{{ session('warning') }}</span>
-                    <button type="button" class="ms-auto" data-dismiss-target="#alert-warning" aria-label="Close">
-                        <svg class="w-3 h-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/></svg>
-                    </button>
-                </div>
-                @endif
-
-                @if(session('error'))
-                <div id="alert-error" class="flex items-center gap-3 w-full max-w-lg mx-auto mb-4 p-4 rounded-lg bg-red-700/20 border border-red-600 text-red-300" role="alert">
-                    <svg class="shrink-0 w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20"><path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 11.793a1 1 0 1 1-1.414 1.414L10 11.414l-2.293 2.293a1 1 0 0 1-1.414-1.414L8.586 10 6.293 7.707a1 1 0 0 1 1.414-1.414L10 8.586l2.293-2.293a1 1 0 0 1 1.414 1.414L11.414 10l2.293 2.293Z"/></svg>
-                    <span class="text-sm font-medium">{{ session('error') }}</span>
-                    <button type="button" class="ms-auto" data-dismiss-target="#alert-error" aria-label="Close">
-                        <svg class="w-3 h-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/></svg>
-                    </button>
-                </div>
-                @endif
 
                 <form
                     id="formPredicionesWeb"
