@@ -104,4 +104,29 @@
 
         </div>
     </div>
+
+    {{-- Modal Resultado de Predicciones --}}
+    <div id="modal-resultado-predicciones" class="pointer-events-none fixed inset-0 z-50 flex items-end lg:items-center justify-center p-0 lg:p-4" style="display: none;">
+
+        {{-- Backdrop --}}
+        <div id="modal-resultado-backdrop" class="absolute inset-0 bg-black/70 opacity-0 transition-opacity duration-300"></div>
+
+        {{-- Panel --}}
+        <div id="modal-resultado-panel" class="relative bg-complementary-primary lg:rounded-3xl overflow-hidden w-full lg:max-w-4xl h-full lg:h-auto lg:max-h-[90dvh] flex flex-col opacity-0 transition-opacity duration-300 ease-out">
+
+            {{-- Header --}}
+            <div class="shrink-0 pt-6 pb-4 px-6 flex items-start justify-between gap-4">
+                <h2 class="text-xl lg:text-2xl font-bold text-light leading-tight">Resultado del registro de predicciones</h2>
+                <button type="button" id="modal-resultado-close" class="shrink-0 text-complementary-light hover:text-light transition-colors mt-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"><path fill="currentColor" d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12z"/></svg>
+                </button>
+            </div>
+
+            {{-- Scrollable cards container --}}
+            <div class="overflow-y-auto flex-1 px-6 py-4 pb-6">
+                <div id="modal-resultado-cards" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+            </div>
+
+        </div>
+    </div>
 </x-app-layout>
