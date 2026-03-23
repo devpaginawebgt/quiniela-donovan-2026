@@ -7,8 +7,6 @@ use App\Models\Equipo;
 use App\Models\EquipoPartido;
 use App\Models\Preccion;
 use App\Models\ResultadoPartido;
-use App\Models\User;
-use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -464,70 +462,29 @@ class PrediccionService {
     //     return $partidosJornada;
     // }
 
-    public function actualizarPuntosParticipantes($user_id)
+    public function actualizarPuntosParticipante($user_id)
     {
+        $predicciones = Preccion::where('user_id', $user_id)
+            ->where('status', 0)
+            ->whereHas('resultado')
+            ->with('resultado', 'user')
+            ->get();
 
-        $predicciones_resultados = DB::select(
-            "SELECT 
-                pre.id,
-                pre.goles_equipo_1 as p_equipo_1, 
-                pre.goles_equipo_2 as p_equipo_2, 
-                pre.partido_id,
-                res.goles_equipo_1,
-                res.goles_equipo_2
-            FROM 
-                preccions pre
-            INNER JOIN 
-                resultado_partidos res on pre.partido_id = res.partido_id
-            WHERE 
-                user_id = $user_id 
-            AND 
-                status = 0"
-        );
-
-        foreach ($predicciones_resultados as $prediccion) {
-
-            $usuario = User::find($user_id);
-
-            if ($prediccion->p_equipo_1 == $prediccion->goles_equipo_1 && $prediccion->p_equipo_2 == $prediccion->goles_equipo_2) {
-
-                $usuario->puntos += 5;
-                
-            } elseif (($prediccion->p_equipo_1 > $prediccion->p_equipo_2 && $prediccion->goles_equipo_1 > $prediccion->goles_equipo_2) &&
-                ($prediccion->p_equipo_1 == $prediccion->goles_equipo_1 || $prediccion->p_equipo_2 == $prediccion->goles_equipo_2)
-            ) {
-
-                $usuario->puntos += 4;
-                
-            } elseif (($prediccion->p_equipo_2 > $prediccion->p_equipo_1 && $prediccion->goles_equipo_2 > $prediccion->goles_equipo_1) &&
-                ($prediccion->p_equipo_1 == $prediccion->goles_equipo_1 || $prediccion->p_equipo_2 == $prediccion->goles_equipo_2)
-            ) {
-
-                $usuario->puntos += 4;
-                
-            } elseif (($prediccion->p_equipo_1 > $prediccion->p_equipo_2 && $prediccion->goles_equipo_1 > $prediccion->goles_equipo_2) ||
-                ($prediccion->p_equipo_2 > $prediccion->p_equipo_1 && $prediccion->goles_equipo_2 > $prediccion->goles_equipo_1)
-            ) {
-
-                $usuario->puntos += 2;
-                
-            } elseif ($prediccion->p_equipo_2 == $prediccion->p_equipo_1 && $prediccion->goles_equipo_2 == $prediccion->goles_equipo_1) {
-
-                $usuario->puntos += 2;
-                
-            } elseif ($prediccion->p_equipo_1 == $prediccion->goles_equipo_1 || $prediccion->p_equipo_2 == $prediccion->goles_equipo_2) {
-
-                $usuario->puntos += 1;
-                
-            } else {
-                $usuario->puntos += 0;
-                
-            }
-            $usuario->save();
-
-            $prediccion_guardada = Preccion::find($prediccion->id);
-            $prediccion_guardada->status = 1;
-            $prediccion_guardada->save();
+        if ($predicciones->isEmpty()) {
+            return;
         }
+
+        $usuario = $predicciones->first()->user;
+
+        foreach ($predicciones as $prediccion) {
+            $puntos = $this->getResultadoPrediccion($prediccion, $prediccion->resultado);
+
+            $usuario->puntos += $puntos;
+
+            $prediccion->status = 1;
+            $prediccion->save();
+        }
+
+        $usuario->save();
     }
 }

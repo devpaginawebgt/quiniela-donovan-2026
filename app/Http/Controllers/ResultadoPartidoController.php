@@ -172,7 +172,7 @@ class ResultadoPartidoController extends Controller
 
         // Actualizar puntos de usuario
 
-        $this->prediccionService->actualizarPuntosParticipantes($user_id);
+        $this->prediccionService->actualizarPuntosParticipante($user_id);
 
     }
 
@@ -518,7 +518,7 @@ class ResultadoPartidoController extends Controller
         );
         
         foreach ($users as $user) {
-            $this->prediccionService->actualizarPuntosParticipantes($user->id);
+            $this->prediccionService->actualizarPuntosParticipante($user->id);
         }
 
         return "10OK";
