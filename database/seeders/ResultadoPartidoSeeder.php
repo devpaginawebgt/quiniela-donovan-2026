@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\EquipoPartido;
 use App\Models\ResultadoPartido;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class ResultadoPartidoSeeder extends Seeder
@@ -13,97 +13,31 @@ class ResultadoPartidoSeeder extends Seeder
      */
     public function run(): void
     {
-        $resultados = [
-            // [
-            //     'partido_id' => 1,
-            //     'goles_equipo_1' => 1,
-            //     'goles_equipo_2' => 2,
-            //     'equipo_ganador_id' => 2,
-            // ],
-            // [
-            //     'partido_id' => 2 ,
-            //     'goles_equipo_1' => 2,
-            //     'goles_equipo_2' => 2,
-            //     'equipo_ganador_id' => null,
-            // ],
-            // [
-            //     'partido_id' => 3,
-            //     'goles_equipo_1' => 3,
-            //     'goles_equipo_2' => 0,
-            //     'equipo_ganador_id' => 5,
-            // ],
-            // [
-            //     'partido_id' => 4,
-            //     'goles_equipo_1' => 0,
-            //     'goles_equipo_2' => 1,
-            //     'equipo_ganador_id' => 8,
-            // ],
-            // [
-            //     'partido_id' => 5,
-            //     'goles_equipo_1' => 1,
-            //     'goles_equipo_2' => 1,
-            //     'equipo_ganador_id' => null,
-            // ],
-            // [
-            //     'partido_id' => 6,
-            //     'goles_equipo_1' => 0,
-            //     'goles_equipo_2' => 0,
-            //     'equipo_ganador_id' => null,
-            // ],
-            // [
-            //     'partido_id' => 7,
-            //     'goles_equipo_1' => 4,
-            //     'goles_equipo_2' => 2,
-            //     'equipo_ganador_id' => 11,
-            // ],
-            // [
-            //     'partido_id' => 8,
-            //     'goles_equipo_1' => 2,
-            //     'goles_equipo_2' => 3,
-            //     'equipo_ganador_id' => 16,
-            // ],
-            // [
-            //     'partido_id' => 9,
-            //     'goles_equipo_1' => 5,
-            //     'goles_equipo_2' => 1,
-            //     'equipo_ganador_id' => 23,
-            // ],
-            // [
-            //     'partido_id' => 10,
-            //     'goles_equipo_1' => 0,
-            //     'goles_equipo_2' => 2,
-            //     'equipo_ganador_id' => 19,
-            // ],
-            // [
-            //     'partido_id' => 11,
-            //     'goles_equipo_1' => 3,
-            //     'goles_equipo_2' => 3,
-            //     'equipo_ganador_id' => null,
-            // ],
-            // [
-            //     'partido_id' => 12,
-            //     'goles_equipo_1' => 1,
-            //     'goles_equipo_2' => 0,
-            //     'equipo_ganador_id' => 21,
-            // ],
-            // [
-            //     'partido_id' => 13,
-            //     'goles_equipo_1' => 2,
-            //     'goles_equipo_2' => 4,
-            //     'equipo_ganador_id' => 28,
-            // ],
-            // [
-            //     'partido_id' => 14,
-            //     'goles_equipo_1' => 3,
-            //     'goles_equipo_2' => 1,
-            //     'equipo_ganador_id' => 31,
-            // ],
-        ];
+        $equiposPartidos = EquipoPartido::whereHas('partido')->get();
 
-        foreach($resultados as $resultado) {
+        if ($equiposPartidos->isEmpty()) {
+            $this->command->warn('No hay partidos en la base de datos. Se omite la creación de resultados.');
+            return;
+        }
 
-            ResultadoPartido::create($resultado);
+        foreach ($equiposPartidos as $ep) {
+            $golesEquipo1 = fake()->numberBetween(0, 6);
+            $golesEquipo2 = fake()->numberBetween(0, 6);
 
+            // Determinar ganador (null si empate)
+            $ganadorId = null;
+            if ($golesEquipo1 > $golesEquipo2) {
+                $ganadorId = $ep->equipo_1;
+            } elseif ($golesEquipo2 > $golesEquipo1) {
+                $ganadorId = $ep->equipo_2;
+            }
+
+            ResultadoPartido::create([
+                'partido_id'     => $ep->partido_id,
+                'goles_equipo_1' => $golesEquipo1,
+                'goles_equipo_2' => $golesEquipo2,
+                'equipo_ganador_id' => $ganadorId,
+            ]);
         }
     }
 }

@@ -34,6 +34,10 @@
   - **Preferir componentes de Flowbite** para: modales, dropdowns, tabs, tooltips, badges, alerts, popovers, spinners, etc.
   - Documentación: https://flowbite.com/docs/
 
+## Frontend — JavaScript
+
+- **NO usar `var`**. Usar `const` por defecto y `let` solo cuando el valor cambie.
+
 ## Frontend — HTTP
 
 - **Axios** disponible globalmente como `window.axios`

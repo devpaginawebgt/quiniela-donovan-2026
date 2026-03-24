@@ -178,7 +178,7 @@
 
                     if (page === 1) {
                         renderPodio(data);
-                        var rest = data.filter(function (p) { return p.posicion > 3; });
+                        const rest = data.filter(function (p) { return p.posicion > 3; });
                         if (rest.length > 0) {
                             renderList(rest);
                         } else if (!hasMore) {

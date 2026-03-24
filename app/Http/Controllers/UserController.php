@@ -67,17 +67,22 @@ class UserController extends Controller
     public function getRanking(Request $request)
     {
         $user = $request->user();
-
         $id_pais = (int) $user->pais_id;
+        $perPage = (int) $request->query('perPage', 100);
 
-        $users = $this->userService->getRanking($id_pais);
+        $result = $this->userService->getRanking($id_pais, $perPage, [
+            'pais_id', 'numero_documento', 'email', 'telefono', 'created_at',
+        ]);
 
-        $users = $this->userService->setUserBrands($users, $id_pais);
+        $items = collect($result->items());
+        $items = $this->userService->setUserBrands($items, $id_pais);
 
-        $participantes = UserRankingResource::collection($users);
-
-        return $this->successResponse($participantes);
-
+        return $this->successResponse([
+            'users' => UserRankingResource::collection($items),
+            'has_more' => $result->hasMorePages(),
+            'current_page' => $result->currentPage(),
+            'next_page' => $result->hasMorePages() ? $result->currentPage() + 1 : null,
+        ]);
     }
 
     // Funciones para la web
@@ -108,11 +113,13 @@ class UserController extends Controller
         $id_pais = (int) $user->pais_id;
         $perPage = (int) $request->query('perPage', 100);
 
-        $result = $this->userService->getRankingWeb($id_pais, $perPage);
+        $result = $this->userService->getRanking($id_pais, $perPage);
 
         return $this->successResponse([
             'users' => $result->items(),
             'has_more' => $result->hasMorePages(),
+            'current_page' => $result->currentPage(),
+            'next_page' => $result->hasMorePages() ? $result->currentPage() + 1 : null,
         ]);
     }
 

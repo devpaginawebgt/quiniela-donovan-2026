@@ -33,30 +33,19 @@ class UserService {
             ->first();
     }
 
-    public function getRanking($id_pais)
-    {
-        $participantes = User::select('id', 'nombres', 'apellidos', 'pais_id', 'numero_documento', 'email', 'telefono', 'puntos', 'created_at')
-            ->selectRaw('RANK() OVER (ORDER BY puntos DESC, nombres ASC) as posicion')
-            ->has('predictions')
-            ->where('status_user', 1)
-            ->where('pais_id', $id_pais)
-            ->where('puntos', '>', 0)
-            ->get();
-
-        return $participantes;
-
-    }
-
     /**
-     * Obtiene el ranking web de participantes activos con predicciones, paginado.
+     * Obtiene el ranking de participantes activos con predicciones, paginado.
      *
-     * @param  int  $id_pais  ID del país para filtrar participantes.
-     * @param  int  $perPage  Cantidad de registros por página.
+     * @param  int    $id_pais   ID del país para filtrar participantes.
+     * @param  int    $perPage   Cantidad de registros por página.
+     * @param  array  $columns   Columnas adicionales a seleccionar.
      * @return \Illuminate\Contracts\Pagination\Paginator
      */
-    public function getRankingWeb($id_pais, $perPage = 100)
+    public function getRanking($id_pais, $perPage = 100, array $columns = [])
     {
-        return User::select('id', 'nombres', 'apellidos', 'puntos')
+        $select = array_merge(['id', 'nombres', 'apellidos', 'puntos'], $columns);
+
+        return User::select($select)
             ->selectRaw('RANK() OVER (ORDER BY puntos DESC, nombres ASC) as posicion')
             ->has('predictions')
             ->where('status_user', 1)

@@ -28,7 +28,7 @@ class ActualizarPuntosGlobal extends Command
     {
         try {
             $service = new PrediccionService();
-            $service->actualizarPuntosGlobal();
+            $service->actualizarPuntosGlobalChunked();
 
             $this->info('Puntos actualizados correctamente.');
         } catch (\Exception $e) {

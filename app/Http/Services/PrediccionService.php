@@ -414,4 +414,33 @@ class PrediccionService {
             $usuario->save();
         }
     }
+
+    /**
+     * Versión optimizada de actualizarPuntosGlobal usando chunks.
+     * Diseñada para el comando artisan con grandes volúmenes de datos.
+     */
+    public function actualizarPuntosGlobalChunked()
+    {
+        Preccion::where('status', 0)
+            ->whereHas('resultado')
+            ->with('resultado', 'user')
+            ->chunkById(500, function ($predicciones) {
+                $porUsuario = $predicciones->groupBy('user_id');
+                $prediccionIds = [];
+
+                foreach ($porUsuario as $prediccionesUsuario) {
+                    $usuario = $prediccionesUsuario->first()->user;
+                    $puntosTotal = 0;
+
+                    foreach ($prediccionesUsuario as $prediccion) {
+                        $puntosTotal += $this->getResultadoPrediccion($prediccion, $prediccion->resultado);
+                        $prediccionIds[] = $prediccion->id;
+                    }
+
+                    $usuario->increment('puntos', $puntosTotal);
+                }
+
+                Preccion::whereIn('id', $prediccionIds)->update(['status' => 1]);
+            });
+    }
 }
