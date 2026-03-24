@@ -3,6 +3,7 @@
 namespace App\Http\Resources\User;
 
 use App\Http\Resources\Brand\BrandResource;
+use App\Http\Resources\Country\CountryUserResource;
 use App\Http\Services\HelperService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -48,6 +49,7 @@ class UserRankingResource extends JsonResource
             'apellidos'     => $this->apellidos,
             'puntos'        => $this->puntos,
             'posicion'      => $this->posicion,
+            'pais'          => new CountryUserResource($this->country),
             'color'         => $color,
             'decoracion'    => $decoracion,
             'marca'         => $this->brand ? new BrandResource($this->brand) : null,

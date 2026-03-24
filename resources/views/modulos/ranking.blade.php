@@ -15,10 +15,10 @@
             {{-- 2° lugar (izquierda) --}}
             <div class="w-full max-w-40">
                 <div id="podio-2" style="display: none;" class="flex-col items-center">
-                    <span>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-[#C4C4C4]" viewBox="0 0 640 640"><path fill="currentColor" d="M208.3 64h224c26.5 0 48.1 21.8 47.1 48.2c-.2 5.3-.4 10.6-.7 15.8h49.6c26.1 0 49.1 21.6 47.1 49.8c-7.5 103.7-60.5 160.7-118 190.5c-15.8 8.2-31.9 14.3-47.2 18.8c-20.2 28.6-41.2 43.7-57.9 51.8V512h64c17.7 0 32 14.3 32 32s-14.3 32-32 32h-192c-17.7 0-32-14.3-32-32s14.3-32 32-32h64v-73.1c-16-7.7-35.9-22-55.3-48.3c-18.4-4.8-38.4-12.1-57.9-23.1C121 337.2 72.2 280.1 65.2 177.6c-1.9-28.1 21-49.7 47.1-49.7h49.6c-.3-5.2-.5-10.4-.7-15.8c-1-26.5 20.6-48.2 47.1-48.2zm-42.8 112h-52.4c6.2 84.7 45.1 127.1 85.2 149.6c-14.4-37.3-26.3-86-32.8-149.6M444 320.8c40.5-23.8 77.1-66.1 83.3-144.8H475c-6.2 60.9-17.4 108.2-31 144.8"/></svg>
+                    <span id="podio-2-trophy">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10" viewBox="0 0 640 640"><path fill="currentColor" d="M208.3 64h224c26.5 0 48.1 21.8 47.1 48.2c-.2 5.3-.4 10.6-.7 15.8h49.6c26.1 0 49.1 21.6 47.1 49.8c-7.5 103.7-60.5 160.7-118 190.5c-15.8 8.2-31.9 14.3-47.2 18.8c-20.2 28.6-41.2 43.7-57.9 51.8V512h64c17.7 0 32 14.3 32 32s-14.3 32-32 32h-192c-17.7 0-32-14.3-32-32s14.3-32 32-32h64v-73.1c-16-7.7-35.9-22-55.3-48.3c-18.4-4.8-38.4-12.1-57.9-23.1C121 337.2 72.2 280.1 65.2 177.6c-1.9-28.1 21-49.7 47.1-49.7h49.6c-.3-5.2-.5-10.4-.7-15.8c-1-26.5 20.6-48.2 47.1-48.2zm-42.8 112h-52.4c6.2 84.7 45.1 127.1 85.2 149.6c-14.4-37.3-26.3-86-32.8-149.6M444 320.8c40.5-23.8 77.1-66.1 83.3-144.8H475c-6.2 60.9-17.4 108.2-31 144.8"/></svg>
                     </span>
-    
+
                     <p id="podio-2-name" class="text-sm xl:text-base font-semibold text-center leading-tight my-1"></p>
     
                     <div class="border-t border-x border-secondary rounded-t-xl p-2 sm:p-4 pt-8 w-full text-center h-40 lg:h-52" style="background: linear-gradient(var(--color-complementary-primary), 88%, transparent);">
@@ -31,10 +31,10 @@
             {{-- 1° lugar (centro, más alto) --}}
             <div class="w-full max-w-40">
                 <div id="podio-1" style="display: none;" class="flex-col items-center">
-                    <span>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-18 h-18 text-[#EFBF04]" viewBox="0 0 640 640"><path fill="currentColor" d="M208.3 64h224c26.5 0 48.1 21.8 47.1 48.2c-.2 5.3-.4 10.6-.7 15.8h49.6c26.1 0 49.1 21.6 47.1 49.8c-7.5 103.7-60.5 160.7-118 190.5c-15.8 8.2-31.9 14.3-47.2 18.8c-20.2 28.6-41.2 43.7-57.9 51.8V512h64c17.7 0 32 14.3 32 32s-14.3 32-32 32h-192c-17.7 0-32-14.3-32-32s14.3-32 32-32h64v-73.1c-16-7.7-35.9-22-55.3-48.3c-18.4-4.8-38.4-12.1-57.9-23.1C121 337.2 72.2 280.1 65.2 177.6c-1.9-28.1 21-49.7 47.1-49.7h49.6c-.3-5.2-.5-10.4-.7-15.8c-1-26.5 20.6-48.2 47.1-48.2zm-42.8 112h-52.4c6.2 84.7 45.1 127.1 85.2 149.6c-14.4-37.3-26.3-86-32.8-149.6M444 320.8c40.5-23.8 77.1-66.1 83.3-144.8H475c-6.2 60.9-17.4 108.2-31 144.8"/></svg>
+                    <span id="podio-1-trophy">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-18 h-18" viewBox="0 0 640 640"><path fill="currentColor" d="M208.3 64h224c26.5 0 48.1 21.8 47.1 48.2c-.2 5.3-.4 10.6-.7 15.8h49.6c26.1 0 49.1 21.6 47.1 49.8c-7.5 103.7-60.5 160.7-118 190.5c-15.8 8.2-31.9 14.3-47.2 18.8c-20.2 28.6-41.2 43.7-57.9 51.8V512h64c17.7 0 32 14.3 32 32s-14.3 32-32 32h-192c-17.7 0-32-14.3-32-32s14.3-32 32-32h64v-73.1c-16-7.7-35.9-22-55.3-48.3c-18.4-4.8-38.4-12.1-57.9-23.1C121 337.2 72.2 280.1 65.2 177.6c-1.9-28.1 21-49.7 47.1-49.7h49.6c-.3-5.2-.5-10.4-.7-15.8c-1-26.5 20.6-48.2 47.1-48.2zm-42.8 112h-52.4c6.2 84.7 45.1 127.1 85.2 149.6c-14.4-37.3-26.3-86-32.8-149.6M444 320.8c40.5-23.8 77.1-66.1 83.3-144.8H475c-6.2 60.9-17.4 108.2-31 144.8"/></svg>
                     </span>
-    
+
                     <p id="podio-1-name" class="text-sm xl:text-base font-semibold text-center leading-tight my-1"></p>
     
                     <div class="border-t border-x border-secondary rounded-t-xl p-2 sm:p-4 pt-8 w-full text-center h-56 lg:h-72" style="background: linear-gradient(var(--color-complementary-primary), 93%, transparent);">
@@ -53,10 +53,10 @@
             {{-- 3° lugar (derecha) --}}
             <div class="w-full max-w-40">
                 <div id="podio-3" style="display: none;" class="flex-col items-center">
-                    <span>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-[#CE8946]" viewBox="0 0 640 640"><path fill="currentColor" d="M208.3 64h224c26.5 0 48.1 21.8 47.1 48.2c-.2 5.3-.4 10.6-.7 15.8h49.6c26.1 0 49.1 21.6 47.1 49.8c-7.5 103.7-60.5 160.7-118 190.5c-15.8 8.2-31.9 14.3-47.2 18.8c-20.2 28.6-41.2 43.7-57.9 51.8V512h64c17.7 0 32 14.3 32 32s-14.3 32-32 32h-192c-17.7 0-32-14.3-32-32s14.3-32 32-32h64v-73.1c-16-7.7-35.9-22-55.3-48.3c-18.4-4.8-38.4-12.1-57.9-23.1C121 337.2 72.2 280.1 65.2 177.6c-1.9-28.1 21-49.7 47.1-49.7h49.6c-.3-5.2-.5-10.4-.7-15.8c-1-26.5 20.6-48.2 47.1-48.2zm-42.8 112h-52.4c6.2 84.7 45.1 127.1 85.2 149.6c-14.4-37.3-26.3-86-32.8-149.6M444 320.8c40.5-23.8 77.1-66.1 83.3-144.8H475c-6.2 60.9-17.4 108.2-31 144.8"/></svg>
+                    <span id="podio-3-trophy">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10" viewBox="0 0 640 640"><path fill="currentColor" d="M208.3 64h224c26.5 0 48.1 21.8 47.1 48.2c-.2 5.3-.4 10.6-.7 15.8h49.6c26.1 0 49.1 21.6 47.1 49.8c-7.5 103.7-60.5 160.7-118 190.5c-15.8 8.2-31.9 14.3-47.2 18.8c-20.2 28.6-41.2 43.7-57.9 51.8V512h64c17.7 0 32 14.3 32 32s-14.3 32-32 32h-192c-17.7 0-32-14.3-32-32s14.3-32 32-32h64v-73.1c-16-7.7-35.9-22-55.3-48.3c-18.4-4.8-38.4-12.1-57.9-23.1C121 337.2 72.2 280.1 65.2 177.6c-1.9-28.1 21-49.7 47.1-49.7h49.6c-.3-5.2-.5-10.4-.7-15.8c-1-26.5 20.6-48.2 47.1-48.2zm-42.8 112h-52.4c6.2 84.7 45.1 127.1 85.2 149.6c-14.4-37.3-26.3-86-32.8-149.6M444 320.8c40.5-23.8 77.1-66.1 83.3-144.8H475c-6.2 60.9-17.4 108.2-31 144.8"/></svg>
                     </span>
-    
+
                     <p id="podio-3-name" class="text-sm xl:text-base font-semibold text-center leading-tight my-1"></p>
     
                     <div class="border-t border-x border-secondary rounded-t-xl p-2 sm:p-4 pt-8 w-full text-center h-28 lg:h-32" style="background: linear-gradient(var(--color-complementary-primary), 85%, transparent);">
@@ -123,11 +123,16 @@
                     const el = document.getElementById('podio-' + p.posicion);
                     const nameEl = document.getElementById('podio-' + p.posicion + '-name');
                     const pointsEl = document.getElementById('podio-' + p.posicion + '-points');
+                    const trophyEl = document.getElementById('podio-' + p.posicion + '-trophy');
 
                     if (el && nameEl && pointsEl) {
                         el.style.display = 'flex';
                         nameEl.textContent = p.nombres + ' ' + p.apellidos;
                         pointsEl.textContent = p.puntos + ' puntos';
+
+                        if (trophyEl) {
+                            trophyEl.style.color = p.color;
+                        }
                     }
                 });
             }
@@ -138,13 +143,8 @@
 
             function renderList(participantes) {
                 const html = participantes.map(function (p) {
-                    let color = '#FFFFFF';
-                    if (p.posicion === 1) color = '#EFBF04';
-                    else if (p.posicion === 2) color = '#C4C4C4';
-                    else if (p.posicion === 3) color = '#CE8946';
-
                     return '<div class="flex items-center gap-4 border border-secondary rounded-xl bg-complementary-primary px-4 py-3 w-full max-w-140">' +
-                        '<span class="flex items-center gap-2 text-lg font-bold min-w-16" style="color: ' + color + '">' +
+                        '<span class="flex items-center gap-2 text-lg font-bold min-w-16" style="color: ' + p.color + '">' +
                             medalSvg + p.posicion + ' °' +
                         '</span>' +
                         '<div class="flex-1 min-w-0">' +

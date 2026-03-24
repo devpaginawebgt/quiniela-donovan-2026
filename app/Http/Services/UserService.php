@@ -41,11 +41,9 @@ class UserService {
      * @param  array  $columns   Columnas adicionales a seleccionar.
      * @return \Illuminate\Contracts\Pagination\Paginator
      */
-    public function getRanking($id_pais, $perPage = 100, array $columns = [])
+    public function getRanking($id_pais, $perPage = 100)
     {
-        $select = array_merge(['id', 'nombres', 'apellidos', 'puntos'], $columns);
-
-        return User::select($select)
+        return User::select('id', 'nombres', 'apellidos', 'puntos', 'pais_id', 'numero_documento', 'email', 'telefono', 'created_at')
             ->selectRaw('RANK() OVER (ORDER BY puntos DESC, nombres ASC) as posicion')
             ->has('predictions')
             ->where('status_user', 1)

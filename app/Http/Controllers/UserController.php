@@ -70,18 +70,19 @@ class UserController extends Controller
         $id_pais = (int) $user->pais_id;
         $perPage = (int) $request->query('perPage', 100);
 
-        $result = $this->userService->getRanking($id_pais, $perPage, [
-            'pais_id', 'numero_documento', 'email', 'telefono', 'created_at',
-        ]);
+        $result = $this->userService->getRanking($id_pais, $perPage);
 
         $items = collect($result->items());
-        $items = $this->userService->setUserBrands($items, $id_pais);
+
+        if ($result->currentPage() === 1) {
+            $items = $this->userService->setUserBrands($items, $id_pais);
+        }
 
         return $this->successResponse([
-            'users' => UserRankingResource::collection($items),
             'has_more' => $result->hasMorePages(),
             'current_page' => $result->currentPage(),
             'next_page' => $result->hasMorePages() ? $result->currentPage() + 1 : null,
+            'users' => UserRankingResource::collection($items),
         ]);
     }
 
@@ -116,10 +117,10 @@ class UserController extends Controller
         $result = $this->userService->getRanking($id_pais, $perPage);
 
         return $this->successResponse([
-            'users' => $result->items(),
             'has_more' => $result->hasMorePages(),
             'current_page' => $result->currentPage(),
             'next_page' => $result->hasMorePages() ? $result->currentPage() + 1 : null,
+            'users' => UserRankingResource::collection($result->items()),
         ]);
     }
 
