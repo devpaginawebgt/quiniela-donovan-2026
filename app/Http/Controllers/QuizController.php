@@ -32,24 +32,18 @@ class QuizController extends Controller
         $last_attempt = $this->quizUserService->getLastAttempt($quiz->id);
 
         $current_attempts = $last_attempt ? $last_attempt->attempt_number : 0;
+        
+        $all_correct = $last_attempt && $last_attempt->responses->every(fn ($r) => $r->is_correct);
 
-        $quiz->retry = $current_attempts < $quiz->attempts;
+        $quiz->retry = $current_attempts < $quiz->attempts && !$all_correct;
 
         $quiz->attempt = $current_attempts + 1;
-        
+
         $quiz->last_attempt = $last_attempt;
 
         $quiz = new QuizResource($quiz);
-        
-        return $this->successResponse($quiz);
-    }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        
+        return $this->successResponse($quiz);
     }
 
     /**
@@ -74,7 +68,11 @@ class QuizController extends Controller
         $currentAttempts = !empty($lastAttempt) ? $lastAttempt->attempt_number : 0;
 
         if ($currentAttempts >= $quiz->attempts) {
-            return $this->errorResponse('Haz alcanzado el límite de intentos disponibles para esta trivia.', 422);
+            return $this->errorResponse('Has alcanzado el límite de intentos disponibles para esta trivia.', 422);
+        }
+
+        if ($lastAttempt && $lastAttempt->responses->every(fn ($r) => $r->is_correct)) {
+            return $this->errorResponse('Ya has respondido correctamente todas las preguntas de esta trivia.', 422);
         }
 
         $result = $this->quizUserService->validateAttempt($quiz, $data);
@@ -98,11 +96,12 @@ class QuizController extends Controller
         $last_attempt = $this->quizUserService->getLastAttempt($quiz->id);
 
         $current_attempts = $last_attempt ? $last_attempt->attempt_number : 0;
+        $all_correct = $last_attempt && $last_attempt->responses->every(fn ($r) => $r->is_correct);
 
-        $quiz->retry = $current_attempts < $quiz->attempts;
+        $quiz->retry = $current_attempts < $quiz->attempts && !$all_correct;
 
         $quiz->attempt = $current_attempts + 1;
-        
+
         $quiz->last_attempt = $last_attempt;
 
         $quiz = new QuizResource($quiz);
