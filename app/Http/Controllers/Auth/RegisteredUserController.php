@@ -33,7 +33,7 @@ class RegisteredUserController extends Controller
     {
         $ip = $request->ip();
         // $ip = '45.164.150.249'; // GT
-        $ip = '190.181.222.119'; // HN
+        // $ip = '190.181.222.119'; // HN
 
         $country_code = 'GT';
 
