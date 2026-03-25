@@ -91,4 +91,9 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Country::class, 'pais_id');
     }
+
+    public function quizzes(): HasMany
+    {
+        return $this->hasMany(QuizUser::class);
+    }
 }

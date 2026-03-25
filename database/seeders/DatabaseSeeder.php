@@ -35,6 +35,12 @@ class DatabaseSeeder extends Seeder
             // PrediccionSeeder::class,
             // ResultadoPartidoSeeder::class,
             PremioSeeder::class,
+
+            QuizSeeder::class,
+            QuizQuestionSeeder::class,
+            QuizOptionSeeder::class,
+            QuizUserSeeder::class,
+            QuizResponseSeeder::class,
         ]);
     }
 }
