@@ -14,6 +14,7 @@ class QuizResponseQuestionResource extends JsonResource
             'question'        => $this->question,
             'points'          => $this->points,
             'order'           => $this->order,
+            'correct_option' => !empty($this->correct_option) ? new QuizOptionResource($this->correct_option) : null,
             'success_message' => $this->success_message,
             'fail_message'    => $this->fail_message,
         ];

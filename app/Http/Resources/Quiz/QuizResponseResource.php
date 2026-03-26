@@ -17,9 +17,6 @@ class QuizResponseResource extends JsonResource
             'question'         => !empty($this->question) 
                                     ? new QuizResponseQuestionResource($this->question) 
                                     : null,
-            'correct_option'   => !empty($this->question->correct_option) 
-                                    ? new QuizOptionResource($this->question->correct_option) 
-                                    : null,
             'selected_option'  => !empty($this->option) 
                                     ? new QuizOptionResource($this->option) 
                                     : null,
