@@ -14,21 +14,17 @@ class QuizQuestionResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $correct_option = $this->options->first(function($option) {
-            return (int)$option->is_correct === 1;
-        });        
-
         return [
-            'id' => $this->id,
-            'question' => $this->question,
-            'points' => $this->points,
-            'order' => $this->order,
-            'correct_value' => $correct_option?->id,
+            'id'            => $this->id,
+            'question'      => $this->question,
+            'points'        => $this->points,
+            'order'         => $this->order,
 
-            'options' => !empty($this->options) ? QuizOptionResource::collection($this->options) : [],
+            'correct_option' => !empty($this->correct_option) ? new QuizOptionResource($this->correct_option) : null,
+            'options'        => !empty($this->options) ? QuizOptionResource::collection($this->options) : [],
 
             'success_message' => $this->success_message,
-            'fail_message' => $this->fail_message,
+            'fail_message'    => $this->fail_message,
         ];
     }
 }

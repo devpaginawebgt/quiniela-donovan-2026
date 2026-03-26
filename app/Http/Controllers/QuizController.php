@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Quiz\StoreQuizRequest;
+use App\Http\Resources\Quiz\QuizLAResource;
 use App\Http\Resources\Quiz\QuizResource;
 use App\Http\Services\QuizService;
 use App\Http\Services\QuizUserService;
@@ -40,8 +41,6 @@ class QuizController extends Controller
         $quiz->retry = $current_attempts < $quiz->attempts && !$all_correct;
 
         $quiz->attempt = $current_attempts + 1;
-
-        $quiz->last_attempt = $last_attempt;
 
         $quiz = new QuizResource($quiz);
 
@@ -108,6 +107,30 @@ class QuizController extends Controller
         $quiz->last_attempt = $last_attempt;
 
         $quiz = new QuizResource($quiz);
+
+        return $this->successResponse($quiz);
+    }
+
+    /**
+     * Display a listing of the resource.
+     */
+    public function lastAttempt(Request $request)
+    {
+        $quiz = $this->quizService->getCurrentQuiz();
+
+        if (empty($quiz)) {
+            return $this->errorResponse('No se ha encontrado una trivia activa.', 404);
+        }
+
+        $last_attempt = $this->quizUserService->getLastAttempt($quiz->id);
+
+        $current_attempts = $last_attempt ? $last_attempt->attempt_number : 0;
+        
+        $all_correct = $last_attempt && $last_attempt->responses->every(fn ($r) => $r->is_correct);
+
+        $last_attempt->retry = $current_attempts < $quiz->attempts && !$all_correct;
+
+        $quiz = new QuizLAResource($last_attempt);
 
         return $this->successResponse($quiz);
     }

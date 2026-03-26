@@ -10,10 +10,17 @@ class QuizLAResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'number' => $this->attempt_number,
-            'score' => $this->response_points,
+            'id'        => $this->id,
+            'quiz_id'   => $this->quiz->id,
+            'title'     => $this->quiz->name,
+            'retry'     => $this->retry,
+            'attempts'  => $this->quiz->attempts,
+            'attempt'   => $this->attempt_number,
+
+            'score'       => $this->response_points,
             'all_correct' => $this->responses->every(fn ($response) => $response->is_correct),
-            'results' => QuizLAQuestionResource::collection($this->responses),
+
+            'answers'  => !empty($this->responses) ? QuizResponseResource::collection($this->responses) : [],
         ];
     }
 }

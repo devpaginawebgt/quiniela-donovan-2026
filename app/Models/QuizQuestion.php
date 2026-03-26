@@ -33,7 +33,7 @@ class QuizQuestion extends Model
 
     public function options(): HasMany
     {
-        return $this->hasMany(QuizOption::class);
+        return $this->hasMany(QuizOption::class)->orderBy('order')->orderBy('id');
     }
 
     public function correct_option(): HasOne

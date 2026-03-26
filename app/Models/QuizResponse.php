@@ -30,11 +30,11 @@ class QuizResponse extends Model
 
     public function question(): BelongsTo
     {
-        return $this->belongsTo(QuizQuestion::class, 'quiz_question_id');
+        return $this->belongsTo(QuizQuestion::class, 'quiz_question_id')->orderBy('order')->orderBy('id');
     }
 
     public function option(): BelongsTo
     {
-        return $this->belongsTo(QuizOption::class, 'quiz_option_id');
+        return $this->belongsTo(QuizOption::class, 'quiz_option_id')->orderBy('order')->orderBy('id');
     }
 }

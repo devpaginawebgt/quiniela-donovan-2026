@@ -134,6 +134,7 @@ Route::middleware(['auth:sanctum'])->group(function() {
     Route::controller(QuizController::class)->prefix('trivia')->group(function() {
         Route::get('', 'index');
         Route::post('', 'store');
+        Route::get('last-attempt', 'lastAttempt');
     });
 
 });
