@@ -120,6 +120,10 @@ class QuizController extends Controller
 
         $last_attempt = $this->quizUserService->getLastAttempt($quiz->id);
 
+        if (empty($last_attempt)) {
+            return $this->successResponse(null, 200);
+        }
+
         $current_attempts = $last_attempt ? $last_attempt->attempt_number : 0;
         
         $all_correct = $last_attempt && $last_attempt->responses->every(fn ($r) => $r->is_correct);
