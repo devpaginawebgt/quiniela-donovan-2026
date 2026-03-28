@@ -7,7 +7,7 @@
             <h1 class="text-3xl font-bold text-light">{{ $quizLA->quiz->name }}</h1>
 
             <div class="flex justify-center my-4">
-                <span class="icon-[material-symbols--trophy] w-16 h-16 text-light"></span>
+                <span class="icon-[fa-solid--medal] w-16 h-16 text-light"></span>
             </div>
 
             <p class="text-3xl font-bold text-secondary">+{{ $quizLA->response_points }} puntos</p>

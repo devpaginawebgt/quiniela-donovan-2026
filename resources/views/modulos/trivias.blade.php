@@ -84,7 +84,7 @@
 
                 // Update percentage bar
                 function updateProgress() {
-                    const pct = Math.round((currentIndex / total) * 100);
+                    const pct = Math.round(((currentIndex + 1) / total) * 100);
                     progressLabel.textContent = `Pregunta ${currentIndex + 1} de ${total}`;
                     progressPercent.textContent = `${pct}%`;
                     progressBar.style.width = `${pct}%`;

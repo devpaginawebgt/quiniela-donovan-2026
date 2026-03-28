@@ -13,7 +13,7 @@
 
     {{-- Pregunta --}}
     <div class="flex items-start gap-3 mb-6">
-        <span class="icon-[fa-solid--quote-left] w-8 h-8 text-secondary shrink-0 mt-1"></span>
+        <span class="icon-[fa-solid--brain] w-8 h-8 text-secondary shrink-0 mt-1"></span>
         <h2 class="text-xl font-bold text-light">{{ $question['question'] }}</h2>
     </div>
 
