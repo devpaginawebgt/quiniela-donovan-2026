@@ -29,7 +29,7 @@
              style="background-image: url({{ asset('images/decoracion/main-bg.png') }});"></div>
         <div class="fixed inset-0 -z-10 bg-cover bg-center bg-complementary-primary hidden lg:block"
              style="background-image: url({{ asset('images/decoracion/bg-main-web.png') }});"></div>
-        <div class="fixed inset-0 -z-10 bg-black/60"></div>
+        <div class="fixed inset-0 -z-10 bg-black/65"></div>
 
         <div class="min-h-screen pb-16">
             <!-- Page Content -->

@@ -8,6 +8,7 @@ use App\Http\Controllers\ResultadoPartidoController;
 use App\Http\Controllers\EquipoController;
 use App\Http\Controllers\GrupoController;
 use App\Http\Controllers\JornadaController;
+use App\Http\Controllers\QuizController;
 use App\Http\Controllers\UserController;
 
 /*
@@ -54,6 +55,12 @@ Route::middleware(['auth'])->as('web.')->group(function() {
         Route::get('', function () {
             return redirect()->route('web.inicio.proximos-partidos');
         });
+
+        Route::controller(QuizController::class)->group(function() {
+            Route::get('trivia-puntos', 'lastAttemptWeb')->name('trivia-puntos');
+            Route::get('trivia', 'indexWeb')->name('trivia');
+            Route::post('trivia', 'store')->name('trivias.store');
+        });
     });
 
     // Selecciones
@@ -95,7 +102,7 @@ Route::middleware(['auth'])->as('web.')->group(function() {
 
     Route::controller(PremioController::class)->group(function() {
         Route::get('/recompensas', 'recompensas')->name('recompensas');
-    });    
+    });
 
     // Rutas para super-admin
 

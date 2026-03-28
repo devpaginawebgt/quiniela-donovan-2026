@@ -15,7 +15,7 @@ class QuizSeeder extends Seeder
     {
         $quizzes = [
             [ 
-                'name' => 'Primera Trivia',
+                'name' => 'GastroQuiz',
                 'attempts' => 3, 
                 'is_active' => 1 
             ],
