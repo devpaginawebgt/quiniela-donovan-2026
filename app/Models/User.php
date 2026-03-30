@@ -31,9 +31,12 @@ class User extends Authenticatable
         'direccion',
         'colegiado',
         'pais_id',
-        'puntos',
         'status_user',
         'user_type_id',
+
+        'puntos_trivias',
+        'puntos_predicciones',
+        'puntos',
 
         'region',
         'capital',
@@ -90,5 +93,10 @@ class User extends Authenticatable
     public function country(): BelongsTo
     {
         return $this->belongsTo(Country::class, 'pais_id');
+    }
+
+    public function quizzes(): HasMany
+    {
+        return $this->hasMany(QuizUser::class);
     }
 }

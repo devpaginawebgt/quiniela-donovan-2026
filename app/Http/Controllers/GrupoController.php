@@ -29,6 +29,8 @@ class GrupoController extends Controller
 
     public function getGrupos(Request $request)
     {
+        $this->partidoService->actualizarPuntosEquipos();
+        
         $grupos = $this->grupoService->getGrupos();
 
         $grupos = GrupoResource::collection($grupos);
@@ -92,6 +94,8 @@ class GrupoController extends Controller
 
     public function gruposWeb()
     {
+        $this->partidoService->actualizarPuntosEquipos();
+
         // Banners
 
         $banners = $this->moduleService->getBanners(11);
@@ -103,8 +107,6 @@ class GrupoController extends Controller
         $user = $this->userService->getUserRank($user);
 
         $user = $this->userService->getUserPredictionsCount($user);
-
-        $this->partidoService->actualizarPuntosEquipos();
 
         // Obtenemos los grupos disponibles
 

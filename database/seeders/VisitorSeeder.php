@@ -73,8 +73,21 @@ class VisitorSeeder extends Seeder
             [ 'name' => 'Mario José',        'lastname' => 'Ortiz Ruiz',           'country_id' => 1],
             [ 'name' => 'Humberto Josué',    'lastname' => 'Calderón Alvarado',    'country_id' => 1],
 
-            [ 'name' => 'Visitador',         'lastname' => 'PWG 1',                'country_id' => 2],
-            [ 'name' => 'Visitador',         'lastname' => 'PWG 2',                'country_id' => 2],
+            [ 'name' => 'Marcia',              'lastname' => 'Borjas',             'country_id' => 2],
+            [ 'name' => 'Manuel Armando',      'lastname' => 'Núñez Funes',        'country_id' => 2],
+            [ 'name' => 'Beatriz Alejandra',   'lastname' => 'Carrasco Avila',     'country_id' => 2],
+            [ 'name' => 'Josué Andrés',        'lastname' => 'Pineda Santos',      'country_id' => 2],
+            [ 'name' => 'Nolan Emil',          'lastname' => 'Rivas O\'Hara',      'country_id' => 2],
+            [ 'name' => 'Daisy Gabriela',      'lastname' => 'Perez',              'country_id' => 2],
+            [ 'name' => 'Nelly Esther',        'lastname' => 'Varela Valeriano',   'country_id' => 2],
+            [ 'name' => 'Myldred Yanely',      'lastname' => 'Aguirre Hernández',  'country_id' => 2],
+            [ 'name' => 'Karen Julissa',       'lastname' => 'Brizuela Garcia',    'country_id' => 2],
+            [ 'name' => 'Kellyn Nohemy',       'lastname' => 'Madrid González',    'country_id' => 2],
+            [ 'name' => 'Daniel Eduardo',      'lastname' => 'Rosales Canales',    'country_id' => 2],
+            [ 'name' => 'Pedro Enrique',       'lastname' => 'Chavarria Zavala',   'country_id' => 2],
+            [ 'name' => 'Derick Alberto',      'lastname' => 'Blackburn',          'country_id' => 2],
+            [ 'name' => 'Marta Karina',        'lastname' => 'Flores Inestroza',   'country_id' => 2],
+            [ 'name' => 'Naidelin Alejandra',  'lastname' => 'Quiroz Padilla',     'country_id' => 2],
         ];
 
         foreach($visitadores as $visitador) {

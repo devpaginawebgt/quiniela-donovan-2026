@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\Premio\PremioResource;
 use App\Http\Services\PremioService;
 use App\Http\Services\UserService;
+use App\Models\Brand;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -38,24 +39,23 @@ class PremioController extends Controller
 
     // Funciones para la web
 
-    public function verTablaPremios()
+    public function recompensas()
     {
-        
-        $id_pais = Auth::user()->pais_id;
+        $user = Auth::user();
+        $id_pais = $user->pais_id;
 
-        $premios = DB::select(
-            "SELECT 
-                * 
-            FROM 
-                premios 
-            WHERE 
-                pais_id = $id_pais"
-        );
+        $user = $this->userService->getUserRank($user);
+        $user = $this->userService->getUserPredictionsCount($user);
 
-        return view('modulos.tabla-premios', [
-            'premios' => $premios
+        $premios = $this->premioService->getPremios($id_pais);
+
+        $brands = Brand::all();
+
+        return view('modulos.recompensas', [
+            'premios' => $premios,
+            'brands' => $brands,
+            'user' => $user,
         ]);
-
     }
 
 }

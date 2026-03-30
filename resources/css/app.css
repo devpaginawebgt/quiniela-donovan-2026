@@ -1,9 +1,23 @@
 @import "tailwindcss";
 @import "./styles.css" layer(base);
 @plugin "flowbite/plugin";
+@plugin "@tailwindcss/typography";
+@plugin "@iconify/tailwind4";
 @source "../views/**/*.blade.php";
 @source "../../public/js/*.js";
 @source "../../node_modules/flowbite/dist/flowbite.js";
+
+[class*="brands-swiper-"][class*="-pagination"] .swiper-pagination-bullet,
+.carousel-home-banners .swiper-pagination-bullet,
+.carousel-section-banners .swiper-pagination-bullet {
+    background: var(--color-complementary-light);
+    opacity: 1;
+}
+[class*="brands-swiper-"][class*="-pagination"] .swiper-pagination-bullet-active,
+.carousel-home-banners .swiper-pagination-bullet-active,
+.carousel-section-banners .swiper-pagination-bullet-active {
+    background: var(--color-secondary);
+}
 
 @theme {
     --font-sans: 'Arial', ui-sans-serif, system-ui, sans-serif;

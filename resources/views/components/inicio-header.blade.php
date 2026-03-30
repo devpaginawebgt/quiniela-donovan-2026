@@ -15,7 +15,7 @@
     {{-- Flowbite scrollable pill tabs --}}
     <div class="overflow-x-auto pb-3 lg:pb-0 px-4">
 
-        <ul class="flex lg:justify-center gap-2 whitespace-nowrap text-sm lg:text-xs xl:text-sm font-medium px-4" role="tablist">
+        <ul class="flex lg:justify-center gap-2 whitespace-nowrap text-sm lg:text-xs xl:text-sm font-medium" role="tablist">
 
             <li role="presentation">
                 <a href="{{ route('web.inicio.proximos-partidos') }}"

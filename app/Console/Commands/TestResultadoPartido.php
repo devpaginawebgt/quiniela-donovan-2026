@@ -29,6 +29,10 @@ class TestResultadoPartido extends Command
     public function handle()
     {
 
+        $this->error('Comando deshabilitado.');
+    
+        return Command::FAILURE;
+
         $id_partido = (int) $this->option('partido');
 
         $id_jornada = (int) $this->option('jornada');

@@ -17,7 +17,9 @@ class CompanyController extends Controller
 
     public function index(Request $request)
     {   
-        $companies = $this->companyService->getCompanies($request);
+        $country_id = $request->input('country_id');
+
+        $companies = $this->companyService->getCompaniesByCountry($country_id);
 
         $companies = CompanyResource::collection($companies);
 

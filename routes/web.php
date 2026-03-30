@@ -32,6 +32,7 @@ Route::middleware(['auth'])->as('web.')->group(function() {
         Route::controller(ResultadoPartidoController::class)->group(function() {
             Route::get('proximos-partidos', 'proximosPartidosWeb')->name('proximos-partidos');
             Route::get('mis-predicciones', 'misPrediccionesWeb')->name('mis-predicciones');
+            Route::post('predicciones', 'savePrediccionesWeb')->name('save-predicciones');
         });
 
         Route::controller(JornadaController::class)->group(function() {
@@ -76,9 +77,8 @@ Route::middleware(['auth'])->as('web.')->group(function() {
     // Partidos y resultados
 
     Route::controller(ResultadoPartidoController::class)->group(function() {
-        Route::get('/ver-quiniela/{jornada?}/{message?}', 'verQuiniela')->name('ver-quiniela');
         Route::post('/guardar-predicciones-form', 'guardarPrediccionesForm')->name('guardar-predicciones-form');
-
+        // Route::get('/ver-quiniela/{jornada?}/{message?}', 'verQuiniela')->name('ver-quiniela');
         // Route::get('/ver-tabla-resultados', 'verTablaResultados')->name('ver-tabla-resultados');
         // Route::get('/obtener-tabla-participantes', 'obtenerParticipantes');
         // Route::post('/guardar-predicciones/', 'guardarPredicciones');
@@ -87,28 +87,23 @@ Route::middleware(['auth'])->as('web.')->group(function() {
 
     Route::controller(UserController::class)->as('users')->group(function() {
         Route::get('ranking', 'indexWeb')->name('.ranking');
+        Route::get('ranking/data', 'getRankingData')->name('.ranking.data');
+        Route::get('/perfil', 'perfil')->name('.perfil');
     });
 
     // Premios
 
     Route::controller(PremioController::class)->group(function() {
-        Route::get('/ver-tabla-premios', 'verTablaPremios')->name('ver-tabla-premios');
-    });
-
-    // Perfil
-
-    Route::get('/perfil', function () {
-        return view('modulos.perfil');
-    })->name('perfil');
-    
+        Route::get('/recompensas', 'recompensas')->name('recompensas');
+    });    
 
     // Rutas para super-admin
 
-    Route::controller(ResultadoPartidoController::class)->group(function() {
+    // Route::controller(ResultadoPartidoController::class)->group(function() {
 
-        Route::get('/actualizar-puntos-usuarios', 'actualizarPuntosParticipantesALL');
+    //     Route::get('/actualizar-puntos-usuarios', 'actualizarPuntosParticipantesALL');
 
-    });
+    // });
 
     Route::get('/', function () {
         return redirect()->route('web.inicio.proximos-partidos');
@@ -116,17 +111,21 @@ Route::middleware(['auth'])->as('web.')->group(function() {
 
 });
 
-Route::middleware(['guest'])->group(function() {
+// Route::middleware(['guest'])->group(function() {
 
-    // Participantes inscritos
+//     // Participantes inscritos
 
-    Route::controller(UserController::class)->group(function() {
-        Route::get('/participantes', 'verParticipantes')->name('ver-participantes');
-    });
+//     Route::controller(UserController::class)->group(function() {
+//         Route::get('/participantes', 'verParticipantes')->name('ver-participantes');
+//     });
 
-});
+// });
 
 // Los metodos post se cambiaron a put porque el servidor donde se alojara la aplicacion no permite post
 
+
+// Embed (público, sin auth — para Flutter WebView)
+
+Route::get('/embed/bracket', fn() => view('embed.bracket'))->name('embed.bracket');
 
 require __DIR__.'/auth.php';

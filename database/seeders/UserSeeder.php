@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -134,5 +135,13 @@ class UserSeeder extends Seeder
         ];
 
         DB::table('users')->insert($users);
+
+        // 500 dependientes (tipo 1) — mixto GT y HN
+        // User::factory()->count(250)->dependiente(paisId: 1)->create();
+        // User::factory()->count(250)->dependiente(paisId: 2)->create();
+
+        // 500 doctores (tipo 2) — mixto GT y HN
+        // User::factory()->count(250)->doctor(paisId: 1)->create();
+        // User::factory()->count(250)->doctor(paisId: 2)->create();
     }
 }

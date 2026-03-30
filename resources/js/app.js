@@ -1,8 +1,15 @@
 import './bootstrap';
-
-import Alpine from 'alpinejs';
 import 'flowbite';
+import { initToastErrors } from './components/toast-errors';
 
-window.Alpine = Alpine;
+document.addEventListener('DOMContentLoaded', () => {
+    initToastErrors();
+});
 
-Alpine.start();
+import Swiper from 'swiper';
+import { Autoplay, Pagination } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/pagination';
+
+Swiper.use([Autoplay, Pagination]);
+window.Swiper = Swiper;

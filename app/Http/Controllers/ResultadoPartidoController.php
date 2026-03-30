@@ -79,7 +79,7 @@ class ResultadoPartidoController extends Controller
 
         // Validar predicciones
 
-        $predicciones_nuevas = collect($request->predicciones);
+        $predicciones_nuevas = collect($request->validated()['predicciones']);
 
         $id_partidos = $predicciones_nuevas->map(function($prediccion) {
             return $prediccion['id_partido'];
@@ -104,7 +104,13 @@ class ResultadoPartidoController extends Controller
 
         }
 
-        $predicciones_guardadas = $this->prediccionService->savePredicciones($predicciones_nuevas, $predicciones_permitidas, $user_id);
+        $ids_permitidos = $predicciones_permitidas->pluck('partido_id')->toArray();
+
+        $predicciones_a_guardar = $predicciones_nuevas->filter(function ($prediccion) use ($ids_permitidos) {
+            return in_array($prediccion['id_partido'], $ids_permitidos);
+        });
+
+        $predicciones_guardadas = $this->prediccionService->savePredicciones($predicciones_a_guardar, $predicciones_permitidas, $user_id);
 
         $predicciones_guardadas = PrediccionSolicitudResource::collection($predicciones_guardadas);
 
@@ -166,46 +172,11 @@ class ResultadoPartidoController extends Controller
 
         // Actualizar puntos de usuario
 
-        $this->prediccionService->actualizarPuntosParticipantes($user_id);
+        $this->prediccionService->actualizarPuntosParticipante($user_id);
 
     }
 
     // Continua lógica de la web
-
-    public function verQuiniela($jornada = null, $message = '0OK')
-    {
-        $jornada = (int)$jornada;
-
-        // Actualizar información general
-
-        $user_id = Auth::user()->id;
-
-        $this->actualizacionDataGeneral($user_id);
-
-        // Obtenemos la información de la jornada a obtener
-
-        $jornadas = $this->partidoService->getJornadas();
-
-        $jornada_activa = $jornadas->firstWhere(function($jornada) {
-            return $jornada->is_current === true;
-        });
-
-        $jornada_filtrada = empty($jornada) ? $jornada_activa->id : $jornada;
-
-        // Obtener información de las predicciones realizadas por el usuario
-        
-        $partidosJornada = $this->prediccionService->getResultadosWeb($jornada_filtrada, $user_id);
-
-        return view('modulos.quiniela', [
-            'jornadas' => $jornadas,
-            'partidosJornada' => $partidosJornada, 
-            'jornada_activa' => $jornada_filtrada,
-            'message' => $message ?? '', 
-        ]);
-
-    }
-
-    // Funciones de la web
 
     public function proximosPartidosWeb(Request $request)
     {
@@ -280,189 +251,59 @@ class ResultadoPartidoController extends Controller
             'resultados'      => $resultados,
         ]);
     }
-    
-    public function guardarPrediccionesForm(Request $request)
+
+    public function savePrediccionesWeb(PrediccionRequest $request)
     {
-        try {
+        // Actualizar información general
 
-            $count_error = 0;
-            $message = "";
-            $fecha_actual = new DateTime('now');
+        $user = Auth::user();
 
-            foreach ($request->partidos as $partido_id) {
+        $user_id = $user->id;
 
-                $prediccion_equipo_1 = $request['prediccion_equipo1_' . $partido_id];
-                $prediccion_equipo_2 = $request['prediccion_equipo2_' . $partido_id];
+        $this->actualizacionDataGeneral($user_id);
 
-                if ($prediccion_equipo_1 === null || $prediccion_equipo_2 === null) {
-                    continue;
-                }
+        // Validar predicciones
 
-                $fecha_db = DB::select("select fecha_partido,estado FROM partidos WHERE id=" . $partido_id);
-                $fecha_partido = new DateTime($fecha_db[0]->fecha_partido);
-                $diff = $fecha_actual->diff($fecha_partido);
-                $diferencia_minutos = (($diff->days * 1440 + $diff->h * 60) + $diff->i);
-                
-                if($diff->format('%R') == "+"){
+        $predicciones_nuevas = collect($request->validated()['predicciones']);
 
-                    if ($diferencia_minutos < 10) {
-                        $count_error++;
-                    } else {
-                        DB::table('preccions')->updateOrInsert(
-                            [
-                                'user_id' => Auth::user()->id,
-                                'partido_id' => $partido_id
-                            ],
-                            [
-                                'goles_equipo_1' => $request['prediccion_equipo1_' . $partido_id],
-                                'goles_equipo_2' => $request['prediccion_equipo2_' . $partido_id]
-                            ]
-                        );
-                    }
-                }else{
-                    $count_error++;
-                }
-            }
+        $id_partidos = $predicciones_nuevas->map(function($prediccion) {
+            return $prediccion['id_partido'];
+        })->toArray();
 
-            if ($count_error == 0) {
-                $flash_type = 'success';
-                $flash_msg  = 'Se guardaron tus predicciones correctamente.';
-            } else {
-                $flash_type = 'warning';
-                $flash_msg  = 'Algunos pronósticos no se guardaron porque el partido ya está por iniciar.';
-            }
-        } catch (\Throwable $th) {
-            $flash_type = 'error';
-            $flash_msg  = 'Hubo un problema al guardar tus datos, inténtalo más tarde.';
+        // Obtener los partidos disponibles a predecir
+
+        $predicciones_usuario = $this->prediccionService->getPrediccionesById($id_partidos, $user_id);  
+
+        $validacion_predicciones = $this->prediccionService->validatePrediccionesUsuario($predicciones_nuevas, $predicciones_usuario);
+
+        $predicciones_rechazadas = PrediccionSolicitudResource::collection($validacion_predicciones['rechazadas']);
+
+        $predicciones_permitidas = $validacion_predicciones['permitidas'];
+
+        if ( $predicciones_permitidas->isEmpty() ) {
+
+            return $this->successResponse([
+                'prediccionesRechazadas' => $predicciones_rechazadas,
+                'prediccionesProcesadas' => []
+            ]);
+
         }
 
-        return redirect()->route('web.inicio.proximos-partidos', ['jornada' => $request->jornada])
-            ->with($flash_type, $flash_msg);
-    }
+        $ids_permitidos = $predicciones_permitidas->pluck('partido_id')->toArray();
 
-    // Lógica de API
+        $predicciones_a_guardar = $predicciones_nuevas->filter(function ($prediccion) use ($ids_permitidos) {
+            return in_array($prediccion['id_partido'], $ids_permitidos);
+        });
 
-    public function guardarPredicciones(Request $request)
-    {
-        try {
-            $count_error=0;
-            $message = "";
-            $fecha_actual = new DateTime('now');
+        $predicciones_guardadas = $this->prediccionService->savePredicciones($predicciones_a_guardar, $predicciones_permitidas, $user_id);
 
-            foreach ($request->partidos as $partido) {
-                $fecha_db = DB::select("select fecha_partido FROM partidos WHERE id=" . $partido['partido_id']);
-                $fecha_partido = new DateTime($fecha_db[0]->fecha_partido);
-                $diff = $fecha_actual->diff($fecha_partido);
-                $diferencia_minutos = (($diff->days * 1440 + $diff->h * 60) + $diff->i);
+        $predicciones_guardadas = PrediccionSolicitudResource::collection($predicciones_guardadas);
 
-                if ( $diferencia_minutos < 10) {
-                    $count_error++;
-                } else {
-                    DB::table('preccions')->where('status', "=", 0)
-                        ->updateOrInsert(
-                            [
-                                'user_id' => $request->user_id,
-                                'partido_id' => $partido['partido_id']
-                            ],
-                            [
-                                'goles_equipo_1' => $partido['marcador_equipo_1'],
-                                'goles_equipo_2' => $partido['marcador_equipo_2']
-                            ]
-                        );
-                }
-            }
+        return $this->successResponse([
+            'prediccionesRechazadas' => $predicciones_rechazadas,
+            'prediccionesProcesadas' => $predicciones_guardadas
+        ]);
 
-            if($count_error == 0){
-                $message = "1OK";
-            }else{
-                $message = "2OK";
-            }
-        } catch (\Throwable $th) {
-            $message = $th;
-        }
-
-        return json_encode($message);
-    }
-
-    public function obtenerPrediccionesGuardadas(Request $request)
-    {
-
-        $prediccionesPartidos = DB::select(
-            "SELECT 
-                p.goles_equipo_1,
-                p.goles_equipo_2,
-                p.partido_id,
-                par.jornada,
-                par.estado
-            FROM 
-                preccions p
-            INNER JOIN 
-                partidos par on p.partido_id = par.id 
-            WHERE 
-                par.jornada = $request->jornada 
-            AND 
-                p.user_id = $request->user_id"
-        );
-
-        return $prediccionesPartidos;
-
-    }
-
-    // public function obtenerParticipantes($user_id)
-    // {
-
-    //     $pais = DB::select(
-    //         "SELECT 
-    //             pais_id 
-    //         FROM 
-    //             users 
-    //         WHERE id = {$user_id}"
-    //     );
-
-    //     $id_pais = $pais[0]->pais_id;
-        
-    //     $participantes = DB::select(
-    //         "SELECT 
-    //             u.id,
-    //             u.nombres,
-    //             u.apellidos,
-    //             u.puntos,
-    //             u.email,
-    //             u.telefono,
-    //             u.numero_documento,
-    //             c.estado
-    //         FROM 
-    //             users u
-    //         INNER JOIN 
-    //             codigos c on u.codigo_id = c.id 
-    //         WHERE 
-    //             c.estado != 0 
-    //         AND 
-    //             u.pais_id = {$id_pais} 
-    //         AND
-    //             u.puntos > 0
-    //         ORDER BY 
-    //             u.puntos DESC"
-    //     );
-        
-    //     return json_encode($participantes);
-    // }
-    
-    public function actualizarPuntosParticipantesALL()
-    {
-        
-        $users = DB::select(
-            "SELECT 
-                id 
-            FROM 
-                users"
-        );
-        
-        foreach ($users as $user) {
-            $this->prediccionService->actualizarPuntosParticipantes($user->id);
-        }
-
-        return "10OK";
     }
         
 }

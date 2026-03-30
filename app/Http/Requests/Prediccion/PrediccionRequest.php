@@ -74,14 +74,22 @@ class PrediccionRequest extends FormRequest
     }
 
 
-    public function passedValidation()
+    public function validated($key = null, $default = null)
     {
+        $validated = parent::validated($key, $default);
+
+        if ($key !== null) {
+            return $validated;
+        }
+
         $data = [];
 
-        foreach($this->predicciones as $record) {
+        foreach($validated['predicciones'] as $record) {
             $data[] = HelperService::CamelCaseToSnake($record);
         }
 
-        $this->replace(['predicciones' => $data]);
+        $validated['predicciones'] = $data;
+
+        return $validated;
     }
 }

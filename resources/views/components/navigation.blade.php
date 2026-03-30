@@ -67,10 +67,10 @@
         </a>
 
         {{-- Recompensas --}}
-        <a href="{{ route('web.ver-tabla-premios') }}"
+        <a href="{{ route('web.recompensas') }}"
            class="flex flex-col items-center gap-1 text-xs font-medium transition-colors duration-150
-                  {{ request()->routeIs('web.ver-tabla-premios') ? 'text-complementary-light' : 'text-complementary-light hover:text-secondary' }}">
-            @if (request()->routeIs('web.ver-tabla-premios'))
+                  {{ request()->routeIs('web.recompensas') ? 'text-complementary-light' : 'text-complementary-light hover:text-secondary' }}">
+            @if (request()->routeIs('web.recompensas'))
                 <span class="bg-secondary rounded-full px-3 py-1 flex items-center gap-1 text-complementary-primary">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -94,7 +94,7 @@
         </a>
 
         {{-- Perfil --}}
-        <a href="{{ route('web.perfil') }}"
+        <a href="{{ route('web.users.perfil') }}"
            class="flex flex-col items-center gap-1 text-xs font-medium transition-colors duration-150
                   {{ request()->routeIs('web.perfil') ? 'text-complementary-light' : 'text-complementary-light hover:text-secondary' }}">
             @if (request()->routeIs('web.perfil'))

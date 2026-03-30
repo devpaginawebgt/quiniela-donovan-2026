@@ -22,17 +22,9 @@ Route::middleware('guest')->group(function () {
 
     Route::prefix('registro')->controller(RegisteredUserController::class)->as('register')->group(function() {
 
-        Route::get('dependiente', 'create')->name('.dependiente');
-    
-        Route::get('doctor', 'createDoctor')->name('.doctor');
+        Route::get('', 'create')->name('.index');
 
-        Route::post('dependiente', [RegisteredUserController::class, 'store'])->name('.dependiente');
-
-        Route::post('doctor', [RegisteredUserController::class, 'storeDoctor'])->name('.doctor');
-
-        Route::get('/', function () {
-            return redirect()->route('register.dependiente');
-        });
+        Route::post('', 'store');
      
     });
 

@@ -8,10 +8,8 @@ use Illuminate\Http\Request;
 
 class CompanyService {
 
-    public function getCompanies(Request $request)
+    public function getCompaniesByCountry($country_id)
     {
-        $country_id = $request->input('country_id');
-
         return Company::when(is_numeric($country_id), function (Builder $query) use($country_id) {
                 return $query->where('country_id', $country_id);
             })

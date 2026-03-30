@@ -32,9 +32,15 @@ class DatabaseSeeder extends Seeder
             JornadaSeeder::class,
             PartidoSeeder::class,
             EquipoPartidoSeeder::class,
-            ResultadoPartidoSeeder::class,
+            // PrediccionSeeder::class,
+            // ResultadoPartidoSeeder::class,
             PremioSeeder::class,
-            // PrediccionSeeder::class
+
+            QuizSeeder::class,
+            QuizQuestionSeeder::class,
+            QuizOptionSeeder::class,
+            QuizUserSeeder::class,
+            QuizResponseSeeder::class,
         ]);
     }
 }

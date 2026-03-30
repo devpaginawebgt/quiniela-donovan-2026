@@ -123,9 +123,13 @@
 
                 @if ($partido->estado === 0)
                     {{-- Equipo 1 input --}}
-                    <input type="number" name="partidos[]"
-                        value="{{ $registro->partido_id }}" hidden
-                        class="hidden partido-jornada-quiniela">
+                    <input
+                        type="number"
+                        name="partidos[]"
+                        value="{{ $registro->partido_id }}"
+                        hidden
+                        class="hidden partido-jornada-quiniela"
+                    >
 
                     <div class="flex items-center gap-2 lg:gap-4">
 
@@ -136,7 +140,8 @@
                         <input
                             type="number"
                             name="prediccion_equipo1_{{ $registro->partido_id }}"
-                            min="0" max="25"
+                            min="0"
+                            max="25"
                             value="{{ $prediccion_equipo_uno }}"
                             class="marcador-equipo-1 marcador-equipo border border-light text-light bg-complementary-primary/50 text-center rounded-lg hide-input-arrows w-10 h-9 lg:w-12 lg:h-12 text-base lg:text-xl font-bold"
                         >
@@ -147,7 +152,7 @@
 
                     </div>
 
-                    <span class="text-xl lg:text-2xl font-bold">:</span>
+                    <span class="text-xl lg:text-2xl font-bold"> : </span>
 
                     {{-- Equipo 2 input --}}
                     <div class="flex items-center gap-2 lg:gap-4">
@@ -159,7 +164,8 @@
                         <input
                             type="number"
                             name="prediccion_equipo2_{{ $registro->partido_id }}"
-                            min="0" max="25"
+                            min="0"
+                            max="25"
                             value="{{ $prediccion_equipo_dos }}"
                             class="marcador-equipo-2 marcador-equipo border border-light text-light bg-complementary-primary/50 text-center rounded-lg hide-input-arrows w-10 h-9 lg:w-12 lg:h-12 text-base lg:text-xl font-bold"
                         >

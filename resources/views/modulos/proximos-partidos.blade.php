@@ -1,37 +1,16 @@
 <x-app-layout>
+    <div id="toast-container"
+         class="fixed top-4 left-1/2 -translate-x-1/2 z-50 flex-col items-center gap-3 w-full max-w-sm px-4"
+         style="display: none;"
+         aria-live="polite">
+    </div>
+
     <x-inicio-header :activeTab="'proximos'" />
 
-    {{-- Banner Carousel --}}
-    @if($banners->isNotEmpty())
-    <div id="banners-carousel" class="relative w-full bg-complementary-primary" data-carousel="slide" data-carousel-interval="4000">
-        {{-- Slides --}}
-        <div class="relative overflow-hidden w-full max-w-480 mx-auto aspect-1080/660 lg:aspect-1920/700">
-            @foreach($banners as $index => $banner)
-            <div class="hidden duration-700 ease-in-out" data-carousel-item="{{ $index === 0 ? 'active' : '' }}">
-                <picture class="block w-full h-full">
-                    <source media="(min-width: 1024px)" srcset="{{ asset($banner->url_web) }}">
-                    <img src="{{ asset($banner->url) }}" class="block w-full h-full object-cover pointer-events-none" alt="{{ $banner->name }}">
-                </picture>
-            </div>
-            @endforeach
-        </div>
-        {{-- Indicators --}}
-        <div class="absolute z-30 flex -translate-x-1/2 bottom-3 left-1/2 gap-2">
-            @foreach($banners as $index => $banner)
-            <button
-                type="button"
-                class="w-2.5 h-2.5 rounded-full bg-white/50 hover:bg-white"
-                aria-current="{{ $index === 0 ? 'true' : 'false' }}"
-                aria-label="Slide {{ $index + 1 }}"
-                data-carousel-slide-to="{{ $index }}"
-            ></button>
-            @endforeach
-        </div>
-    </div>
-    @endif
+    <x-carousel-home-banners :banners="$banners" />
 
     <div class="max-w-screen-2xl my-6 mx-auto sm:px-6 lg:px-8" id="selecciones-container">
-        <div class="overflow-hidden shadow-sm sm:rounded-lg">
+        <div class="overflow-hidden">
             <div class="px-6 pb-6">
 
                 <h5 class="text-3xl 2xl:text-4xl text-center font-bold mt-8 mb-4">Próximos Partidos</h5>
@@ -52,37 +31,12 @@
                     </x-form-select>
                 </form>
 
-                @if(session('success'))
-                <div id="alert-success" class="flex items-center gap-3 w-full max-w-lg mx-auto mb-4 p-4 rounded-lg bg-green-700/20 border border-green-600 text-green-300" role="alert">
-                    <svg class="shrink-0 w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20"><path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/></svg>
-                    <span class="text-sm font-medium">{{ session('success') }}</span>
-                    <button type="button" class="ms-auto" data-dismiss-target="#alert-success" aria-label="Close">
-                        <svg class="w-3 h-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/></svg>
-                    </button>
-                </div>
-                @endif
-
-                @if(session('warning'))
-                <div id="alert-warning" class="flex items-center gap-3 w-full max-w-lg mx-auto mb-4 p-4 rounded-lg bg-yellow-400/10 border border-yellow-400 text-yellow-300" role="alert">
-                    <svg class="shrink-0 w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20"><path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM10 15a1 1 0 1 1 0-2 1 1 0 0 1 0 2Zm1-4a1 1 0 0 1-2 0V6a1 1 0 0 1 2 0v5Z"/></svg>
-                    <span class="text-sm font-medium">{{ session('warning') }}</span>
-                    <button type="button" class="ms-auto" data-dismiss-target="#alert-warning" aria-label="Close">
-                        <svg class="w-3 h-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/></svg>
-                    </button>
-                </div>
-                @endif
-
-                @if(session('error'))
-                <div id="alert-error" class="flex items-center gap-3 w-full max-w-lg mx-auto mb-4 p-4 rounded-lg bg-red-700/20 border border-red-600 text-red-300" role="alert">
-                    <svg class="shrink-0 w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20"><path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 11.793a1 1 0 1 1-1.414 1.414L10 11.414l-2.293 2.293a1 1 0 0 1-1.414-1.414L8.586 10 6.293 7.707a1 1 0 0 1 1.414-1.414L10 8.586l2.293-2.293a1 1 0 0 1 1.414 1.414L11.414 10l2.293 2.293Z"/></svg>
-                    <span class="text-sm font-medium">{{ session('error') }}</span>
-                    <button type="button" class="ms-auto" data-dismiss-target="#alert-error" aria-label="Close">
-                        <svg class="w-3 h-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/></svg>
-                    </button>
-                </div>
-                @endif
-
-                <form action="{{ route('web.guardar-predicciones-form') }}" method="POST">
+                <form
+                    id="formPredicionesWeb"
+                    action="{{ route('web.inicio.save-predicciones') }}"
+                    method="POST"
+                    data-url-predicciones="{{ route('web.inicio.save-predicciones') }}"
+                >
 
                     @csrf
 
@@ -119,6 +73,31 @@
                     @endif
 
                 </form>
+            </div>
+
+        </div>
+    </div>
+
+    {{-- Modal Resultado de Predicciones --}}
+    <div id="modal-resultado-predicciones" class="pointer-events-none fixed inset-0 z-50 flex items-end lg:items-center justify-center p-0 lg:p-4" style="display: none;">
+
+        {{-- Backdrop --}}
+        <div id="modal-resultado-backdrop" class="absolute inset-0 bg-black/70 opacity-0 transition-opacity duration-300"></div>
+
+        {{-- Panel --}}
+        <div id="modal-resultado-panel" class="relative bg-complementary-primary lg:rounded-3xl overflow-hidden w-full lg:max-w-4xl h-full lg:h-auto lg:max-h-[90dvh] flex flex-col opacity-0 transition-opacity duration-300 ease-out">
+
+            {{-- Header --}}
+            <div class="shrink-0 pt-6 pb-4 px-6 flex items-start justify-between gap-4">
+                <h2 class="text-xl lg:text-2xl font-bold text-light leading-tight">Resultado del registro de predicciones</h2>
+                <button type="button" id="modal-resultado-close" class="shrink-0 text-complementary-light hover:text-light transition-colors mt-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"><path fill="currentColor" d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12z"/></svg>
+                </button>
+            </div>
+
+            {{-- Scrollable cards container --}}
+            <div class="overflow-y-auto flex-1 px-6 py-4 pb-6">
+                <div id="modal-resultado-cards" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
             </div>
 
         </div>

@@ -10,6 +10,7 @@ use App\Http\Controllers\GrupoController;
 use App\Http\Controllers\JornadaController;
 use App\Http\Controllers\ModuleController;
 use App\Http\Controllers\PremioController;
+use App\Http\Controllers\QuizController;
 use App\Http\Controllers\ResultadoPartidoController;
 use App\Http\Controllers\TermsController;
 use App\Http\Controllers\UserController;
@@ -120,12 +121,20 @@ Route::middleware(['auth:sanctum'])->group(function() {
         Route::get('premios', 'getPremios');
     });
 
-    // Premios
+    // Predicciones
 
     Route::controller(ResultadoPartidoController::class)->prefix('predicciones')->group(function() {
         Route::post('', 'savePredicciones');
         Route::get('/{jornada}', 'getPredicciones');
         Route::get('/{jornada}/resultados', 'getResultados');
+    });
+
+    // Quiz
+
+    Route::controller(QuizController::class)->prefix('trivia')->group(function() {
+        Route::get('', 'index');
+        Route::post('', 'store');
+        Route::get('last-attempt', 'lastAttempt');
     });
 
 });

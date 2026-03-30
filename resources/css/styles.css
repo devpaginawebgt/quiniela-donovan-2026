@@ -34,6 +34,28 @@ html {
 
 }
 
+@keyframes toast-slide-in {
+    from {
+        transform: translateY(-1rem);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes toast-fade-out {
+    from {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateY(-0.5rem);
+        opacity: 0;
+    }
+}
+
 
 
 .animate-spin {
@@ -81,9 +103,9 @@ html {
     }
 }
 
-.formulario-auth input, .formulario-auth select {
+/* .formulario-auth input, .formulario-auth select {
     color: var(--dark-color)
-}
+} */
 
 
 .hide-input-arrows::-webkit-outer-spin-button,
