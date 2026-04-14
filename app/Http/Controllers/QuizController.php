@@ -21,6 +21,7 @@ class QuizController extends Controller
         private readonly UserService $userService,
         private readonly QuizUserService $quizUserService,
     ) {}
+
     /**
      * Display a listing of the resource.
      */
@@ -133,5 +134,62 @@ class QuizController extends Controller
         $quiz = new QuizLAResource($last_attempt);
 
         return $this->successResponse($quiz);
+    }
+
+    /**
+     * Show trivia view with active quiz data.
+    */
+    public function lastAttemptWeb(Request $request)
+    {
+        $quiz = $this->quizService->getCurrentQuiz();
+
+        if (empty($quiz)) {
+            return redirect()->route('web.inicio.trivia');
+        }
+
+        $last_attempt = $this->quizUserService->getLastAttempt($quiz->id);
+
+        if (empty($last_attempt)) {
+            return redirect()->route('web.inicio.trivia');
+        }
+
+        $current_attempts = $last_attempt ? $last_attempt->attempt_number : 0;
+        
+        $all_correct = $last_attempt && $last_attempt->responses->every(fn ($r) => $r->is_correct);
+
+        $last_attempt->retry = $current_attempts < $quiz->attempts && !$all_correct;
+
+        $quizLA = $last_attempt;
+
+        return view('modulos.trivias-puntos', compact('quizLA'));
+    }
+
+    /**
+     * Show trivia view with active quiz data.
+     */
+    public function indexWeb(Request $request)
+    {
+        $quiz_db = $this->quizService->getCurrentQuiz();
+
+        $quiz = null;
+
+        if ($quiz_db) {
+            $last_attempt = $this->quizUserService->getLastAttempt($quiz_db->id);
+
+            $current_attempts = $last_attempt ? $last_attempt->attempt_number : 0;
+            $all_correct = $last_attempt && $last_attempt->responses->every(fn ($r) => $r->is_correct);
+
+            $quiz_db->retry = $current_attempts < $quiz_db->attempts && !$all_correct;
+
+            if ($quiz_db->retry === false) {
+                return redirect()->route('web.inicio.trivia-puntos');
+            }
+
+            $quiz_db->attempt = $current_attempts + 1;
+
+            $quiz = (new QuizResource($quiz_db))->resolve();
+        }
+
+        return view('modulos.trivias', compact('quiz'));
     }
 }

@@ -52,6 +52,21 @@
             </li>
 
             <li role="presentation">
+                <a href="{{ route('web.inicio.trivia-puntos') }}"
+                   role="tab"
+                   aria-selected="{{ $activeTab === 'trivia' ? 'true' : 'false' }}"
+                   @if($activeTab === 'trivia') aria-current="page" @endif
+                   class="inline-flex items-center gap-1.5 lg:gap-1 xl:gap-1.5 px-4 lg:px-3 xl:px-4 py-2 lg:py-1.5 xl:py-2 rounded-full transition-colors
+                       {{ $activeTab === 'trivia'
+                           ? 'bg-secondary text-dark font-semibold'
+                           : 'text-complementary-light hover:bg-white/10 hover:text-light' }}"
+                >
+                    <span class="icon-[material-symbols--quiz-outline] w-4 h-4 lg:w-3.5 lg:h-3.5 xl:w-4 xl:h-4 shrink-0"></span>
+                    Trivia
+                </a>
+            </li>
+
+            <li role="presentation">
                 <a href="{{ route('web.inicio.calendario') }}"
                    role="tab"
                    aria-selected="{{ $activeTab === 'calendario' ? 'true' : 'false' }}"
