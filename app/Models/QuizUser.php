@@ -19,11 +19,13 @@ class QuizUser extends Pivot
         'quiz_id',
         'user_id',
         'attempt_number',
+        'all_correct',
         'response_points',
     ];
 
     protected $casts = [
-        'attempt_number' => 'integer',
+        'attempt_number'  => 'integer',
+        'all_correct'     => 'boolean',
         'response_points' => 'integer',
     ];
 

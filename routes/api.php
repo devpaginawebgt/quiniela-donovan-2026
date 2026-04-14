@@ -131,10 +131,11 @@ Route::middleware(['auth:sanctum'])->group(function() {
 
     // Quiz
 
-    Route::controller(QuizController::class)->prefix('trivia')->group(function() {
+    Route::controller(QuizController::class)->prefix('trivias')->group(function() {
         Route::get('', 'index');
         Route::post('', 'store');
-        Route::get('last-attempt', 'lastAttempt');
+        Route::get('/{id}', 'show');
+        Route::get('/{id}/last-attempt', 'lastAttempt');
     });
 
 });

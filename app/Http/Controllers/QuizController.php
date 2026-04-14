@@ -22,26 +22,35 @@ class QuizController extends Controller
         private readonly QuizUserService $quizUserService,
     ) {}
 
+    public function index() 
+    {
+        $quizzes = $this->quizService->getQuizzes();
+
+        if (empty($quizzes)) {
+            return $this->successResponse([]);
+        }
+
+        $quizzes = $this->quizUserService->showQuizzes($quizzes);
+
+        $quizzes = QuizResource::collection($quizzes);
+
+        return $this->successResponse($quizzes);
+    }
+
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function show(Request $request, string $id)
     {
-        $quiz = $this->quizService->getCurrentQuiz();
+        $quiz_id = (int)$id;
+
+        $quiz = $this->quizService->getQuizById($quiz_id);
 
         if (empty($quiz)) {
-            return $this->errorResponse('No se ha encontrado una trivia activa.', 404);
+            return $this->errorResponse('No se ha encontrado la información trivia.', 404);
         }
 
-        $last_attempt = $this->quizUserService->getLastAttempt($quiz->id);
-
-        $current_attempts = $last_attempt ? $last_attempt->attempt_number : 0;
-        
-        $all_correct = $last_attempt && $last_attempt->responses->every(fn ($r) => $r->is_correct);
-
-        $quiz->retry = $current_attempts < $quiz->attempts && !$all_correct;
-
-        $quiz->attempt = $current_attempts + 1;
+        $quiz = $this->quizUserService->showQuiz($quiz);
 
         $quiz = new QuizResource($quiz);
 
@@ -55,15 +64,7 @@ class QuizController extends Controller
     {
         $data = $request->validated();
 
-        $quiz = $this->quizService->getCurrentQuiz();
-
-        if (empty($quiz)) {
-            return $this->errorResponse('No se ha encontrado una trivia activa.', 404);
-        }
-
-        if ($quiz->id !== $data['quiz_id']) {
-            return $this->errorResponse('Esta trivia no se encuentra activa.', 422);
-        }
+        $quiz = $this->quizService->getQuizById($data['quiz_id']);
 
         $lastAttempt = $this->quizUserService->getLastAttempt($quiz->id);
 
@@ -97,11 +98,17 @@ class QuizController extends Controller
 
         $last_attempt = $this->quizUserService->getLastAttempt($quiz->id);
 
+        $best_attempt = $this->quizUserService->getBestAttempt($quiz->id);
+
         $current_attempts = $last_attempt ? $last_attempt->attempt_number : 0;
         
-        $all_correct = $last_attempt && $last_attempt->responses->every(fn ($r) => $r->is_correct);
+        $hasAnsweredCorrectly = $best_attempt ? $best_attempt->all_correct : false;
 
-        $last_attempt->retry = $current_attempts < $quiz->attempts && !$all_correct;
+        $last_attempt->retry = $current_attempts < $quiz->attempts && !$hasAnsweredCorrectly;
+
+        $last_attempt->current_points = $best_attempt ? $best_attempt->response_points : 0;
+
+        $last_attempt->hasAnsweredCorrectly = $hasAnsweredCorrectly;
 
         $quiz = new QuizLAResource($last_attempt);
 
@@ -111,12 +118,14 @@ class QuizController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function lastAttempt(Request $request)
+    public function lastAttempt(Request $request, string $id)
     {
-        $quiz = $this->quizService->getCurrentQuiz();
+        $quiz_id = (int)$id;
+
+        $quiz = $this->quizService->getQuizById($quiz_id);
 
         if (empty($quiz)) {
-            return $this->errorResponse('No se ha encontrado una trivia activa.', 404);
+            return $this->errorResponse('No se ha encontrado la información de la trivia.', 404);
         }
 
         $last_attempt = $this->quizUserService->getLastAttempt($quiz->id);
@@ -125,11 +134,17 @@ class QuizController extends Controller
             return $this->successResponse(null, 200);
         }
 
+        $best_attempt = $this->quizUserService->getBestAttempt($quiz->id);
+
         $current_attempts = $last_attempt ? $last_attempt->attempt_number : 0;
         
-        $all_correct = $last_attempt && $last_attempt->responses->every(fn ($r) => $r->is_correct);
+        $hasAnsweredCorrectly = $best_attempt ? $best_attempt->response_points : 0;
 
-        $last_attempt->retry = $current_attempts < $quiz->attempts && !$all_correct;
+        $last_attempt->retry = $current_attempts < $quiz->attempts && !$hasAnsweredCorrectly;
+
+        $last_attempt->current_points = $best_attempt ? $best_attempt->response_points : 0;
+
+        $last_attempt->hasAnsweredCorrectly = $hasAnsweredCorrectly;
 
         $quiz = new QuizLAResource($last_attempt);
 

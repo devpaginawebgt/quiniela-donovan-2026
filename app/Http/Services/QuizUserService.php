@@ -4,8 +4,19 @@ namespace App\Http\Services;
 
 use App\Models\Quiz;
 use App\Models\QuizUser;
+use Illuminate\Database\Eloquent\Collection;
 
 class QuizUserService {
+
+    public function getLastAttempts() {
+
+        $user = request()->user();
+
+        return $user->quizzes()
+            ->latest()
+            ->get()
+            ->unique('quiz_id');
+    }
 
     public function getLastAttempt(string|int $quiz_id)
     {
@@ -16,6 +27,78 @@ class QuizUserService {
             ->where('quiz_id', $quiz_id)
             ->latest()
             ->first();
+    }
+
+    public function getBestAttempts()
+    {
+        $user = request()->user();
+
+        return $user->quizzes()
+            ->orderBy('response_points', 'desc')
+            ->orderBy('created_at', 'desc')
+            ->get()
+            ->unique('quiz_id');
+    }
+
+    public function getBestAttempt(string|int $quiz_id)
+    {
+        $user = request()->user();
+
+        return $user->quizzes()
+            ->where('quiz_id', $quiz_id)
+            ->orderBy('response_points', 'desc')
+            ->orderBy('created_at', 'desc')
+            ->first();
+    }
+
+    public function showQuizzes(Collection $quizzes)
+    {
+        $last_attempts = $this->getLastAttempts();
+
+        $best_attempts = $this->getBestAttempts();
+
+        return $quizzes->map(function($quiz) use($last_attempts, $best_attempts) {
+
+            $last_attempt = $last_attempts->firstWhere('quiz_id', $quiz->id);
+
+            $best_attempt = $best_attempts->firstWhere('quiz_id', $quiz->id);
+
+            $current_attempts = $last_attempt ? $last_attempt->attempt_number : 0;
+
+            $hasAnsweredCorrectly = $best_attempt ? $best_attempt->all_correct : false;
+
+            $quiz->retry = $current_attempts < $quiz->attempts && !$hasAnsweredCorrectly;
+
+            $quiz->attempt = $current_attempts + 1;
+
+            $quiz->current_points = $best_attempt ? $best_attempt->response_points : 0;
+
+            $quiz->hasAnsweredCorrectly = $hasAnsweredCorrectly;
+
+            return $quiz;
+
+        });
+    }
+
+    public function showQuiz(Quiz $quiz)
+    {
+        $last_attempt = $this->getLastAttempt($quiz->id);
+
+        $best_attempt = $this->getBestAttempt($quiz->id);
+
+        $current_attempts = $last_attempt ? $last_attempt->attempt_number : 0;
+        
+        $hasAnsweredCorrectly = $best_attempt ? $best_attempt->all_correct : false;
+
+        $quiz->retry = $current_attempts < $quiz->attempts && !$hasAnsweredCorrectly;
+
+        $quiz->attempt = $current_attempts + 1;
+
+        $quiz->current_points = $best_attempt ? $best_attempt->response_points : 0;
+
+        $quiz->hasAnsweredCorrectly = $hasAnsweredCorrectly;
+
+        return $quiz;
     }
 
     public function validateAttempt(Quiz $quiz, array $data): array
@@ -99,7 +182,10 @@ class QuizUserService {
             $totalPoints += $pointsReceived;
         }
 
+        $all_correct = $quizUser->responses->every(fn ($r) => $r->is_correct);
+
         $quizUser->update([
+            'all_correct' => $all_correct,
             'response_points' => $totalPoints,
         ]);
 

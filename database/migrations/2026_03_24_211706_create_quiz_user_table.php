@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('quiz_id')->constrained()->onUpdate('cascade')->onDelete('restrict');
             $table->foreignId('user_id')->constrained()->onUpdate('cascade')->onDelete('restrict');
             $table->integer('attempt_number');
+            $table->boolean('all_correct')->default(false);
             $table->integer('response_points');
             $table->timestamps();
             $table->softDeletes();

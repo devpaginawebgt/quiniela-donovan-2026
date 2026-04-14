@@ -57,9 +57,10 @@ Route::middleware(['auth'])->as('web.')->group(function() {
         });
 
         Route::controller(QuizController::class)->group(function() {
-            Route::get('trivia-puntos', 'lastAttemptWeb')->name('trivia-puntos');
+
             Route::get('trivia', 'indexWeb')->name('trivia');
             Route::post('trivia', 'store')->name('trivias.store');
+            Route::get('trivia-puntos', 'lastAttemptWeb')->name('trivia-puntos');
         });
     });
 
