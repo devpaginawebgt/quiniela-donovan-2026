@@ -15,12 +15,12 @@ class QuizLAResource extends JsonResource
             'title'                => $this->quiz->name,
             'retry'                => $this->retry,
             'attempts'             => $this->quiz->attempts,
-            'attempt'              => $this->attempt_number,
+            'attempt'              => $this->attempt,
             'current_points'       => $this->current_points ?? 0,
             'hasAnsweredCorrectly' => $this->hasAnsweredCorrectly ?? false,
 
             'score'       => $this->response_points,
-            'all_correct' => $this->responses->every(fn ($response) => $response->is_correct),
+            'all_correct' => $this->all_correct,
 
             'answers'  => !empty($this->responses) ? QuizResponseResource::collection($this->responses) : [],
         ];
