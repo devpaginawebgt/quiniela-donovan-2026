@@ -36,6 +36,7 @@ class User extends Authenticatable
 
         'puntos_trivias',
         'puntos_predicciones',
+        'puntos_bonus',
         'puntos',
 
         'region',
@@ -98,5 +99,10 @@ class User extends Authenticatable
     public function quizzes(): HasMany
     {
         return $this->hasMany(QuizUser::class);
+    }
+
+    public function bonuses(): HasMany
+    {
+        return $this->hasMany(BonusUser::class);
     }
 }

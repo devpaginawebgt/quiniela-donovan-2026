@@ -384,35 +384,9 @@ class PrediccionService {
             $prediccion->save();
         }
 
-        $puntos_trivias = $usuario->puntos_trivias ?? 0 ;
-
-        $puntos_predicciones = $usuario->puntos_predicciones ?? 0;
-
-        $usuario->puntos = $puntos_trivias + $puntos_predicciones;
+        $usuario->puntos = $usuario->puntos_bonus + $usuario->puntos_trivias + $usuario->puntos_predicciones;
 
         $usuario->save();
-    }
-
-    public function actualizarPuntosGlobal()
-    {
-        $predicciones = Preccion::where('status', 0)
-            ->whereHas('resultado')
-            ->with('resultado', 'user')
-            ->get()
-            ->groupBy('user_id');
-
-        foreach ($predicciones as $userId => $prediccionesUsuario) {
-            $usuario = $prediccionesUsuario->first()->user;
-
-            foreach ($prediccionesUsuario as $prediccion) {
-                $puntos = $this->getResultadoPrediccion($prediccion, $prediccion->resultado);
-                $usuario->puntos_predicciones += $puntos;
-                $prediccion->status = 1;
-                $prediccion->save();
-            }
-
-            $usuario->save();
-        }
     }
 
     /**
@@ -438,6 +412,8 @@ class PrediccionService {
                     }
 
                     $usuario->increment('puntos_predicciones', $puntosTotal);
+                    $usuario->puntos = $usuario->puntos_bonus + $usuario->puntos_trivias + $usuario->puntos_predicciones;
+                    $usuario->save();
                 }
 
                 Preccion::whereIn('id', $prediccionIds)->update(['status' => 1]);

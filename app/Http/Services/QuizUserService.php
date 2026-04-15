@@ -209,7 +209,7 @@ class QuizUserService {
 
         $user->puntos_trivias = $puntos_trivias;
 
-        $user->puntos = $puntos_trivias + ($user->puntos_predicciones ?? 0);
+        $user->puntos = $user->puntos_bonus + $user->puntos_trivias + $user->puntos_predicciones;
 
         $user->save();
     }
