@@ -96,12 +96,7 @@ class PartidoService {
     public function actualizarPuntosEquipos()
     {
         $partidosJugados = EquipoPartido::select('id', 'equipo_1', 'equipo_2', 'partido_id')
-            ->with([
-                'partido:id,estado',
-                'equipoUno:id,nombre,goles_favor,goles_contra,partidos_jugados,partidos_ganados,partidos_perdidos,partidos_empatados,puntos',
-                'equipoDos:id,nombre,goles_favor,goles_contra,partidos_jugados,partidos_ganados,partidos_perdidos,partidos_empatados,puntos',
-                'resultado:id,partido_id,goles_equipo_1,goles_equipo_2',
-            ])
+            ->with(['partido', 'equipoUno', 'equipoDos', 'resultado'])
             ->has('resultado')
             ->whereHas('partido', function(Builder $query) {
                 $query->whereNot('estado', 1);
@@ -113,18 +108,18 @@ class PartidoService {
             $equipo1 = $partido->equipoUno;
             $equipo2 = $partido->equipoDos;
 
-            $goles_e1 = $partido->resultado->goles_equipo_1;
-            $goles_e2 = $partido->resultado->goles_equipo_2;
+            $goles_e1 = (int)$partido->resultado->goles_equipo_1;
+            $goles_e2 = (int)$partido->resultado->goles_equipo_2;
 
             // Goles a favor y en contra
 
-            $equipo1->goles_favor += $goles_e1;
-            $equipo1->goles_contra += $goles_e2;
-            $equipo1->partidos_jugados += 1;
+            $equipo1->increment('goles_favor', $goles_e1);
+            $equipo1->increment('goles_contra', $goles_e2);
+            $equipo1->increment('partidos_jugados');
 
-            $equipo2->goles_favor += $goles_e2;
-            $equipo2->goles_contra += $goles_e1;
-            $equipo2->partidos_jugados += 1;
+            $equipo2->increment('goles_favor', $goles_e2);
+            $equipo2->increment('goles_contra', $goles_e1);
+            $equipo2->increment('partidos_jugados');
 
             // Determinar resultado
 
@@ -133,25 +128,21 @@ class PartidoService {
             $empate = $goles_e1 === $goles_e2;
 
             if ($gano_equipo_1) {
-                $equipo1->partidos_ganados += 1;
-                $equipo1->puntos += 3;
-                $equipo2->partidos_perdidos += 1;
+                $equipo1->increment('partidos_ganados');
+                $equipo1->increment('puntos', 3);
+                $equipo2->increment('partidos_perdidos');
             } elseif ($gano_equipo_2) {
-                $equipo2->partidos_ganados += 1;
-                $equipo2->puntos += 3;
-                $equipo1->partidos_perdidos += 1;
+                $equipo2->increment('partidos_ganados');
+                $equipo2->increment('puntos', 3);
+                $equipo1->increment('partidos_perdidos');
             } elseif ($empate) {
-                $equipo1->partidos_empatados += 1;
-                $equipo1->puntos += 1;
-                $equipo2->partidos_empatados += 1;
-                $equipo2->puntos += 1;
+                $equipo1->increment('partidos_empatados');
+                $equipo1->increment('puntos');
+                $equipo2->increment('partidos_empatados');
+                $equipo2->increment('puntos');
             }
 
-            $equipo1->save();
-            $equipo2->save();
-
             // Marcar partido como procesado
-
             $partido->partido->estado = 1;
             $partido->partido->jugado = 1;
             $partido->partido->save();
