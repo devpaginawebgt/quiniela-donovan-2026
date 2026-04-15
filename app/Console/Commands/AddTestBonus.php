@@ -39,7 +39,7 @@ class AddTestBonus extends Command
             'name' => 'Test bonus',
             'code' => 'test-bonus',
             'description' => 'Bonus creado para testear puntos adicionales',
-            'puntos' => 3,
+            'puntos' => 1,
         ]);
 
         if (empty($bonus)) {
