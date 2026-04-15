@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Quiz\StoreQuizRequest;
 use App\Http\Resources\Quiz\QuizLAResource;
+use App\Http\Resources\Quiz\QuizListItemResource;
 use App\Http\Resources\Quiz\QuizResource;
 use App\Http\Services\QuizService;
 use App\Http\Services\QuizUserService;
@@ -32,7 +33,7 @@ class QuizController extends Controller
 
         $quizzes = $this->quizUserService->showQuizzes($quizzes);
 
-        $quizzes = QuizResource::collection($quizzes);
+        $quizzes = QuizListItemResource::collection($quizzes);
 
         return $this->successResponse($quizzes);
     }
