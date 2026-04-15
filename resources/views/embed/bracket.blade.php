@@ -141,12 +141,12 @@
                         @for ($i = 0; $i < count($ronda['partidos']); $i += 2)
                             <div class="flex items-center">
                                 <div class="flex flex-col">
-                                    <div class="w-6 border-t-2 border-r-2 border-complementary-dark/50 rounded-tr"
+                                    <div class="w-6 border-t-2 border-r-2 border-complementary-light/40 rounded-tr"
                                          style="height: {{ pow(2, $rondaIndex) * 1.5 + 1 }}rem;"></div>
-                                    <div class="w-6 border-b-2 border-r-2 border-complementary-dark/50 rounded-br"
+                                    <div class="w-6 border-b-2 border-r-2 border-complementary-light/40 rounded-br"
                                          style="height: {{ pow(2, $rondaIndex) * 1.5 + 1 }}rem;"></div>
                                 </div>
-                                <div class="w-6 border-t-2 border-complementary-dark/50"></div>
+                                <div class="w-6 border-t-2 border-complementary-light/40"></div>
                             </div>
                         @endfor
                     </div>
