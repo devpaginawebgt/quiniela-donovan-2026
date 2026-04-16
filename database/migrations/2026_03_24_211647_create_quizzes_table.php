@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->integer('attempts');
+            $table->integer('points');
             $table->boolean('is_active')->default(false);
             $table->timestamps();
             $table->softDeletes();

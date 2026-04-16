@@ -69,13 +69,13 @@ class QuizController extends Controller
 
         $lastAttempt = $this->quizUserService->getLastAttempt($quiz->id);
 
-        $currentAttempts = !empty($lastAttempt) ? $lastAttempt->attempt_number : 0;
+        $current_attempt = $lastAttempt ? $lastAttempt->attempt_number + 1 : 1;
 
-        if ($currentAttempts >= $quiz->attempts) {
+        if ($current_attempt > $quiz->attempts) {
             return $this->errorResponse('Has alcanzado el límite de intentos disponibles para esta trivia.', 422);
         }
 
-        if ($lastAttempt && $lastAttempt->responses->every(fn ($r) => $r->is_correct)) {
+        if ($lastAttempt && $lastAttempt->all_correct === true) {
             return $this->errorResponse('Ya has respondido correctamente todas las preguntas de esta trivia.', 422);
         }
 
@@ -91,8 +91,6 @@ class QuizController extends Controller
 
         }
 
-        $current_attempt = $currentAttempts + 1;
-
         $this->quizUserService->createAttempt($quiz, $data['answers'], $current_attempt);
 
         // Formar respuesta API
@@ -101,21 +99,21 @@ class QuizController extends Controller
 
         $best_attempt = $this->quizUserService->getBestAttempt($quiz->id);
 
-        $current_attempts = $last_attempt ? $last_attempt->attempt_number : 0;
-        
+        $next_attempt_number = $last_attempt ? $last_attempt->attempt_number + 1 : 1;
+
         $hasAnsweredCorrectly = $best_attempt ? $best_attempt->all_correct : false;
 
-        $last_attempt->attempt = $current_attempts + 1;
+        $last_attempt->retry = $next_attempt_number <= $quiz->attempts && !$hasAnsweredCorrectly;
 
-        $last_attempt->retry = $current_attempts < $quiz->attempts && !$hasAnsweredCorrectly;
+        $last_attempt->current_score = $best_attempt ? $best_attempt->response_points : 0;
 
-        $last_attempt->current_points = $best_attempt ? $best_attempt->response_points : 0;
+        $last_attempt->next_attempt_number = $next_attempt_number;
 
-        $last_attempt->hasAnsweredCorrectly = $hasAnsweredCorrectly;
+        $last_attempt->has_answered_correctly = $hasAnsweredCorrectly;
 
-        $quiz = new QuizLAResource($last_attempt);
+        $last_attempt = new QuizLAResource($last_attempt);
 
-        return $this->successResponse($quiz);
+        return $this->successResponse($last_attempt);
     }
 
     /**
@@ -139,21 +137,21 @@ class QuizController extends Controller
 
         $best_attempt = $this->quizUserService->getBestAttempt($quiz->id);
 
-        $current_attempts = $last_attempt ? $last_attempt->attempt_number : 0;
-        
+        $next_attempt_number = $last_attempt ? $last_attempt->attempt_number + 1 : 1;
+
         $hasAnsweredCorrectly = $best_attempt ? $best_attempt->all_correct : false;
 
-        $last_attempt->attempt = $current_attempts + 1;
+        $last_attempt->retry = $next_attempt_number < $quiz->attempts && !$hasAnsweredCorrectly;
 
-        $last_attempt->retry = $current_attempts < $quiz->attempts && !$hasAnsweredCorrectly;
+        $last_attempt->current_score = $best_attempt ? $best_attempt->response_points : 0;
 
-        $last_attempt->current_points = $best_attempt ? $best_attempt->response_points : 0;
+        $last_attempt->next_attempt_number = $next_attempt_number;
 
-        $last_attempt->hasAnsweredCorrectly = $hasAnsweredCorrectly;
+        $last_attempt->has_answered_correctly = $hasAnsweredCorrectly;
 
-        $quiz = new QuizLAResource($last_attempt);
+        $last_attempt = new QuizLAResource($last_attempt);
 
-        return $this->successResponse($quiz);
+        return $this->successResponse($last_attempt);
     }
 
     /**

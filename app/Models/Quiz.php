@@ -14,6 +14,7 @@ class Quiz extends Model
     protected $fillable = [
         'name',
         'attempts',
+        'points',
         'is_active',
     ];
 

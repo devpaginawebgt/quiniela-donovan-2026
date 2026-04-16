@@ -15,13 +15,17 @@ class QuizListItemResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id'             => $this->id,
-            'title'          => $this->name,
-            'retry'          => $this->retry,
-            'attempts'       => $this->attempts,
-            'attempt'        => $this->attempt,
-            'current_points' => $this->current_points ?? 0,
-            'hasAnsweredCorrectly' => $this->hasAnsweredCorrectly ?? false,
+            'id'                   => $this->id,
+            'title'                => $this->name,
+            'attempts'             => $this->attempts,
+            'availableScore'       => $this->points,
+            'currentScore'         => $this->current_score,
+
+            'retry'                => $this->retry,
+            'nextAttemptNumber'    => $this->next_attempt_number,
+            'hasAnsweredCorrectly' => $this->has_answered_correctly,
+
+            'lastAttemptNumber'    => $this->last_attempt_number,
         ];
     }
 }

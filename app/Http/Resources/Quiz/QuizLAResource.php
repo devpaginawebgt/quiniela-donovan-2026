@@ -7,20 +7,28 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class QuizLAResource extends JsonResource
 {
+    /**
+     * Transform the resource into an array.
+     *
+     * @return array<string, mixed>
+     */
     public function toArray(Request $request): array
     {
         return [
             'id'                   => $this->id,
             'quiz_id'              => $this->quiz->id,
             'title'                => $this->quiz->name,
-            'retry'                => $this->retry,
             'attempts'             => $this->quiz->attempts,
-            'attempt'              => $this->attempt,
-            'current_points'       => $this->current_points ?? 0,
-            'hasAnsweredCorrectly' => $this->hasAnsweredCorrectly ?? false,
+            'availableScore'       => $this->quiz->points,
+            'currentScore'         => $this->current_score,
 
-            'score'       => $this->response_points,
-            'all_correct' => $this->all_correct,
+            'retry'                => $this->retry,
+            'nextAttemptNumber'    => $this->next_attempt_number,
+            'hasAnsweredCorrectly' => $this->has_answered_correctly,
+
+            'lastAttemptNumber'    => $this->attempt_number,
+            'lastAttemptScore'     => $this->response_points,
+            'all_correct'          => $this->all_correct,
 
             'answers'  => !empty($this->responses) ? QuizResponseResource::collection($this->responses) : [],
         ];

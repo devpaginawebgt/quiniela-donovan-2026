@@ -18,12 +18,22 @@ class QuizUserService {
             ->unique('quiz_id');
     }
 
-    public function getLastAttempt(string|int $quiz_id)
+    public function getLastAttemptSimple(string|int $quiz_id)
     {
         $user = request()->user();
 
         return $user->quizzes()
             ->with('responses.question', 'responses.option')
+            ->where('quiz_id', $quiz_id)
+            ->latest()
+            ->first();
+    }
+
+    public function getLastAttempt(string|int $quiz_id)
+    {
+        $user = request()->user();
+
+        return $user->quizzes()
             ->where('quiz_id', $quiz_id)
             ->latest()
             ->first();
@@ -63,17 +73,19 @@ class QuizUserService {
 
             $best_attempt = $best_attempts->firstWhere('quiz_id', $quiz->id);
 
-            $current_attempts = $last_attempt ? $last_attempt->attempt_number : 0;
+            $next_attempt_number = $last_attempt ? $last_attempt->attempt_number + 1 : 1;
 
             $hasAnsweredCorrectly = $best_attempt ? $best_attempt->all_correct : false;
 
-            $quiz->retry = $current_attempts < $quiz->attempts && !$hasAnsweredCorrectly;
+            $quiz->retry = $next_attempt_number < $quiz->attempts && !$hasAnsweredCorrectly;
 
-            $quiz->attempt = $current_attempts + 1;
+            $quiz->current_score = $best_attempt ? $best_attempt->response_points : 0;
 
-            $quiz->current_points = $best_attempt ? $best_attempt->response_points : 0;
+            $quiz->next_attempt_number = $next_attempt_number;
 
-            $quiz->hasAnsweredCorrectly = $hasAnsweredCorrectly;
+            $quiz->has_answered_correctly = $hasAnsweredCorrectly;
+
+            $quiz->last_attempt_number = $last_attempt?->attempt_number;
 
             return $quiz;
 
@@ -82,21 +94,23 @@ class QuizUserService {
 
     public function showQuiz(Quiz $quiz)
     {
-        $last_attempt = $this->getLastAttempt($quiz->id);
+        $last_attempt = $this->getLastAttemptSimple($quiz->id);
 
         $best_attempt = $this->getBestAttempt($quiz->id);
 
-        $current_attempts = $last_attempt ? $last_attempt->attempt_number : 0;
-        
+        $next_attempt_number = $last_attempt ? $last_attempt->attempt_number + 1 : 1;
+
         $hasAnsweredCorrectly = $best_attempt ? $best_attempt->all_correct : false;
 
-        $quiz->retry = $current_attempts < $quiz->attempts && !$hasAnsweredCorrectly;
+        $quiz->retry = $next_attempt_number < $quiz->attempts && !$hasAnsweredCorrectly;
 
-        $quiz->attempt = $current_attempts + 1;
+        $quiz->current_score = $best_attempt ? $best_attempt->response_points : 0;
 
-        $quiz->current_points = $best_attempt ? $best_attempt->response_points : 0;
+        $quiz->next_attempt_number = $next_attempt_number;
 
-        $quiz->hasAnsweredCorrectly = $hasAnsweredCorrectly;
+        $quiz->has_answered_correctly = $hasAnsweredCorrectly;
+
+        $quiz->last_attempt_number = $last_attempt?->attempt_number;
 
         return $quiz;
     }
