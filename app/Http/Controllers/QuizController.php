@@ -141,7 +141,7 @@ class QuizController extends Controller
 
         $hasAnsweredCorrectly = $best_attempt ? $best_attempt->all_correct : false;
 
-        $last_attempt->retry = $next_attempt_number < $quiz->attempts && !$hasAnsweredCorrectly;
+        $last_attempt->retry = $next_attempt_number <= $quiz->attempts && !$hasAnsweredCorrectly;
 
         $last_attempt->current_score = $best_attempt ? $best_attempt->response_points : 0;
 
