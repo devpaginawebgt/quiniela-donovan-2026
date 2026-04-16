@@ -12,7 +12,7 @@
             'resources/js/app.js',
         ])
     </head>
-    <body class="font-sans antialiased text-light">
+    <body class="font-sans antialiased text-light bg-complementary-primary">
         {{ $slot }}
     </body>
 </html>

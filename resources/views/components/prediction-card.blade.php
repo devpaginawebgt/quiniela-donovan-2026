@@ -15,6 +15,10 @@
     $fecha_local = $fecha_utc->copy()->timezone($timezone)->locale('es');
     $fecha_fmt   = $fecha_local->isoFormat('dddd, D [de] MMMM [de] YYYY');
     $hora_fmt    = $fecha_local->translatedFormat('h:i a');
+
+    $fecha_actual = \Carbon\Carbon::now()->timezone($timezone)->locale('es');
+    $fecha_limite = $fecha_local->addMinutes(10);
+    $prediccion_bloqueada = $fecha_actual->greaterThan($fecha_limite);
 @endphp
 
 <li class="bg-complementary-primary border border-secondary rounded-3xl flex flex-col overflow-hidden"
@@ -121,7 +125,7 @@
 
             <div class="flex items-center justify-center gap-4 lg:gap-8">
 
-                @if ($partido->estado === 0)
+                @if ($prediccion_bloqueada === false)
                     {{-- Equipo 1 input --}}
                     <input
                         type="number"
@@ -176,7 +180,7 @@
 
                     </div>
 
-                @elseif ($partido->estado === 2)
+                @else
                     @if($pronosticado)
                         <span class="text-3xl font-bold text-light">{{ $prediccion_equipo_uno }}</span>
                         <span class="text-2xl font-bold"> : </span>

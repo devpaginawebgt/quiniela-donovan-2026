@@ -35,8 +35,9 @@ class GrupoService {
         ])
             ->where('grupo', $grupo)
             ->orderBy('puntos', 'desc')
+            ->orderByRaw('(goles_favor - goles_contra) desc')
+            ->orderBy('goles_favor', 'desc')
             ->orderBy('nombre', 'asc')
             ->get();
     }
-
 }

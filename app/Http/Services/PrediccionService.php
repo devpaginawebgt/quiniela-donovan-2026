@@ -107,35 +107,35 @@ class PrediccionService {
 
             }
 
-            if ($estado === 2) {
+            // if ($estado === 2) {
 
-                $prediccion_usuario->message = 'No se puede guardar la predicción: ¡el partido está en juego!';
+            //     $prediccion_usuario->message = 'No se puede guardar la predicción: ¡el partido está en juego!';
 
-                $predicciones_rechazadas->push($prediccion_usuario);
+            //     $predicciones_rechazadas->push($prediccion_usuario);
 
-                return;
+            //     return;
 
-            }
+            // }
 
             $fecha_partido = $prediccion_usuario->partido->fecha_partido;
 
             $fecha_actual = Carbon::now();
 
-            if ($fecha_actual->greaterThan($fecha_partido)) {
+            // if ($fecha_actual->greaterThan($fecha_partido)) {
 
-                $prediccion_usuario->message = 'No se puede guardar la predicción: la fecha del partido ya ha pasado.';
+            //     $prediccion_usuario->message = 'No se puede guardar la predicción: la fecha del partido ya ha pasado.';
 
-                $predicciones_rechazadas->push($prediccion_usuario);
+            //     $predicciones_rechazadas->push($prediccion_usuario);
 
-                return;
+            //     return;
 
-            }
+            // }
 
-            $fecha_limite = $fecha_partido->subMinutes(10);
+            $fecha_limite = $fecha_partido->addMinutes(10);
 
             if ($fecha_actual->greaterThan($fecha_limite)) {
 
-                $prediccion_usuario->message = 'No se puede guardar la predicción: el partido está por comenzar (menos de 10 minutos).';
+                $prediccion_usuario->message = 'No se puede guardar la predicción: ¡el partido ya ha comenzado! (más de 10 minutos).';
 
                 $predicciones_rechazadas->push($prediccion_usuario);
 
