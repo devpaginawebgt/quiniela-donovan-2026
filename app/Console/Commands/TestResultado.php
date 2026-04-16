@@ -59,8 +59,8 @@ class TestResultado extends Command
 
         $resultado_creado = ResultadoPartido::create([
             'partido_id'     => $id_partido,
-            'goles_equipo_1' => rand(0, 6),
-            'goles_equipo_2' => rand(0, 6)
+            'goles_equipo_1' => fake()->numberBetween(0, 4),
+            'goles_equipo_2' => fake()->numberBetween(0, 4)
         ]);
 
         if (empty($resultado_creado)) {
