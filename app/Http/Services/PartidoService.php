@@ -36,6 +36,10 @@ class PartidoService {
                 'equipoUno:id,nombre,imagen,grupo',
                 'equipoDos:id,nombre,imagen,grupo'
             ])
+            ->orderBy(
+                Partido::select('fecha_partido')
+                    ->whereColumn('partidos.id', 'equipo_partidos.partido_id')
+            )
             ->get();
 
         return $partidos;
