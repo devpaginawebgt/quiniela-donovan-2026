@@ -1,0 +1,26 @@
+@props(['partidos'])
+
+<div class="flex flex-col items-center gap-2 pt-12">
+    <h2 class="text-sm font-bold uppercase tracking-wider text-light mb-2">
+        Octavos
+    </h2>
+
+    <div class="flex flex-col justify-around h-full gap-27">
+        @foreach ($partidos as $partido)
+            <x-bracket.match-card :partido="$partido" />
+        @endforeach
+    </div>
+</div>
+
+{{-- Conectores hacia Cuartos (4 pares, height brazo 4rem) --}}
+<div class="flex flex-col justify-around h-full pt-32 gap-47">
+    @for ($i = 0; $i < 4; $i++)
+        <div class="flex items-center">
+            <div class="flex flex-col">
+                <div class="w-6 border-t-2 border-r-2 border-complementary-light/40 rounded-tr" style="height: 6rem;"></div>
+                <div class="w-6 border-b-2 border-r-2 border-complementary-light/40 rounded-br" style="height: 6rem;"></div>
+            </div>
+            <div class="w-6 border-t-2 border-complementary-light/40"></div>
+        </div>
+    @endfor
+</div>

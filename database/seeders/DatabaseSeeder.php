@@ -32,6 +32,7 @@ class DatabaseSeeder extends Seeder
             JornadaSeeder::class,
             PartidoSeeder::class,
             EquipoPartidoSeeder::class,
+            BracketGameSeeder::class,
             // PrediccionSeeder::class,
             // ResultadoPartidoSeeder::class,
             PremioSeeder::class,

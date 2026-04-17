@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BracketController;
 use App\Http\Controllers\EstadioController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
@@ -134,6 +135,6 @@ Route::middleware(['auth'])->as('web.')->group(function() {
 
 // Embed (público, sin auth — para Flutter WebView)
 
-Route::get('/embed/bracket', fn() => view('embed.bracket'))->name('embed.bracket');
+Route::get('/embed/bracket', [BracketController::class, 'show'])->name('embed.bracket');
 
 require __DIR__.'/auth.php';

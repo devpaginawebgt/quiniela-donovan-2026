@@ -2,12 +2,14 @@
 
 namespace App\Http\Services;
 
+use App\Models\BracketGame;
 use App\Models\EquipoPartido;
 use App\Models\Jornada;
 use App\Models\Partido;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 
 class PartidoService {
 
@@ -146,7 +148,62 @@ class PartidoService {
             $partido->partido->estado = 1;
             $partido->partido->jugado = 1;
             $partido->partido->save();
+
+            $this->syncBracketGame($partido, $equipo1, $equipo2, $goles_e1, $goles_e2);
         }
+    }
+
+    protected function syncBracketGame(EquipoPartido $equipoPartido, $equipo1, $equipo2, int $goles_e1, int $goles_e2): void
+    {
+        $journeyId = $equipoPartido->partido->jornada_id;
+        $e1Id = $equipo1->id;
+        $e2Id = $equipo2->id;
+
+        $bracketGame = BracketGame::where('journey_id', $journeyId)
+            ->where(function ($q) use ($e1Id, $e2Id) {
+                $q->where(function ($s) use ($e1Id, $e2Id) {
+                    $s->where('team_one_id', $e1Id)->where('team_two_id', $e2Id);
+                })->orWhere(function ($s) use ($e1Id, $e2Id) {
+                    $s->where('team_one_id', $e2Id)->where('team_two_id', $e1Id);
+                });
+            })
+            ->first();
+
+        if (!$bracketGame) {
+            return;
+        }
+
+        if ($goles_e1 === $goles_e2) {
+            return;
+        }
+
+        $winnerId = $goles_e1 > $goles_e2 ? $e1Id : $e2Id;
+        $loserId = $goles_e1 > $goles_e2 ? $e2Id : $e1Id;
+
+        DB::transaction(function () use ($bracketGame, $equipoPartido, $winnerId, $loserId) {
+            $bracketGame->result_id = $equipoPartido->resultado->id;
+            $bracketGame->status = 2;
+            $bracketGame->save();
+
+            $downstream = BracketGame::where('local_game_id', $bracketGame->id)
+                ->orWhere('visitor_game_id', $bracketGame->id)
+                ->get();
+
+            foreach ($downstream as $next) {
+                if ($next->local_game_id === $bracketGame->id) {
+                    $next->team_one_id = $next->local_source === 'perdedor' ? $loserId : $winnerId;
+                }
+                if ($next->visitor_game_id === $bracketGame->id) {
+                    $next->team_two_id = $next->visitor_source === 'perdedor' ? $loserId : $winnerId;
+                }
+
+                if ($next->team_one_id && $next->team_two_id && $next->status === 0) {
+                    $next->status = 1;
+                }
+
+                $next->save();
+            }
+        });
     }
 
 }
