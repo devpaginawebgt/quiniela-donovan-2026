@@ -86,6 +86,15 @@ class User extends Authenticatable
         return $this->hasMany(UserPushToken::class);
     }
 
+    // Firebase notifications
+    public function routeNotificationForFcm(): array
+    {
+        return $this->pushTokens()
+            ->where('is_active', true)
+            ->pluck('device_token')
+            ->all();
+    }
+
     public function predictions(): HasMany
     {
         return $this->hasMany(Preccion::class);
