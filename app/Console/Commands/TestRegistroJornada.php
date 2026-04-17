@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Events\MatchCreated;
 use App\Http\Services\TestingService;
 use App\Http\Services\TestService;
 use App\Models\EquipoPartido;
@@ -97,6 +98,8 @@ class TestRegistroJornada extends Command
                     'equipo_1' => $equipo_1,
                     'equipo_2' => $equipo_2
                 ]);
+
+                MatchCreated::dispatch($partido_db);
     
             }
 
@@ -160,6 +163,8 @@ class TestRegistroJornada extends Command
     
                 return Command::FAILURE;
             }
+
+            MatchCreated::dispatch($partido_db);
 
         }
 

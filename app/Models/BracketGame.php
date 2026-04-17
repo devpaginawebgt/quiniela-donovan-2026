@@ -13,6 +13,7 @@ class BracketGame extends Model
     protected $fillable = [
         'journey_id',
         'bracket_position',
+        'match_id',
         'team_one_id',
         'team_two_id',
         'result_id',
@@ -28,6 +29,11 @@ class BracketGame extends Model
     public function journey(): BelongsTo
     {
         return $this->belongsTo(Jornada::class, 'journey_id');
+    }
+
+    public function match(): BelongsTo
+    {
+        return $this->belongsTo(Partido::class, 'match_id');
     }
 
     public function teamOne(): BelongsTo

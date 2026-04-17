@@ -26,7 +26,7 @@
                             <img src="{{ asset($partido->teamOne->imagen) }}"
                                 alt="{{ $partido->teamOne->codigo_iso }}"
                                 class="w-10 h-7 object-cover rounded-sm shadow-sm">
-                            <span class="flex-1 text-base truncate {{ $localGana ? 'text-light font-semibold' : 'text-complementary-light' }}">
+                            <span class="flex-1 text-base truncate {{ $localGana ? 'text-light font-semibold' : 'text-slate-300' }}">
                                 {{ $partido->teamOne->nombre }}
                             </span>
                         @else
@@ -35,7 +35,7 @@
                                 {{ $localLabel }}
                             </span>
                         @endif
-                        <span class="text-base font-bold {{ $localGana ? 'text-secondary' : 'text-complementary-light' }}">
+                        <span class="text-base font-bold {{ $localGana ? 'text-secondary' : 'text-slate-300' }}">
                             {{ $tieneResultado ? $golesLocal : '—' }}
                         </span>
                     </div>
@@ -45,7 +45,7 @@
                             <img src="{{ asset($partido->teamTwo->imagen) }}"
                                 alt="{{ $partido->teamTwo->codigo_iso }}"
                                 class="w-10 h-7 object-cover rounded-sm shadow-sm">
-                            <span class="flex-1 text-base truncate {{ $visitanteGana ? 'text-light font-semibold' : 'text-complementary-light' }}">
+                            <span class="flex-1 text-base truncate {{ $visitanteGana ? 'text-light font-semibold' : 'text-slate-300' }}">
                                 {{ $partido->teamTwo->nombre }}
                             </span>
                         @else
@@ -54,7 +54,7 @@
                                 {{ $visitanteLabel }}
                             </span>
                         @endif
-                        <span class="text-base font-bold {{ $visitanteGana ? 'text-secondary' : 'text-complementary-light' }}">
+                        <span class="text-base font-bold {{ $visitanteGana ? 'text-secondary' : 'text-slate-300' }}">
                             {{ $tieneResultado ? $golesVisitante : '—' }}
                         </span>
                     </div>

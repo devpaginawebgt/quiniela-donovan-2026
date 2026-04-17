@@ -13,6 +13,7 @@ return new class extends Migration
             $table->foreignId('journey_id')->constrained('jornadas')->onUpdate('cascade')->onDelete('restrict');
             $table->smallInteger('bracket_position');
 
+            $table->foreignId('match_id')->nullable()->constrained('partidos')->onUpdate('cascade')->onDelete('set null');
             $table->foreignId('team_one_id')->nullable()->constrained('equipos')->onUpdate('cascade')->onDelete('set null');
             $table->foreignId('team_two_id')->nullable()->constrained('equipos')->onUpdate('cascade')->onDelete('set null');
 

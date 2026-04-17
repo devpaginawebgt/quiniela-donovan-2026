@@ -19,7 +19,7 @@
             <img src="{{ asset($partido->teamOne->imagen) }}"
                  alt="{{ $partido->teamOne->codigo_iso }}"
                  class="w-7 h-5 object-cover rounded-sm shadow-sm">
-            <span class="flex-1 text-sm truncate {{ $localGana ? 'text-light font-semibold' : 'text-complementary-light' }}">
+            <span class="flex-1 text-sm truncate {{ $localGana ? 'text-light font-semibold' : 'text-slate-300' }}">
                 {{ $partido->teamOne->codigo_iso }}
             </span>
         @else
@@ -28,7 +28,7 @@
                 {{ $localLabel }}
             </span>
         @endif
-        <span class="text-sm font-bold {{ $localGana ? 'text-secondary' : 'text-complementary-light' }}">
+        <span class="text-sm font-bold {{ $localGana ? 'text-secondary' : 'text-slate-300' }}">
             {{ $tieneResultado ? $golesLocal : '—' }}
         </span>
     </div>
@@ -38,7 +38,7 @@
             <img src="{{ asset($partido->teamTwo->imagen) }}"
                  alt="{{ $partido->teamTwo->codigo_iso }}"
                  class="w-7 h-5 object-cover rounded-sm shadow-sm">
-            <span class="flex-1 text-sm truncate {{ $visitanteGana ? 'text-light font-semibold' : 'text-complementary-light' }}">
+            <span class="flex-1 text-sm truncate {{ $visitanteGana ? 'text-light font-semibold' : 'text-slate-300' }}">
                 {{ $partido->teamTwo->codigo_iso }}
             </span>
         @else
@@ -47,7 +47,7 @@
                 {{ $visitanteLabel }}
             </span>
         @endif
-        <span class="text-sm font-bold {{ $visitanteGana ? 'text-secondary' : 'text-complementary-light' }}">
+        <span class="text-sm font-bold {{ $visitanteGana ? 'text-secondary' : 'text-slate-300' }}">
             {{ $tieneResultado ? $golesVisitante : '—' }}
         </span>
     </div>

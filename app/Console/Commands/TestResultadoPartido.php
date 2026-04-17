@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Events\ResultCreated;
 use App\Http\Services\TestingService;
 use App\Http\Services\TestService;
 use App\Models\Partido;
@@ -57,7 +58,8 @@ class TestResultadoPartido extends Command
                 return Command::FAILURE;
 
             }
-                
+
+            ResultCreated::dispatch($resultado);                
 
             $this->info($resultado['message']);
 
@@ -144,7 +146,8 @@ class TestResultadoPartido extends Command
 
                 return Command::FAILURE;
             }
-                
+
+            ResultCreated::dispatch($resultado);
 
         }
 

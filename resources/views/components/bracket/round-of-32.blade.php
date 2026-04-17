@@ -18,15 +18,19 @@
         @php
             $partidoTop = $partidos->firstWhere('bracket_position', $i * 2 + 1);
             $partidoBottom = $partidos->firstWhere('bracket_position', $i * 2 + 2);
+
+            $topFinished = $partidoTop?->status === 2;
+            $botFinished = $partidoBottom?->status === 2;
+            $anyFinished = $topFinished || $botFinished;
         @endphp
         <div class="flex items-center">
             <div class="flex flex-col shadow-lg">
-                <div class="w-6 border-t-2 border-r-2 rounded-tr {{ $partidoTop?->status === 2 ? 'border-secondary' : 'border-complementary-light/40' }}"
+                <div class="w-6 border-t-2 border-r-2 rounded-tr {{ $topFinished ? 'border-light/80' : 'border-complementary-light/40' }}"
                      style="height: 3rem;"></div>
-                <div class="w-6 border-b-2 border-r-2 rounded-br {{ $partidoBottom?->status === 2 ? 'border-secondary' : 'border-complementary-light/40' }}"
+                <div class="w-6 border-b-2 border-r-2 rounded-br {{ $botFinished ? 'border-light/80' : 'border-complementary-light/40' }}"
                      style="height: 3rem;"></div>
             </div>
-            <div class="w-6 border-t-2 border-complementary-light/40"></div>
+            <div class="w-6 border-t-2 {{ $anyFinished ? 'border-light/80' : 'border-complementary-light/40' }}"></div>
         </div>
     @endfor
 </div>

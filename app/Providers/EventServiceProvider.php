@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Events\MatchCreated;
+use App\Events\ResultCreated;
+use App\Listeners\AddBracketGame;
+use App\Listeners\AddBracketGameResult;
 use App\Listeners\SendWelcomeEmail;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -19,6 +23,12 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             // SendEmailVerificationNotification::class,
             SendWelcomeEmail::class,
+        ],
+        MatchCreated::class => [
+            AddBracketGame::class,
+        ],
+        ResultCreated::class => [
+            AddBracketGameResult::class,
         ],
     ];
 
