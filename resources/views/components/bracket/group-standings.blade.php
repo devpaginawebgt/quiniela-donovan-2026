@@ -1,6 +1,6 @@
 @props(['grupos'])
 
-<div class="flex flex-col gap-2 w-44 shrink-0">
+<div class="flex flex-col gap-2 w-44 shrink-0 me-4">
     <h3 class="text-light font-bold text-center tracking-wide">GRUPOS</h3>
 
     @foreach($grupos as $grupo)
