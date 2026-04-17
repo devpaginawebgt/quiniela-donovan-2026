@@ -1,7 +1,9 @@
-@props(['partidos'])
+@props(['partidos', 'jornada' => null])
 
 <div class="flex flex-col items-center gap-2 pt-12">
-    <h2 class="text-sm font-bold uppercase tracking-wider text-light mb-2">
+    <h2 @if($jornada) id="jornada-{{ $jornada->id }}" @endif
+        data-active="{{ $jornada?->is_current ? '1' : '0' }}"
+        class="text-sm font-bold uppercase tracking-wider text-light mb-2">
         Octavos
     </h2>
 

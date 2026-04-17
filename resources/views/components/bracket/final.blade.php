@@ -1,8 +1,10 @@
-@props(['partido', 'tercer'])
+@props(['partido', 'tercer', 'jornadaFinal' => null, 'jornadaTercer' => null])
 
-<div class="flex flex-col items-center gap-28 pt-175">    
+<div class="flex flex-col items-center gap-28 pt-175">
     <div class="flex flex-col items-center">
-        <h2 class="text-sm font-bold uppercase tracking-wider text-secondary mb-2">
+        <h2 @if($jornadaFinal) id="jornada-{{ $jornadaFinal->id }}" @endif
+            data-active="{{ $jornadaFinal?->is_current ? '1' : '0' }}"
+            class="text-sm font-bold uppercase tracking-wider text-secondary mb-2">
             Final
         </h2>
     
@@ -66,7 +68,9 @@
     </div>
 
     <div class="flex flex-col items-center gap-2">
-        <h2 class="text-sm font-bold uppercase tracking-wider text-light mb-2">
+        <h2 @if($jornadaTercer) id="jornada-{{ $jornadaTercer->id }}" @endif
+            data-active="{{ $jornadaTercer?->is_current ? '1' : '0' }}"
+            class="text-sm font-bold uppercase tracking-wider text-light mb-2">
             3er lugar
         </h2>
     

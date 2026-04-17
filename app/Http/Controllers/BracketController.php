@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\BracketGame;
 use App\Models\Grupo;
+use App\Models\Jornada;
 
 class BracketController extends Controller
 {
@@ -34,6 +35,8 @@ class BracketController extends Controller
             ->orderBy('name')
             ->get();
 
-        return view('embed.bracket', compact('rondas', 'grupos'));
+        $jornadas = Jornada::all()->keyBy('id');
+
+        return view('embed.bracket', compact('rondas', 'grupos', 'jornadas'));
     }
 }

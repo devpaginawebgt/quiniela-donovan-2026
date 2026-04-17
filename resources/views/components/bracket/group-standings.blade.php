@@ -1,7 +1,13 @@
-@props(['grupos'])
+@props(['grupos', 'jornadasGrupos' => null])
+
+@php
+    $grupoActivo = $jornadasGrupos?->contains(fn ($j) => $j->is_current) ?? false;
+@endphp
 
 <div class="flex flex-col gap-2 w-44 shrink-0 me-4">
-    <h3 class="text-light font-bold text-center tracking-wide">GRUPOS</h3>
+    <h3 id="jornada-grupos"
+        data-active="{{ $grupoActivo ? '1' : '0' }}"
+        class="text-light font-bold text-center tracking-wide">GRUPOS</h3>
 
     @foreach($grupos as $grupo)
         <div class="bg-complementary-primary border border-secondary rounded-2xl">
