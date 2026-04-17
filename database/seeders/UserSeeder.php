@@ -19,7 +19,7 @@ class UserSeeder extends Seeder
     {
         $users = [
             [
-                'codigo_id'        =>  1,
+                // 'codigo_id'        =>  1,
                 'nombres'          =>  'Dennis',
                 'apellidos'        =>  'PWG',
                 'numero_documento' =>  '1234567891111',
@@ -42,7 +42,7 @@ class UserSeeder extends Seeder
             ],
 
             [
-                'codigo_id'        =>  2,
+                // 'codigo_id'        =>  2,
                 'nombres'          =>  'Dwight',
                 'apellidos'        =>  'PWG',
                 'numero_documento' =>  '1234567891112',
@@ -65,7 +65,7 @@ class UserSeeder extends Seeder
             ],
 
             [
-                'codigo_id'        =>  13,
+                // 'codigo_id'        =>  13,
                 'nombres'          =>  'Revisor',
                 'apellidos'        =>  'Google',
                 'numero_documento' =>  '1234567891113',
@@ -88,7 +88,7 @@ class UserSeeder extends Seeder
             ],
 
             [
-                'codigo_id'        =>  14,
+                // 'codigo_id'        =>  14,
                 'nombres'          =>  'Revisor',
                 'apellidos'        =>  'IOS',
                 'numero_documento' =>  '1234567891114',
@@ -111,7 +111,7 @@ class UserSeeder extends Seeder
             ],
 
             [
-                'codigo_id'        =>  15,
+                // 'codigo_id'        =>  15,
                 'nombres'          =>  'Dependiente',
                 'apellidos'        =>  'HN',
                 'numero_documento' =>  '1234567891115',

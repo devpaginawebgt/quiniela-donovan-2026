@@ -23,7 +23,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'codigo_id',
+        // 'codigo_id',
         'nombres',
         'apellidos',
         'numero_documento',
@@ -77,10 +77,10 @@ class User extends Authenticatable
         return $this->belongsTo(UserType::class, 'user_type_id');
     }
 
-    public function codigo() : BelongsTo
-    {
-        return $this->belongsTo(Codigo::class, 'codigo_id');
-    }
+    // public function codigo() : BelongsTo
+    // {
+    //     return $this->belongsTo(Codigo::class, 'codigo_id');
+    // }
 
     public function pushTokens(): HasMany
     {

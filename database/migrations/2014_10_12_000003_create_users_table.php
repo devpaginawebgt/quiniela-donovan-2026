@@ -17,8 +17,7 @@ class CreateUsersTable extends Migration
             $table->id();
 
             // Campos requeridos
-
-            $table->unsignedBigInteger('codigo_id')->nullable();
+            // $table->unsignedBigInteger('codigo_id')->nullable();
             $table->string('nombres');
             $table->string('apellidos');
             $table->string('numero_documento');
@@ -51,11 +50,11 @@ class CreateUsersTable extends Migration
             $table->rememberToken();
             $table->timestamps();
 
-            $table->foreign('codigo_id')
-                ->references('id')
-                ->on('codigos')
-                ->onUpdate('cascade')
-                ->onDelete('restrict');
+            // $table->foreign('codigo_id')
+            //     ->references('id')
+            //     ->on('codigos')
+            //     ->onUpdate('cascade')
+            //     ->onDelete('restrict');
 
             $table->foreign('user_type_id')
                 ->references('id')
