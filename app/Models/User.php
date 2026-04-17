@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -93,6 +94,13 @@ class User extends Authenticatable
             ->where('is_active', true)
             ->pluck('device_token')
             ->all();
+    }
+
+    public function latestPushToken(): HasOne
+    {
+        return $this->hasOne(UserPushToken::class)
+            ->where('is_active', 1)
+            ->latestOfMany();
     }
 
     public function predictions(): HasMany

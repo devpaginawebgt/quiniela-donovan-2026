@@ -6,10 +6,12 @@ use App\Events\MatchCreated;
 use App\Events\ResultCreated;
 use App\Listeners\AddBracketGame;
 use App\Listeners\AddBracketGameResult;
+use App\Listeners\DeactivateInvalidFcmToken;
 use App\Listeners\SendWelcomeEmail;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
+use Illuminate\Notifications\Events\NotificationFailed;
 use Illuminate\Support\Facades\Event;
 
 class EventServiceProvider extends ServiceProvider
@@ -29,6 +31,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         ResultCreated::class => [
             AddBracketGameResult::class,
+        ],
+        NotificationFailed::class => [
+            DeactivateInvalidFcmToken::class,
         ],
     ];
 
