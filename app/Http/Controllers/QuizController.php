@@ -99,17 +99,7 @@ class QuizController extends Controller
 
         $best_attempt = $this->quizUserService->getBestAttempt($quiz->id);
 
-        $next_attempt_number = $last_attempt ? $last_attempt->attempt_number + 1 : 1;
-
-        $hasAnsweredCorrectly = $best_attempt ? $best_attempt->all_correct : false;
-
-        $last_attempt->retry = $next_attempt_number <= $quiz->attempts && !$hasAnsweredCorrectly;
-
-        $last_attempt->current_score = $best_attempt ? $best_attempt->response_points : 0;
-
-        $last_attempt->next_attempt_number = $next_attempt_number;
-
-        $last_attempt->has_answered_correctly = $hasAnsweredCorrectly;
+        $last_attempt = $this->quizUserService->getQuizLastAttemptInfo($quiz, $last_attempt, $best_attempt);
 
         $last_attempt = new QuizLAResource($last_attempt);
 
@@ -137,17 +127,7 @@ class QuizController extends Controller
 
         $best_attempt = $this->quizUserService->getBestAttempt($quiz->id);
 
-        $next_attempt_number = $last_attempt ? $last_attempt->attempt_number + 1 : 1;
-
-        $hasAnsweredCorrectly = $best_attempt ? $best_attempt->all_correct : false;
-
-        $last_attempt->retry = $next_attempt_number <= $quiz->attempts && !$hasAnsweredCorrectly;
-
-        $last_attempt->current_score = $best_attempt ? $best_attempt->response_points : 0;
-
-        $last_attempt->next_attempt_number = $next_attempt_number;
-
-        $last_attempt->has_answered_correctly = $hasAnsweredCorrectly;
+        $last_attempt = $this->quizUserService->getQuizLastAttemptInfo($quiz, $last_attempt, $best_attempt);
 
         $last_attempt = new QuizLAResource($last_attempt);
 
@@ -192,18 +172,23 @@ class QuizController extends Controller
         $quiz = null;
 
         if ($quiz_db) {
-            $last_attempt = $this->quizUserService->getLastAttempt($quiz_db->id);
+            $last_attempt = $this->quizUserService->getLastAttemptSimple($quiz_db->id);
 
-            $current_attempts = $last_attempt ? $last_attempt->attempt_number : 0;
-            $all_correct = $last_attempt && $last_attempt->responses->every(fn ($r) => $r->is_correct);
+            $best_attempt = $this->quizUserService->getBestAttempt($quiz_db->id);
 
-            $quiz_db->retry = $current_attempts < $quiz_db->attempts && !$all_correct;
+            $next_attempt_number = $last_attempt ? $last_attempt->attempt_number + 1 : 1;
 
-            if ($quiz_db->retry === false) {
-                return redirect()->route('web.inicio.trivia-puntos');
-            }
+            $hasAnsweredCorrectly = $best_attempt ? $best_attempt->all_correct : false;
 
-            $quiz_db->attempt = $current_attempts + 1;
+            $quiz_db->retry = $next_attempt_number < $quiz_db->attempts && !$hasAnsweredCorrectly;
+
+            $quiz_db->current_score = $best_attempt ? $best_attempt->response_points : 0;
+
+            $quiz_db->next_attempt_number = $next_attempt_number;
+
+            $quiz_db->has_answered_correctly = $hasAnsweredCorrectly;
+
+            $quiz_db->last_attempt_number = $last_attempt?->attempt_number;
 
             $quiz = (new QuizResource($quiz_db))->resolve();
         }

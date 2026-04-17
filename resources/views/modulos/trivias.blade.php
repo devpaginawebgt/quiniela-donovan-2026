@@ -16,7 +16,7 @@
             {{-- Top badges --}}
             <div class="flex justify-between items-center mb-3">
                 <span class="bg-red-600/70 text-light text-sm font-bold px-3 py-1 rounded-lg">
-                    Intento {{ $quiz['attempt'] }}
+                    Intento {{ $quiz['nextAttemptNumber'] }}
                 </span>
                 <span id="points-badge" class="bg-red-600/70 text-light text-sm font-bold px-3 py-1 rounded-lg">
                     0 puntos
