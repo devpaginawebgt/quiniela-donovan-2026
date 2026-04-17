@@ -45,7 +45,6 @@ class UserService {
             })
             ->where('status_user', 1)
             ->where('pais_id', $id_pais)
-            ->where('puntos', '>', 0)
             ->get();
 
         return $participantes;
@@ -71,7 +70,6 @@ class UserService {
             })
             ->where('status_user', 1)
             ->where('pais_id', $id_pais)
-            ->where('puntos', '>', 0)
             ->simplePaginate($perPage);
     }
 
@@ -85,8 +83,7 @@ class UserService {
                     ->orHas('quizzes');
             })
             ->where('status_user', 1)
-            ->where('pais_id', $user->pais_id)
-            ->where('puntos', '>', 0);
+            ->where('pais_id', $user->pais_id);
         
         $rank = DB::query()
             ->fromSub($rankingQuery, 'ranking')
