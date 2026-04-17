@@ -66,11 +66,11 @@
     border-radius: inherit;
     background: conic-gradient(
         from var(--bracket-final-angle),
-        rgba(255, 221, 0, 0.6) 0deg,
-        rgba(255, 255, 255, 0.4) 40deg,
+        rgba(255, 221, 0, 0.3) 0deg,
+        rgba(255, 255, 255, 0.2) 40deg,
         rgba(255, 221, 0, 0) 180deg,
-        rgba(255, 221, 0, 0.6) 360deg
+        rgba(255, 221, 0, 0.3) 360deg
     );
-    filter: blur(10px);
+    filter: blur(8px);
     animation: bracket-final-rotate 3.5s linear infinite;
 }

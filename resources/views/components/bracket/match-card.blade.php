@@ -8,9 +8,9 @@
     $visitanteGana = $tieneResultado && $golesVisitante > $golesLocal;
 
     $localLabel = $partido->local_slot_label
-        ?? ($partido->localFeeder ? 'Ganador M' . $partido->localFeeder->bracket_position : 'Por definir');
+        ?? ($partido->localFeeder ? 'Ganador P' . $partido->localFeeder->bracket_position : 'Por definir');
     $visitanteLabel = $partido->visitor_slot_label
-        ?? ($partido->visitorFeeder ? 'Ganador M' . $partido->visitorFeeder->bracket_position : 'Por definir');
+        ?? ($partido->visitorFeeder ? 'Ganador P' . $partido->visitorFeeder->bracket_position : 'Por definir');
 @endphp
 
 <div class="bg-complementary-primary border border-secondary rounded-3xl overflow-hidden w-52 shadow-lg shadow-zinc-950">

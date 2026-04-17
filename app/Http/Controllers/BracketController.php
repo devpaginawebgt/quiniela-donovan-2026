@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\BracketGame;
+use App\Models\Grupo;
 
 class BracketController extends Controller
 {
@@ -20,6 +21,19 @@ class BracketController extends Controller
             ->get()
             ->groupBy('journey_id');
 
-        return view('embed.bracket', compact('rondas'));
+        $grupos = Grupo::with(['equipos' => function ($q) {
+                $q->select([
+                        'id', 'nombre', 'imagen', 'grupo',
+                        'goles_favor', 'goles_contra', 'puntos',
+                    ])
+                    ->orderBy('puntos', 'desc')
+                    ->orderByRaw('(goles_favor - goles_contra) desc')
+                    ->orderBy('goles_favor', 'desc')
+                    ->orderBy('nombre', 'asc');
+            }])
+            ->orderBy('name')
+            ->get();
+
+        return view('embed.bracket', compact('rondas', 'grupos'));
     }
 }
