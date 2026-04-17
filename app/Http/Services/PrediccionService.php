@@ -3,6 +3,7 @@
 namespace App\Http\Services;
 
 use App\Models\EquipoPartido;
+use App\Models\Partido;
 use App\Models\Preccion;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
@@ -31,6 +32,10 @@ class PrediccionService {
                         ->select('id','partido_id','goles_equipo_1','goles_equipo_2');
                 }
             ])
+            ->orderBy(
+                Partido::select('fecha_partido')
+                    ->whereColumn('partidos.id', 'equipo_partidos.partido_id')
+            )
             ->get();
 
         return $predicciones_usuario;
@@ -234,11 +239,15 @@ class PrediccionService {
                         ->select('id','partido_id','goles_equipo_1','goles_equipo_2');
                 }
             ])
+            ->orderByDesc(
+                Partido::select('fecha_partido')
+                    ->whereColumn('partidos.id', 'equipo_partidos.partido_id')
+            )
             ->get();
 
         $registros->each(function($registro) {
 
-            if ( empty($registro->prediccion) ) {                
+            if ( empty($registro->prediccion) ) {
 
                 $registro->puntos = 0;
 
