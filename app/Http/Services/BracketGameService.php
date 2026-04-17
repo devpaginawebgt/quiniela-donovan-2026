@@ -106,6 +106,63 @@ class BracketGameService {
                 "Nuevo resultado - Error al actualizar bracket game — {$bracketGame->id}",
                 "No se pudo agregar el resultado del bracket game para la jornada {$journey_id}. Partido ID: {$match_id}. Error: {$e->getMessage()}"
             );
+
+            return;
+        }
+
+        $winner_id = $resultado->equipo_ganador_id;
+
+        if (empty($winner_id)) {
+            return;
+        }
+
+        // Agregar equipo ganador al/los siguientes bracket games
+
+        $childBracketGames = BracketGame::where('local_game_id', $bracketGame->id)
+            ->orWhere('visitor_game_id', $bracketGame->id)
+            ->get();
+
+        if ($childBracketGames->isEmpty()) {
+            return;
+        }
+
+        // Calcular perdedor desde EquipoPartido (el que no es ganador)
+        $equipos = $resultado->equiposPartido;
+        $loser_id = null;
+
+        if (!empty($equipos)) {
+            $loser_id = (int)$equipos->equipo_1 === (int)$winner_id
+                ? $equipos->equipo_2
+                : $equipos->equipo_1;
+        }
+
+        foreach ($childBracketGames as $childBracketGame) {
+            $updateFields = [];
+
+            if ((int)$childBracketGame->local_game_id === (int)$bracketGame->id) {
+                $updateFields['team_one_id'] = $childBracketGame->local_source === 'perdedor'
+                    ? $loser_id
+                    : $winner_id;
+            }
+
+            if ((int)$childBracketGame->visitor_game_id === (int)$bracketGame->id) {
+                $updateFields['team_two_id'] = $childBracketGame->visitor_source === 'perdedor'
+                    ? $loser_id
+                    : $winner_id;
+            }
+
+            if (empty($updateFields)) {
+                continue;
+            }
+
+            try {
+                $childBracketGame->update($updateFields);
+            } catch (Throwable $e) {
+                $this->notify(
+                    "Partido derivado - Error al actualizar bracket game derivado — {$childBracketGame->id}",
+                    "No se pudo agregar el equipo derivado del bracket game {$bracketGame->id} para la jornada {$journey_id}. Error: {$e->getMessage()}"
+                );
+            }
         }
     }
 
