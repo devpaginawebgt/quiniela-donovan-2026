@@ -31,3 +31,46 @@
     --color-complementary-dark: #63666A;
     --color-complementary-light: #D9D9D6;
 }
+
+@property --bracket-final-angle {
+    syntax: '<angle>';
+    initial-value: 0deg;
+    inherits: false;
+}
+
+@keyframes bracket-final-rotate {
+    to { --bracket-final-angle: 360deg; }
+}
+
+.bracket-final-glow {
+    position: relative;
+    padding: 2px;
+    border-radius: 1.5rem;
+    background: conic-gradient(
+        from var(--bracket-final-angle),
+        #FFDD00 0deg,
+        #FFFFFF 40deg,
+        #FFDD00 80deg,
+        rgba(255, 221, 0, 0.35) 180deg,
+        #FFDD00 320deg,
+        #FFDD00 360deg
+    );
+    animation: bracket-final-rotate 3.5s linear infinite;
+}
+
+.bracket-final-glow::before {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    z-index: -1;
+    border-radius: inherit;
+    background: conic-gradient(
+        from var(--bracket-final-angle),
+        rgba(255, 221, 0, 0.6) 0deg,
+        rgba(255, 255, 255, 0.4) 40deg,
+        rgba(255, 221, 0, 0) 180deg,
+        rgba(255, 221, 0, 0.6) 360deg
+    );
+    filter: blur(10px);
+    animation: bracket-final-rotate 3.5s linear infinite;
+}

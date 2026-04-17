@@ -20,43 +20,45 @@
                     $visitanteLabel = $partido->visitor_slot_label
                         ?? ($partido->visitorFeeder ? 'Ganador M' . $partido->visitorFeeder->bracket_position : 'Por definir');
                 @endphp
-                <div class="bg-complementary-primary border border-secondary rounded-3xl overflow-hidden w-64 shadow-lg">
-                    <div class="flex items-center gap-2 px-6 py-4">
-                        @if ($partido->teamOne)
-                            <img src="{{ asset($partido->teamOne->imagen) }}"
-                                alt="{{ $partido->teamOne->codigo_iso }}"
-                                class="w-10 h-7 object-cover rounded-sm shadow-sm">
-                            <span class="flex-1 text-base truncate {{ $localGana ? 'text-light font-semibold' : 'text-slate-300' }}">
-                                {{ $partido->teamOne->nombre }}
+                <div class="bracket-final-glow w-64 shadow-lg">
+                    <div class="bg-complementary-primary rounded-[1.375rem] overflow-hidden">
+                        <div class="flex items-center gap-2 px-6 py-4">
+                            @if ($partido->teamOne)
+                                <img src="{{ asset($partido->teamOne->imagen) }}"
+                                    alt="{{ $partido->teamOne->codigo_iso }}"
+                                    class="w-10 h-7 object-cover rounded-sm shadow-sm">
+                                <span class="flex-1 text-base truncate {{ $localGana ? 'text-light font-semibold' : 'text-slate-300' }}">
+                                    {{ $partido->teamOne->nombre }}
+                                </span>
+                            @else
+                                <span class="w-10 h-7 bg-complementary-light/10 rounded-sm"></span>
+                                <span class="flex-1 text-sm italic text-complementary-light/70 truncate">
+                                    {{ $localLabel }}
+                                </span>
+                            @endif
+                            <span class="text-base font-bold {{ $localGana ? 'text-secondary' : 'text-slate-300' }}">
+                                {{ $tieneResultado ? $golesLocal : '—' }}
                             </span>
-                        @else
-                            <span class="w-10 h-7 bg-complementary-light/10 rounded-sm"></span>
-                            <span class="flex-1 text-sm italic text-complementary-light/70 truncate">
-                                {{ $localLabel }}
+                        </div>
+                        <hr class="border-complementary-light/30">
+                        <div class="flex items-center gap-2 px-6 py-4">
+                            @if ($partido->teamTwo)
+                                <img src="{{ asset($partido->teamTwo->imagen) }}"
+                                    alt="{{ $partido->teamTwo->codigo_iso }}"
+                                    class="w-10 h-7 object-cover rounded-sm shadow-sm">
+                                <span class="flex-1 text-base truncate {{ $visitanteGana ? 'text-light font-semibold' : 'text-slate-300' }}">
+                                    {{ $partido->teamTwo->nombre }}
+                                </span>
+                            @else
+                                <span class="w-10 h-7 bg-complementary-light/10 rounded-sm"></span>
+                                <span class="flex-1 text-sm italic text-complementary-light/70 truncate">
+                                    {{ $visitanteLabel }}
+                                </span>
+                            @endif
+                            <span class="text-base font-bold {{ $visitanteGana ? 'text-secondary' : 'text-slate-300' }}">
+                                {{ $tieneResultado ? $golesVisitante : '—' }}
                             </span>
-                        @endif
-                        <span class="text-base font-bold {{ $localGana ? 'text-secondary' : 'text-slate-300' }}">
-                            {{ $tieneResultado ? $golesLocal : '—' }}
-                        </span>
-                    </div>
-                    <hr class="border-complementary-light/30">
-                    <div class="flex items-center gap-2 px-6 py-4">
-                        @if ($partido->teamTwo)
-                            <img src="{{ asset($partido->teamTwo->imagen) }}"
-                                alt="{{ $partido->teamTwo->codigo_iso }}"
-                                class="w-10 h-7 object-cover rounded-sm shadow-sm">
-                            <span class="flex-1 text-base truncate {{ $visitanteGana ? 'text-light font-semibold' : 'text-slate-300' }}">
-                                {{ $partido->teamTwo->nombre }}
-                            </span>
-                        @else
-                            <span class="w-10 h-7 bg-complementary-light/10 rounded-sm"></span>
-                            <span class="flex-1 text-sm italic text-complementary-light/70 truncate">
-                                {{ $visitanteLabel }}
-                            </span>
-                        @endif
-                        <span class="text-base font-bold {{ $visitanteGana ? 'text-secondary' : 'text-slate-300' }}">
-                            {{ $tieneResultado ? $golesVisitante : '—' }}
-                        </span>
+                        </div>
                     </div>
                 </div>
             @endif
