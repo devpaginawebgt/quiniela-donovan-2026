@@ -8,9 +8,8 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Mail;
 
-class SendWelcomeEmail
+class SendWelcomeEmail implements ShouldQueue
 {
-    // implements ShouldQueue
     /**
      * Create the event listener.
      */
@@ -25,7 +24,7 @@ class SendWelcomeEmail
     public function handle(Registered $event): void
     {
         Mail::to($event->user->email)
-            ->send(new WelcomeMail($event->user));
-            // ->queue(new WelcomeMail($event->user));
+            // ->send(new WelcomeMail($event->user));
+            ->queue(new WelcomeMail($event->user));
     }
 }
