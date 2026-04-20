@@ -7,6 +7,12 @@
 @source "../../public/js/*.js";
 @source "../../node_modules/flowbite/dist/flowbite.js";
 
+/* Backdrop de Flowbite drawer — oscurecer más sobre fondo dark */
+[drawer-backdrop] {
+    background-color: rgba(0, 0, 0, 0.6) !important;
+    backdrop-filter: blur(1px);
+}
+
 [class*="brands-swiper-"][class*="-pagination"] .swiper-pagination-bullet,
 .carousel-home-banners .swiper-pagination-bullet,
 .carousel-section-banners .swiper-pagination-bullet {

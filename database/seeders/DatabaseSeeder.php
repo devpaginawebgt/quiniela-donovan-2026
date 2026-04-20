@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
             VisitorSeeder::class,
             CodigoSeeder::class,
             UserTypeSeeder::class,
+            RolePermissionSeeder::class,
             UserSeeder::class,
             GrupoSeeder::class,
             EquipoSeeder::class,

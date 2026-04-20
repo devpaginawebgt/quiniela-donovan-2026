@@ -136,6 +136,9 @@ class UserSeeder extends Seeder
 
         DB::table('users')->insert($users);
 
+        User::whereIn('id', [1, 2])->each(fn (User $user) => $user->assignRole('admin'));
+        User::whereIn('id', [3, 4, 5])->each(fn (User $user) => $user->assignRole('participant'));
+
         // 500 dependientes (tipo 1) — mixto GT y HN
         // User::factory()->count(250)->dependiente(paisId: 1)->create();
         // User::factory()->count(250)->dependiente(paisId: 2)->create();

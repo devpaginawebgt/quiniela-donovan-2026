@@ -11,7 +11,8 @@
         "laravel/framework": "^12.0",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.5",
-        "nesbot/carbon": "^3.0"
+        "nesbot/carbon": "^3.0",
+        "spatie/laravel-permission": "^6.25"
     },
     "require-dev": {
         "spatie/laravel-ignition": "^2.0",

@@ -106,13 +106,10 @@ Route::middleware(['auth'])->as('web.')->group(function() {
         Route::get('/recompensas', 'recompensas')->name('recompensas');
     });
 
-    // Rutas para super-admin
-
-    // Route::controller(ResultadoPartidoController::class)->group(function() {
-
-    //     Route::get('/actualizar-puntos-usuarios', 'actualizarPuntosParticipantesALL');
-
-    // });
+    // Rutas solo para admins
+    Route::middleware('role:admin')->prefix('admin')->as('admin.')->group(function () {
+        Route::get('/', fn () => view('modulos.admin.dashboard'))->name('dashboard');
+    });
 
     Route::get('/', function () {
         return redirect()->route('web.inicio.proximos-partidos');
@@ -136,5 +133,6 @@ Route::middleware(['auth'])->as('web.')->group(function() {
 // Embed (público, sin auth — para Flutter WebView)
 
 Route::get('/embed/bracket', [BracketController::class, 'show'])->name('embed.bracket');
+
 
 require __DIR__.'/auth.php';
