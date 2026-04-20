@@ -24,7 +24,7 @@
             'show'  => true,
         ],
         [
-            'route' => 'web.admin.dashboard',
+            'route' => 'web.admin.reports.report',
             'match' => 'web.admin.*',
             'icon'  => 'icon-[material-symbols--shield-person-rounded]',
             'label' => 'Administrador',

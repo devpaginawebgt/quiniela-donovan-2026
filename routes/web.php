@@ -1,9 +1,9 @@
 <?php
 
+use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\BracketController;
 use App\Http\Controllers\EstadioController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PremioController;
 use App\Http\Controllers\ResultadoPartidoController;
 use App\Http\Controllers\EquipoController;
@@ -108,7 +108,11 @@ Route::middleware(['auth'])->as('web.')->group(function() {
 
     // Rutas solo para admins
     Route::middleware('role:admin')->prefix('admin')->as('admin.')->group(function () {
-        Route::get('/', fn () => view('modulos.admin.dashboard'))->name('dashboard');
+
+        Route::controller(ReportsController::class)->as('reports.')->group(function() {
+            Route::get('reporte', 'report')->name('report');
+        });
+
     });
 
     Route::get('/', function () {
