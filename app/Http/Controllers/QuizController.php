@@ -6,10 +6,11 @@ use App\Http\Requests\Quiz\StoreQuizRequest;
 use App\Http\Resources\Quiz\QuizLAResource;
 use App\Http\Resources\Quiz\QuizListItemResource;
 use App\Http\Resources\Quiz\QuizResource;
+use App\Http\Services\ModuleService;
 use App\Http\Services\QuizService;
 use App\Http\Services\QuizUserService;
 use App\Http\Services\UserService;
-use App\Models\Quiz;
+use Illuminate\Support\Facades\Auth;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
 
@@ -21,6 +22,7 @@ class QuizController extends Controller
         private readonly QuizService $quizService,
         private readonly UserService $userService,
         private readonly QuizUserService $quizUserService,
+        private readonly ModuleService $moduleService,        
     ) {}
 
     public function index() 
@@ -136,63 +138,79 @@ class QuizController extends Controller
 
     /**
      * Show trivia view with active quiz data.
-    */
-    public function lastAttemptWeb(Request $request)
+     */
+    public function triviasWeb(Request $request)
     {
-        $quiz = $this->quizService->getCurrentQuiz();
+        // Banners
+
+        $banners = $this->moduleService->getBanners(10);
+
+        // User Info
+
+        $user = Auth::user();
+        
+        $user = $this->userService->getUserRank($user);
+
+        $user = $this->userService->getUserPredictionsCount($user);
+
+        $quizzes = $this->quizService->getQuizzes();
+
+        if (empty($quizzes)) {
+            return $this->successResponse([]);
+        }
+
+        $quizzes = $this->quizUserService->showQuizzes($quizzes);
+
+        return view('modulos.trivias', compact('banners', 'user', 'quizzes'));
+
+    }
+
+    public function triviaWeb(Request $request, string $quiz_id)
+    {
+        $quiz = $this->quizService->getQuizById((int)$quiz_id);
 
         if (empty($quiz)) {
-            return redirect()->route('web.inicio.trivia');
+            return redirect()->route('web.inicio.trivias.index');
+        }
+
+        $last_attempt = $this->quizUserService->getLastAttemptSimple($quiz->id);
+
+        $best_attempt = $this->quizUserService->getBestAttempt($quiz->id);
+
+        $quiz = $this->quizUserService->showQuiz($quiz);
+
+        if ($quiz->retry === false) {
+            return redirect()->route('web.inicio.trivias.last-attempt', $quiz_id);
+        }
+
+        $quiz = (new QuizResource($quiz))->resolve();
+
+        return view('modulos.trivia', compact('quiz'));
+    }
+
+    /**
+     * Show trivia view with active quiz data.
+    */
+    public function lastAttemptWeb(Request $request, string $quiz_id)
+    {
+        $quiz = $this->quizService->getQuizById((int)$quiz_id);
+
+        if (empty($quiz)) {
+            return redirect()->route('web.inicio.trivias.index');
         }
 
         $last_attempt = $this->quizUserService->getLastAttempt($quiz->id);
 
         if (empty($last_attempt)) {
-            return redirect()->route('web.inicio.trivia');
+            return redirect()->route('web.inicio.trivias.show', $quiz_id);
         }
+
+        $best_attempt = $this->quizUserService->getBestAttempt($quiz->id);
 
         $current_attempts = $last_attempt ? $last_attempt->attempt_number : 0;
         
-        $all_correct = $last_attempt && $last_attempt->responses->every(fn ($r) => $r->is_correct);
+        $quizLA = $this->quizUserService->getQuizLastAttemptInfo($quiz, $last_attempt, $best_attempt);
 
-        $last_attempt->retry = $current_attempts < $quiz->attempts && !$all_correct;
-
-        $quizLA = $last_attempt;
-
-        return view('modulos.trivias-puntos', compact('quizLA'));
-    }
-
-    /**
-     * Show trivia view with active quiz data.
-     */
-    public function indexWeb(Request $request)
-    {
-        $quiz_db = $this->quizService->getCurrentQuiz();
-
-        $quiz = null;
-
-        if ($quiz_db) {
-            $last_attempt = $this->quizUserService->getLastAttemptSimple($quiz_db->id);
-
-            $best_attempt = $this->quizUserService->getBestAttempt($quiz_db->id);
-
-            $next_attempt_number = $last_attempt ? $last_attempt->attempt_number + 1 : 1;
-
-            $hasAnsweredCorrectly = $best_attempt ? $best_attempt->all_correct : false;
-
-            $quiz_db->retry = $next_attempt_number < $quiz_db->attempts && !$hasAnsweredCorrectly;
-
-            $quiz_db->current_score = $best_attempt ? $best_attempt->response_points : 0;
-
-            $quiz_db->next_attempt_number = $next_attempt_number;
-
-            $quiz_db->has_answered_correctly = $hasAnsweredCorrectly;
-
-            $quiz_db->last_attempt_number = $last_attempt?->attempt_number;
-
-            $quiz = (new QuizResource($quiz_db))->resolve();
-        }
-
-        return view('modulos.trivias', compact('quiz'));
+        return view('modulos.trivia-last-attempt', compact('quizLA'));
     }
 }
