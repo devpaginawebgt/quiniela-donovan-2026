@@ -174,8 +174,8 @@
                     if (isCorrect) {
                         totalPoints += points;
                         pointsBadge.textContent = `${totalPoints} punto${totalPoints !== 1 ? 's' : ''}`;
-                        pointsBadge.classList.remove('bg-red-600/70');
-                        pointsBadge.classList.add('bg-secondary', 'text-dark');
+                        // pointsBadge.classList.remove('bg-red-600/70');
+                        // pointsBadge.classList.add('bg-secondary', 'text-dark');
 
                         btnNext.disabled = false;
                         btnNext.className = 'w-full py-3.5 rounded-full font-bold text-lg flex items-center justify-center gap-2 transition-all duration-200 bg-secondary text-dark hover:bg-secondary/90';
