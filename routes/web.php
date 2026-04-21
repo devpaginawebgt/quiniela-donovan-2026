@@ -59,9 +59,9 @@ Route::middleware(['auth'])->as('web.')->group(function() {
 
         Route::controller(QuizController::class)->as('trivias.')->group(function() {
             Route::get('trivias', 'triviasWeb')->name('index');
-            Route::get('trivia/{id}', 'triviaWeb')->name('show');
-            Route::post('trivia', 'store')->name('store');
-            Route::get('trivia/{id}/ultimo-intento', 'lastAttemptWeb')->name('last-attempt');
+            Route::get('trivias/{id}', 'triviaWeb')->name('show');
+            Route::post('trivias', 'store')->name('store');
+            Route::get('trivias/{id}/ultimo-intento', 'lastAttemptWeb')->name('last-attempt');
         });
     });
 
