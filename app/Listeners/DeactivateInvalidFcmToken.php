@@ -41,7 +41,7 @@ class DeactivateInvalidFcmToken
             || $error instanceof InvalidMessage;
 
         if (! $isPermanent) {
-            Log::warning('FCM send falló con error transitorio, token no desactivado', [
+            Log::channel('push-notifications-deactivate')->warning('FCM send falló con error transitorio, token no desactivado', [
                 'token' => $token,
                 'error' => $error?->getMessage(),
             ]);
@@ -52,7 +52,7 @@ class DeactivateInvalidFcmToken
             ->where('is_active', true)
             ->update(['is_active' => false]);
 
-        Log::info('FCM token desactivado', [
+        Log::channel('push-notifications-deactivate')->info('FCM token desactivado', [
             'token' => $token,
             'affected_rows' => $affected,
             'reason' => $error ? $error::class : 'unknown',

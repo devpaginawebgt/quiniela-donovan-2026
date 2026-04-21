@@ -55,7 +55,7 @@ class PushNotificationService
         try {
             Notification::send($recipients, new TestPushNotification($pushNotification));
         } catch (Throwable $e) {
-            Log::error('[PushNotificationService] Falló el envío de push notifications', [
+            Log::channel('push-notifications')->error('[PushNotificationService] Falló el envío de push notifications', [
                 'push_notification_id' => $pushNotification->id,
                 'recipients'           => $total,
                 'exception'            => $e::class,
@@ -72,7 +72,7 @@ class PushNotificationService
 
         $failedCount = count($failures);
 
-        Log::info('[PushNotificationService] Push notification enviada', [
+        Log::channel('push-notifications')->info('[PushNotificationService] Push notification enviada', [
             'push_notification_id' => $pushNotification->id,
             'recipients'           => $total,
             'failures'             => $failedCount,
