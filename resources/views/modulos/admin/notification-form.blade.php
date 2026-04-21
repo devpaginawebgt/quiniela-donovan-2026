@@ -1,9 +1,9 @@
 <x-admin-layout>
-    <div class="max-w-screen-2xl mx-auto">
+    <div class="max-w-screen-2xl mx-auto h-full flex-1 flex justify-center items-center">
 
         {{-- Módulo: Notificaciones Push --}}
         @can('admin.enviar-notificaciones-push')
-            <section class="rounded-2xl bg-complementary-primary/80 backdrop-blur shadow-lg py-4 sm:py-6 px-4 sm:px-6 mb-6">
+            <section class="rounded-2xl bg-complementary-primary backdrop-blur shadow-lg py-4 sm:py-6 px-4 sm:px-6 mb-6">
 
                 <div class="flex items-center justify-between mb-6">
                     <div class="flex items-center gap-3">

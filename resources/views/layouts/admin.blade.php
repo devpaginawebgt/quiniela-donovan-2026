@@ -99,7 +99,7 @@
 
     {{-- Contenido principal --}}
     <div class="lg:ml-64 pt-14 lg:pt-0 min-h-screen bg-white text-black">
-        <main class="p-4 sm:p-6 lg:p-8">
+        <main class="p-4 sm:p-6 lg:p-8 min-h-screen flex flex-col">
             {{ $slot }}
         </main>
     </div>
