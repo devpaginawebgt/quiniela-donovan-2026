@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\NotificationsController;
 use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\BracketController;
 use App\Http\Controllers\EstadioController;
@@ -111,6 +112,10 @@ Route::middleware(['auth'])->as('web.')->group(function() {
 
         Route::controller(ReportsController::class)->as('reports.')->group(function() {
             Route::get('reporte', 'report')->name('report');
+        });
+
+        Route::controller(NotificationsController::class)->as('notifications.')->group(function() {
+            Route::get('notificaciones', 'index')->name('index');
         });
 
     });
