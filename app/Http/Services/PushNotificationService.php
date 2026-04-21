@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Notifications\TestPushNotification;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Notifications\Events\NotificationFailed;
+use Illuminate\Notifications\Notification as BaseNotification;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Notification;
@@ -53,7 +54,7 @@ class PushNotificationService
         
 
         try {
-            Notification::send($recipients, new TestPushNotification($pushNotification));
+            Notification::send($recipients, $this->resolveNotification($pushNotification));
         } catch (Throwable $e) {
             Log::channel('push-notifications')->error('[PushNotificationService] Falló el envío de push notifications', [
                 'push_notification_id' => $pushNotification->id,
@@ -84,5 +85,19 @@ class PushNotificationService
             'failed'  => $failedCount,
             'error'   => null,
         ];
+    }
+
+    /**
+     * Resuelve la clase Notification a usar según el tipo (slug) configurado
+     * en config/quiniela.php. Si no hay tipo o el slug no está mapeado se usa
+     * TestPushNotification como fallback.
+     */
+    protected function resolveNotification(PushNotification $pushNotification): BaseNotification
+    {
+        $slug = $pushNotification->type?->slug;
+        $map = config('quiniela.push_notification_classes', []);
+        $class = $map[$slug] ?? TestPushNotification::class;
+
+        return new $class($pushNotification);
     }
 }

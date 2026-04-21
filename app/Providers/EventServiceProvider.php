@@ -7,6 +7,7 @@ use App\Events\ResultCreated;
 use App\Listeners\AddBracketGame;
 use App\Listeners\AddBracketGameResult;
 use App\Listeners\DeactivateInvalidFcmToken;
+use App\Listeners\ScheduleMatchPushNotification;
 use App\Listeners\SendWelcomeEmail;
 use App\Listeners\UpdatePredictionPoints;
 use Illuminate\Auth\Events\Registered;
@@ -29,6 +30,7 @@ class EventServiceProvider extends ServiceProvider
         ],
         MatchCreated::class => [
             AddBracketGame::class,
+            ScheduleMatchPushNotification::class,
         ],
         ResultCreated::class => [
             AddBracketGameResult::class,

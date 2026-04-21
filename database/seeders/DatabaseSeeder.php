@@ -42,6 +42,9 @@ class DatabaseSeeder extends Seeder
             QuizQuestionSeeder::class,
             QuizOptionSeeder::class,
             BonusSeeder::class,
+
+            SystemSettingSeeder::class,
+            PushNotificationTypeSeeder::class,
         ]);
     }
 }

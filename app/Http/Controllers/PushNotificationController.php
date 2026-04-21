@@ -6,6 +6,7 @@ use App\Http\Requests\PushNotification\StorePushNotificationRequest;
 use App\Http\Services\PushNotificationService;
 use App\Models\Country;
 use App\Models\PushNotification;
+use App\Models\PushNotificationType;
 use App\Models\UserType;
 use Illuminate\Http\Request;
 
@@ -60,12 +61,17 @@ class PushNotificationController extends Controller
 
         // Create push notification in db
 
+        $systemType = PushNotificationType::where('slug', PushNotificationType::SYSTEM)->first();
+
         $pushNotification = PushNotification::create([
+            'push_notification_type_id' => $systemType?->id,
             'title'        => $data['title'],
             'description'  => $data['description'],
             'image_path'   => $imagePath,
             'user_type_id' => $data['user_type_id'] ?? null,
             'country_id'   => $data['country_id'] ?? null,
+            'status'       => PushNotification::STATUS_SENDING,
+            'scheduled_at' => now(),
             'recipients'   => $recipients->count(),
             'created_by'   => $request->user()->id,
             'from_system'  => false,
@@ -76,6 +82,8 @@ class PushNotificationController extends Controller
         $result = $service->send($pushNotification, $recipients);
 
         $pushNotification->update([
+            'status'  => $result['success'] ? PushNotification::STATUS_SENT : PushNotification::STATUS_FAILED,
+            'sent_at' => now(),
             'success' => $result['success'],
             'failed'  => $result['failed'],
             'comment' => $result['error'],
