@@ -26,31 +26,31 @@ use App\Http\Controllers\UserController;
 
 /****** RUTAS GET PARA OBTENER VISTAS DE MODULOS */
 
-Route::middleware(['auth'])->as('web.')->group(function() {
+Route::middleware(['auth'])->as('web.')->group(function () {
 
     // Inicio
 
-    Route::prefix('inicio')->as('inicio.')->group(function() {
+    Route::prefix('inicio')->as('inicio.')->group(function () {
 
-        Route::controller(ResultadoPartidoController::class)->group(function() {
+        Route::controller(ResultadoPartidoController::class)->group(function () {
             Route::get('proximos-partidos', 'proximosPartidosWeb')->name('proximos-partidos');
             Route::get('mis-predicciones', 'misPrediccionesWeb')->name('mis-predicciones');
             Route::post('predicciones', 'savePrediccionesWeb')->name('save-predicciones');
         });
 
-        Route::controller(JornadaController::class)->group(function() {
+        Route::controller(JornadaController::class)->group(function () {
             Route::get('calendario', 'calendarioWeb')->name('calendario');
         });
 
-        Route::controller(EstadioController::class)->group(function() {
+        Route::controller(EstadioController::class)->group(function () {
             Route::get('estadios', 'estadiosWeb')->name('estadios');
         });
 
-        Route::controller(GrupoController::class)->group(function() {            
+        Route::controller(GrupoController::class)->group(function () {
             Route::get('grupos', 'gruposWeb')->name('grupos');
         });
 
-        Route::controller(EquipoController::class)->group(function() {
+        Route::controller(EquipoController::class)->group(function () {
             Route::get('equipos', 'equiposWeb')->name('equipos');
         });
 
@@ -70,14 +70,14 @@ Route::middleware(['auth'])->as('web.')->group(function() {
 
     // Grupos
 
-    Route::controller(GrupoController::class)->prefix('grupos')->as('grupos.')->group(function() {
+    Route::controller(GrupoController::class)->prefix('grupos')->as('grupos.')->group(function () {
         Route::get('/{grupo_id}/equipos', 'getEquiposWeb')->name('equipos');
         Route::get('/{grupo_id}/jornadas', 'getJornadasWeb')->name('jornadas');
     });
 
     // Jornadas
 
-    Route::controller(JornadaController::class)->prefix('jornadas')->group(function() {
+    Route::controller(JornadaController::class)->prefix('jornadas')->group(function () {
         // Route::get('', 'jornadasWeb')->name('jornadas');
 
         Route::post('/partidos-grupo', 'partidosGrupo');
@@ -86,7 +86,7 @@ Route::middleware(['auth'])->as('web.')->group(function() {
 
     // Partidos y resultados
 
-    Route::controller(ResultadoPartidoController::class)->group(function() {
+    Route::controller(ResultadoPartidoController::class)->group(function () {
         Route::post('/guardar-predicciones-form', 'guardarPrediccionesForm')->name('guardar-predicciones-form');
         // Route::get('/ver-quiniela/{jornada?}/{message?}', 'verQuiniela')->name('ver-quiniela');
         // Route::get('/ver-tabla-resultados', 'verTablaResultados')->name('ver-tabla-resultados');
@@ -95,7 +95,7 @@ Route::middleware(['auth'])->as('web.')->group(function() {
         // Route::post('/obtener-predicciones/', 'obtenerPrediccionesGuardadas');
     });
 
-    Route::controller(UserController::class)->as('users')->group(function() {
+    Route::controller(UserController::class)->as('users')->group(function () {
         Route::get('ranking', 'indexWeb')->name('.ranking');
         Route::get('ranking/data', 'getRankingData')->name('.ranking.data');
         Route::get('/perfil', 'perfil')->name('.perfil');
@@ -103,15 +103,19 @@ Route::middleware(['auth'])->as('web.')->group(function() {
 
     // Premios
 
-    Route::controller(PremioController::class)->group(function() {
+    Route::controller(PremioController::class)->group(function () {
         Route::get('/recompensas', 'recompensas')->name('recompensas');
     });
 
     // Rutas solo para admins
     Route::middleware('role:admin')->prefix('admin')->as('admin.')->group(function () {
 
-        Route::controller(ReportsController::class)->as('reports.')->group(function() {
-            Route::get('reporte', 'report')->name('report');
+        Route::controller(ReportsController::class)->as('reports.')->group(function () {
+            Route::controller(ReportsController::class)->prefix('users')->as('users.')->group(function () {
+                Route::get('/', 'report')->name('index');
+                Route::get('/data', 'data')->name('data');
+                Route::get('/export', 'export')->name('export');
+            });
         });
 
         Route::controller(PushNotificationController::class)->as('notifications.')->group(function() {
@@ -124,7 +128,6 @@ Route::middleware(['auth'])->as('web.')->group(function() {
     Route::get('/', function () {
         return redirect()->route('web.inicio.proximos-partidos');
     });
-
 });
 
 // Route::middleware(['guest'])->group(function() {
@@ -145,4 +148,4 @@ Route::middleware(['auth'])->as('web.')->group(function() {
 Route::get('/embed/bracket', [BracketController::class, 'show'])->name('embed.bracket');
 
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
