@@ -4,13 +4,18 @@
     <div class="px-4 py-6 max-w-2xl mx-auto">
         {{-- Header: título, icono, puntos, intento --}}
         <div class="text-center mb-6">
+            <a href="{{ route('web.inicio.trivias.index') }}"
+            class="flex justify-start w-full text-light mb-2">
+                <span class="icon-[material-symbols--arrow-back-rounded] w-8 h-8"></span>
+            </a>
+
             <h1 class="text-3xl font-bold text-light">{{ $quizLA->quiz->name }}</h1>
 
             <div class="flex justify-center my-4">
                 <span class="icon-[fa-solid--medal] w-16 h-16 text-light"></span>
             </div>
 
-            <p class="text-3xl font-bold text-secondary">+{{ $quizLA->response_points }} puntos</p>
+            <p class="text-3xl font-bold text-light">+{{ $quizLA->response_points }} puntos</p>
             <p class="text-lg font-semibold text-light mt-1">
                 Intento {{ $quizLA->attempt_number }} de {{ $quizLA->quiz->attempts }}
             </p>
@@ -53,22 +58,22 @@
                             @if ($response->is_correct)
                                 {{-- Respuesta correcta --}}
                                 <div class="flex items-center gap-2">
-                                    <span class="icon-[material-symbols--check-small] w-5 h-5 text-green-500 shrink-0"></span>
-                                    <span class="text-sm text-light">{{ $response->option->option_text }}</span>
+                                    <span class="icon-[material-symbols--check] w-5 h-5 text-green-500 shrink-0"></span>
+                                    <span class="text-sm md:text-md text-light">{{ $response->option->option_text }}</span>
                                 </div>
                             @else
                                 {{-- Respuesta incorrecta del usuario --}}
                                 @if ($response->option)
                                     <div class="flex items-center gap-2 mb-1">
-                                        <span class="icon-[fa-solid--times] w-4 h-4 text-red-500 shrink-0"></span>
-                                        <span class="text-sm text-light">{{ $response->option->option_text }}</span>
+                                        <span class="icon-[material-symbols--close] w-5 h-5 text-red-500 shrink-0"></span>
+                                        <span class="text-sm md:text-md text-light">{{ $response->option->option_text }}</span>
                                     </div>
                                 @endif
                                 {{-- Respuesta correcta --}}
                                 @if ($response->question->correct_option)
                                     <div class="flex items-center gap-2">
-                                        <span class="icon-[material-symbols--check-small] w-5 h-5 text-green-500 shrink-0"></span>
-                                        <span class="text-sm text-light">{{ $response->question->correct_option->option_text }}</span>
+                                        <span class="icon-[material-symbols--check] w-5 h-5 text-green-500 shrink-0"></span>
+                                        <span class="text-sm md:text-md text-light">{{ $response->question->correct_option->option_text }}</span>
                                     </div>
                                 @endif
                             @endif
@@ -88,14 +93,14 @@
         </div>
 
         {{-- Botón volver a intentar --}}
-        @if ($quizLA->retry)
+        {{-- @if ($quizLA->retry)
             <div class="mt-8 mb-4">
-                <a href="{{ route('web.inicio.trivia') }}"
+                <a href="{{ route('web.inicio.trivias.show', $quizLA->quiz_id) }}"
                    class="flex items-center justify-center gap-2 w-full py-3 rounded-full bg-red-600 hover:bg-red-500 text-light font-semibold text-lg transition-colors">
                     <span class="icon-[material-symbols--refresh] w-5 h-5"></span>
                     Volver a intentar
                 </a>
             </div>
-        @endif
+        @endif --}}
     </div>
 </x-app-layout>

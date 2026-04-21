@@ -52,7 +52,7 @@
             </li>
 
             <li role="presentation">
-                <a href="{{ route('web.inicio.trivia-puntos') }}"
+                <a href="{{ route('web.inicio.trivias.index') }}"
                    role="tab"
                    aria-selected="{{ $activeTab === 'trivia' ? 'true' : 'false' }}"
                    @if($activeTab === 'trivia') aria-current="page" @endif
@@ -61,8 +61,8 @@
                            ? 'bg-secondary text-dark font-semibold'
                            : 'text-complementary-light hover:bg-white/10 hover:text-light' }}"
                 >
-                    <span class="icon-[material-symbols--quiz-outline] w-4 h-4 lg:w-3.5 lg:h-3.5 xl:w-4 xl:h-4 shrink-0"></span>
-                    Trivia
+                    <span class="icon-[fa-solid--brain] w-4 h-4 lg:w-3.5 lg:h-3.5 xl:w-4 xl:h-4 shrink-0"></span>
+                    Trivias
                 </a>
             </li>
 

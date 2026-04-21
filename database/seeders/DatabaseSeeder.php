@@ -41,8 +41,6 @@ class DatabaseSeeder extends Seeder
             QuizSeeder::class,
             QuizQuestionSeeder::class,
             QuizOptionSeeder::class,
-            QuizUserSeeder::class,
-            QuizResponseSeeder::class,
             BonusSeeder::class,
         ]);
     }

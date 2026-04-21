@@ -57,11 +57,11 @@ Route::middleware(['auth'])->as('web.')->group(function() {
             return redirect()->route('web.inicio.proximos-partidos');
         });
 
-        Route::controller(QuizController::class)->group(function() {
-
-            Route::get('trivia', 'indexWeb')->name('trivia');
-            Route::post('trivia', 'store')->name('trivias.store');
-            Route::get('trivia-puntos', 'lastAttemptWeb')->name('trivia-puntos');
+        Route::controller(QuizController::class)->as('trivias.')->group(function() {
+            Route::get('trivias', 'triviasWeb')->name('index');
+            Route::get('trivia/{id}', 'triviaWeb')->name('show');
+            Route::post('trivia', 'store')->name('store');
+            Route::get('trivia/{id}/ultimo-intento', 'lastAttemptWeb')->name('last-attempt');
         });
     });
 
