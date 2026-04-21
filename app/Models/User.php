@@ -15,7 +15,7 @@ use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
-    
+
     public $timestamps = true;
 
     /**
@@ -122,5 +122,15 @@ class User extends Authenticatable
     public function bonuses(): HasMany
     {
         return $this->hasMany(BonusUser::class);
+    }
+
+    public function company(): BelongsTo
+    {
+        return $this->belongsTo(Company::class, 'company_id');
+    }
+
+    public function visitor(): BelongsTo
+    {
+        return $this->belongsTo(Visitor::class, 'visitor_id');
     }
 }

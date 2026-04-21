@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -13,14 +14,19 @@
     <title>{{ config('app.name', 'Quiniela') }} — Admin</title>
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
-
+    
     @vite([
-        'resources/css/app.css',
-        'resources/css/styles.css',
-        'resources/js/app.js',
-        'resources/js/functions.js'
+    'resources/css/app.css',
+    'resources/css/styles.css',
+    'resources/js/app.js',
+    'resources/js/functions.js'
     ])
+    
+    <link href="https://cdn.datatables.net/v/dt/dt-2.3.7/r-3.0.8/datatables.min.css" rel="stylesheet" integrity="sha384-BRRIJxYmCe3t9liG1Pi7Ufg2cB0SZg0eK/gaUhI/taUrJ4eHZJDmI7kkUm343vK3" crossorigin="anonymous">
+
+    @stack('styles')
 </head>
+
 <body class="font-sans antialiased text-light bg-complementary-primary">
 
     {{-- Topbar móvil (botón para abrir sidebar) --}}
@@ -33,13 +39,13 @@
             </div>
 
             <button type="button"
-                    data-drawer-target="admin-sidebar"
-                    data-drawer-toggle="admin-sidebar"
-                    data-drawer-placement="top"
-                    data-drawer-backdrop="true"
-                    data-drawer-body-scrolling="false"
-                    aria-controls="admin-sidebar"
-                    class="p-1 rounded-lg text-light hover:bg-complementary-primary focus:outline-none focus:ring-2 focus:ring-secondary flex justify-center items-center">
+                data-drawer-target="admin-sidebar"
+                data-drawer-toggle="admin-sidebar"
+                data-drawer-placement="top"
+                data-drawer-backdrop="true"
+                data-drawer-body-scrolling="false"
+                aria-controls="admin-sidebar"
+                class="p-1 rounded-lg text-light hover:bg-complementary-primary focus:outline-none focus:ring-2 focus:ring-secondary flex justify-center items-center">
                 <span class="sr-only">Abrir menú</span>
                 <span class="icon-[material-symbols--menu-rounded] w-6 h-6"></span>
             </button>
@@ -48,12 +54,12 @@
 
     {{-- Sidebar --}}
     <aside id="admin-sidebar"
-           tabindex="-1"
-           class="fixed top-14 left-0 z-40 w-full max-h-[calc(100vh-3.5rem)] overflow-y-auto
+        tabindex="-1"
+        class="fixed top-14 left-0 z-40 w-full max-h-[calc(100vh-3.5rem)] overflow-y-auto
                   lg:top-0 lg:max-h-none lg:min-h-screen lg:w-64
                   transition-transform -translate-y-full lg:translate-y-0
                   bg-complementary-primary border-r border-zinc-400"
-           aria-label="Sidebar admin">
+        aria-label="Sidebar admin">
 
         <div class="flex flex-col h-full">
 
@@ -73,7 +79,7 @@
             {{-- Footer: volver al sitio + logout --}}
             <div class="px-3 py-3 border-t border-complementary-dark/30 space-y-1">
                 <a href="{{ route('web.inicio.proximos-partidos') }}"
-                   class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-complementary-light hover:bg-complementary-primary/60 hover:text-light transition-colors">
+                    class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-complementary-light hover:bg-complementary-primary/60 hover:text-light transition-colors">
                     <span class="icon-[material-symbols--arrow-back-rounded] w-5 h-5"></span>
                     <span>Volver al sitio</span>
                 </a>
@@ -81,7 +87,7 @@
                 <form method="POST" action="{{ route('web.logout') }}">
                     @csrf
                     <button type="submit"
-                            class="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-complementary-light hover:bg-complementary-primary/60 hover:text-light transition-colors">
+                        class="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-complementary-light hover:bg-complementary-primary/60 hover:text-light transition-colors">
                         <span class="icon-[material-symbols--logout-rounded] w-5 h-5"></span>
                         <span>Cerrar sesión</span>
                     </button>
@@ -92,11 +98,16 @@
     </aside>
 
     {{-- Contenido principal --}}
-    <div class="lg:ml-64 pt-14 lg:pt-0 min-h-screen">
+    <div class="lg:ml-64 pt-14 lg:pt-0 min-h-screen bg-white text-black">
         <main class="p-4 sm:p-6 lg:p-8">
             {{ $slot }}
         </main>
     </div>
 
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.datatables.net/v/dt/dt-2.3.7/r-3.0.8/datatables.min.js" integrity="sha384-e25Db4UObZkDDt/skCRMbhHLTuaXokIpyAiuOJxD+ym8PwtJFxMRiSvImhd7Ucbu" crossorigin="anonymous"></script>
+    @stack('scripts')
 </body>
+
 </html>
