@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class PushNotificationType extends Model
 {
-    public const SYSTEM = 'system';
+    public const ADMIN = 'admin';
     public const MATCH = 'match';
 
     protected $fillable = [

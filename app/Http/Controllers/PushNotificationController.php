@@ -61,10 +61,10 @@ class PushNotificationController extends Controller
 
         // Create push notification in db
 
-        $systemType = PushNotificationType::where('slug', PushNotificationType::SYSTEM)->first();
+        $adminType = PushNotificationType::where('slug', PushNotificationType::ADMIN)->first();
 
         $pushNotification = PushNotification::create([
-            'push_notification_type_id' => $systemType?->id,
+            'push_notification_type_id' => $adminType?->id,
             'title'        => $data['title'],
             'description'  => $data['description'],
             'image_path'   => $imagePath,
@@ -79,14 +79,15 @@ class PushNotificationController extends Controller
 
         // Validate notifications sent
 
-        $result = $service->send($pushNotification, $recipients);
+        $result = $service->sendAdminNotification($pushNotification);
 
         $pushNotification->update([
-            'status'  => $result['success'] ? PushNotification::STATUS_SENT : PushNotification::STATUS_FAILED,
-            'sent_at' => now(),
-            'success' => $result['success'],
-            'failed'  => $result['failed'],
-            'comment' => $result['error'],
+            'status'     => $result['success'] ? PushNotification::STATUS_SENT : PushNotification::STATUS_FAILED,
+            'sent_at'    => now(),
+            'recipients' => $result['total'],
+            'success'    => $result['success'],
+            'failed'     => $result['failed'],
+            'comment'    => $result['error'],
         ]);
 
         if ($result['success'] === false) {

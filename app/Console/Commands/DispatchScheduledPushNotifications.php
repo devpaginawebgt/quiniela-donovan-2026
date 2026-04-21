@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Http\Services\PushNotificationService;
 use App\Models\PushNotification;
+use App\Models\PushNotificationType;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 
@@ -18,6 +19,7 @@ class DispatchScheduledPushNotifications extends Command
         $limit = (int) $this->option('limit');
 
         $pending = PushNotification::query()
+            ->with('type')
             ->where('status', PushNotification::STATUS_PENDING)
             ->where('scheduled_at', '<=', now())
             ->orderBy('scheduled_at')
@@ -32,7 +34,7 @@ class DispatchScheduledPushNotifications extends Command
         $this->info("Procesando {$pending->count()} notificación(es) pendiente(s).");
 
         foreach ($pending as $pushNotification) {
-            // Intento atómico de claim: solo una corrida puede moverla a 'sending'.
+            // Claim atómico: solo una corrida puede moverla a 'sending'.
             $claimed = PushNotification::where('id', $pushNotification->id)
                 ->where('status', PushNotification::STATUS_PENDING)
                 ->update(['status' => PushNotification::STATUS_SENDING]);
@@ -43,45 +45,70 @@ class DispatchScheduledPushNotifications extends Command
             }
 
             $pushNotification->refresh();
+            $slug = $pushNotification->type?->slug;
 
-            $recipients = $service->filterRecipients([
-                'user_type_id' => $pushNotification->user_type_id,
-                'country_id'   => $pushNotification->country_id,
-            ]);
-
-            if ($recipients->isEmpty()) {
-                $pushNotification->update([
-                    'status'     => PushNotification::STATUS_SENT,
-                    'sent_at'    => now(),
-                    'recipients' => 0,
-                    'success'    => true,
-                    'failed'     => 0,
-                    'comment'    => 'Sin destinatarios con tokens activos.',
-                ]);
-
-                Log::channel('push-notifications')->info(
-                    '[DispatchScheduledPushNotifications] Sin destinatarios',
-                    ['push_notification_id' => $pushNotification->id]
-                );
-
-                $this->line("  - #{$pushNotification->id} sin destinatarios, marcada como sent (0).");
-                continue;
-            }
-
-            $result = $service->send($pushNotification, $recipients);
+            $result = match ($slug) {
+                PushNotificationType::ADMIN => $service->sendAdminNotification($pushNotification),
+                PushNotificationType::MATCH => $this->dispatchMatchNotification($service, $pushNotification),
+                default                     => $this->handleUnknownType($pushNotification, $slug),
+            };
 
             $pushNotification->update([
                 'status'     => $result['success'] ? PushNotification::STATUS_SENT : PushNotification::STATUS_FAILED,
                 'sent_at'    => now(),
-                'recipients' => $recipients->count(),
+                'recipients' => $result['total'],
                 'success'    => $result['success'],
                 'failed'     => $result['failed'],
                 'comment'    => $result['error'],
             ]);
 
-            $this->line("  - #{$pushNotification->id} → {$pushNotification->status} (recipients: {$recipients->count()}, failed: {$result['failed']}).");
+            $this->line("  - #{$pushNotification->id} [{$slug}] → {$pushNotification->status} (recipients: {$result['total']}, failed: {$result['failed']}).");
         }
 
         return self::SUCCESS;
+    }
+
+    /**
+     * Para el tipo match se hacen dos despachos independientes (con y sin
+     * predicción) y se agregan los resultados en uno solo.
+     *
+     * @return array{success: bool, total: int, failed: int, error: ?string}
+     */
+    protected function dispatchMatchNotification(PushNotificationService $service, PushNotification $pushNotification): array
+    {
+        $withPrediction    = $service->sendMatchWithPredictionNotification($pushNotification);
+        $withoutPrediction = $service->sendMatchWithoutPredictionNotification($pushNotification);
+
+        $errors = array_filter([
+            $withPrediction['error'] ? "with_prediction: {$withPrediction['error']}" : null,
+            $withoutPrediction['error'] ? "without_prediction: {$withoutPrediction['error']}" : null,
+        ]);
+
+        return [
+            'success' => $withPrediction['success'] && $withoutPrediction['success'],
+            'total'   => $withPrediction['total'] + $withoutPrediction['total'],
+            'failed'  => $withPrediction['failed'] + $withoutPrediction['failed'],
+            'error'   => $errors ? implode(' | ', $errors) : null,
+        ];
+    }
+
+    /**
+     * @return array{success: bool, total: int, failed: int, error: ?string}
+     */
+    protected function handleUnknownType(PushNotification $pushNotification, ?string $slug): array
+    {
+        $message = "Tipo de notificación desconocido: '" . ($slug ?? 'null') . "'.";
+
+        Log::channel('push-notifications')->error(
+            '[DispatchScheduledPushNotifications] Tipo desconocido',
+            ['push_notification_id' => $pushNotification->id, 'slug' => $slug]
+        );
+
+        return [
+            'success' => false,
+            'total'   => 0,
+            'failed'  => 0,
+            'error'   => $message,
+        ];
     }
 }

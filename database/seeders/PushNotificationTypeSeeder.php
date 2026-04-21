@@ -10,8 +10,8 @@ class PushNotificationTypeSeeder extends Seeder
     public function run(): void
     {
         $types = [
-            ['name' => 'Sistema', 'slug' => PushNotificationType::SYSTEM],
-            ['name' => 'Partido', 'slug' => PushNotificationType::MATCH],
+            ['name' => 'Administrador', 'slug' => PushNotificationType::ADMIN],
+            ['name' => 'Partido',       'slug' => PushNotificationType::MATCH],
         ];
 
         foreach ($types as $type) {
