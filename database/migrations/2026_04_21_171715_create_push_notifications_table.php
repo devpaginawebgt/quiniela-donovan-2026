@@ -22,7 +22,10 @@ return new class extends Migration
                 ->constrained('countries')
                 ->onUpdate('cascade')
                 ->onDelete('restrict');
-            $table->integer('users_count')->default(0);
+            $table->integer('recipients')->default(0);
+            $table->boolean('success')->default(false);
+            $table->integer('failed')->default(0);
+            $table->string('comment')->nullable();
             $table->foreignId('created_by')
                 ->nullable()
                 ->constrained('users')

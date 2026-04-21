@@ -13,7 +13,10 @@ class PushNotification extends Model
         'image_path',
         'user_type_id',
         'country_id',
-        'users_count',
+        'recipients',
+        'success',
+        'failed',
+        'comment',
         'created_by',
         'from_system',
     ];
@@ -23,7 +26,9 @@ class PushNotification extends Model
         return [
             'user_type_id' => 'integer',
             'country_id'   => 'integer',
-            'users_count'  => 'integer',
+            'recipients'   => 'integer',
+            'success'      => 'boolean',
+            'failed'       => 'integer',
             'created_by'   => 'integer',
             'from_system'  => 'boolean',
         ];

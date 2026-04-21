@@ -12,11 +12,37 @@
                     </div>
                 </div>
 
+                @if (session('status'))
+                    <div class="js-flash-alert mb-4 flex items-center gap-3 rounded-lg border border-green-400 bg-green-700/30 px-4 py-3 text-sm text-green-400 transition-opacity duration-500"
+                        role="status">
+                        <span class="icon-[material-symbols--check-circle-outline-rounded] w-5 h-5"></span>
+                        <span>{{ session('status') }}</span>
+                    </div>
+                @endif
+
+                @if (session('warning'))
+                    <div class="js-flash-alert mb-4 flex items-center gap-3 rounded-lg border border-amber-400 bg-amber-700/30 px-4 py-3 text-sm text-amber-300 transition-opacity duration-500"
+                        role="alert">
+                        <span class="icon-[material-symbols--warning-outline-rounded] w-5 h-5"></span>
+                        <span>{{ session('warning') }}</span>
+                    </div>
+                @endif
+
+                @if (session('error'))
+                    <div class="js-flash-alert mb-4 flex items-start gap-3 rounded-lg border border-red-400 bg-red-700/30 px-4 py-3 text-sm text-red-300 transition-opacity duration-500"
+                        role="alert">
+                        <span class="icon-[material-symbols--error-outline-rounded] w-5 h-5 shrink-0 mt-0.5"></span>
+                        <span class="wrap-break-word">{{ session('error') }}</span>
+                    </div>
+                @endif
+
+                <x-toast-errors :errors="$errors" />
+
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
                     {{-- Formulario de envío --}}
                     <div class="lg:col-span-2">
-                        <form action="#" method="POST" enctype="multipart/form-data" class="space-y-5">
+                        <form action="{{ route('web.admin.notifications.store') }}" method="POST" enctype="multipart/form-data" class="space-y-5">
                             @csrf
 
                             {{-- Audiencia --}}
@@ -25,9 +51,9 @@
                                 <select id="user_type_id"
                                         name="user_type_id"
                                         class="block w-full py-2.5 px-3 text-sm rounded-lg bg-light text-dark border border-complementary-dark/30 focus:ring-secondary focus:border-secondary">
-                                    <option value="" selected>Todos los participantes</option>
+                                    <option value="">Todos los participantes</option>
                                     @foreach($userTypes as $userType)
-                                        <option value="{{ $userType->id }}">{{ $userType->plural_name }}</option>
+                                        <option value="{{ $userType->id }}" @selected(old('user_type_id') == $userType->id)>{{ $userType->plural_name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -38,9 +64,9 @@
                                 <select id="country_id"
                                         name="country_id"
                                         class="block w-full py-2.5 px-3 text-sm rounded-lg bg-light text-dark border border-complementary-dark/30 focus:ring-secondary focus:border-secondary">
-                                    <option value="" selected>Todos los países</option>
+                                    <option value="">Todos los países</option>
                                     @foreach($countries as $country)
-                                        <option value="{{ $country->id }}">{{ $country->name }}</option>
+                                        <option value="{{ $country->id }}" @selected(old('country_id') == $country->id)>{{ $country->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -51,24 +77,25 @@
                                 <input type="text"
                                     id="title"
                                     name="title"
-                                    maxlength="65"
+                                    maxlength="100"
+                                    value="{{ old('title') }}"
                                     placeholder="Ej. ¡Nueva jornada disponible!"
                                     class="block w-full py-2.5 px-3 text-sm rounded-lg border bg-light text-dark border-complementary-dark/30 placeholder-zinc-400 focus:ring-secondary focus:border-secondary"
                                     required />
-                                <p class="mt-1 text-xs text-complementary-light">Máximo 65 caracteres recomendado.</p>
+                                <p class="mt-1 text-xs text-complementary-light">Máximo 100 caracteres.</p>
                             </div>
 
                             {{-- Mensaje --}}
                             <div>
-                                <label for="body" class="block mb-2 text-sm font-medium text-light">Mensaje</label>
-                                <textarea id="body"
-                                        name="body"
+                                <label for="description" class="block mb-2 text-sm font-medium text-light">Mensaje</label>
+                                <textarea id="description"
+                                        name="description"
                                         rows="4"
                                         maxlength="240"
                                         placeholder="Escribe el contenido de la notificación..."
                                         class="block w-full p-2.5 text-sm rounded-lg bg-light text-dark border-complementary-dark/30 placeholder-zinc-400 focus:ring-secondary focus:border-secondary"
-                                        required></textarea>
-                                <p class="mt-1 text-xs text-complementary-light">Máximo 240 caracteres recomendado.</p>
+                                        required>{{ old('description') }}</textarea>
+                                <p class="mt-1 text-xs text-complementary-light">Máximo 240 caracteres.</p>
                             </div>
 
                             {{-- Imagen opcional --}}
@@ -141,8 +168,15 @@
 
             <script>
                 (() => {
+                    document.querySelectorAll('.js-flash-alert').forEach((alert) => {
+                        setTimeout(() => {
+                            alert.classList.add('opacity-0');
+                            setTimeout(() => alert.remove(), 500);
+                        }, 3000);
+                    });
+
                     const titleInput = document.getElementById('title');
-                    const bodyInput = document.getElementById('body');
+                    const bodyInput = document.getElementById('description');
                     const imageInput = document.getElementById('image');
                     const imageHelp = document.getElementById('image-help');
                     const previewTitle = document.getElementById('preview-title');

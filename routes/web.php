@@ -116,6 +116,7 @@ Route::middleware(['auth'])->as('web.')->group(function() {
 
         Route::controller(PushNotificationController::class)->as('notifications.')->group(function() {
             Route::get('notificaciones/nueva', 'create')->name('create');
+            Route::post('notificaciones', 'store')->name('store');
         });
 
     });

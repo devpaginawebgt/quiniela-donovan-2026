@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use App\Models\PushNotification;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Notification;
@@ -13,10 +14,7 @@ class TestPushNotification extends Notification
 {
     use Queueable;
 
-    /**
-     * Create a new notification instance.
-     */
-    public function __construct()
+    public function __construct(public ?PushNotification $pushNotification = null)
     {
         //
     }
@@ -33,14 +31,22 @@ class TestPushNotification extends Notification
 
     public function toFcm(object $notifiable): FcmMessage
     {
-        $userName = "{$notifiable->nombres} {$notifiable->apellidos}";
+        $resource = FcmNotificationResource::create();
 
-        return FcmMessage::create()
-            ->notification(
-                FcmNotificationResource::create()
-                    ->title("¡Hola, {$userName}!")
-                    ->body('Notifiación de prueba desde API Donovan!')
-            );
+        if ($this->pushNotification) {
+            $resource->title($this->pushNotification->title)
+                     ->body($this->pushNotification->description);
+
+            if ($this->pushNotification->image_path) {
+                $resource->image(asset('storage/' . $this->pushNotification->image_path));
+            }
+        } else {
+            $userName = "{$notifiable->nombres} {$notifiable->apellidos}";
+            $resource->title("¡Hola, {$userName}!")
+                     ->body('Notificación de prueba desde API Donovan!');
+        }
+
+        return FcmMessage::create()->notification($resource);
     }
 
 }

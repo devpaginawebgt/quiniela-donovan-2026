@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PushNotification\StorePushNotificationRequest;
+use App\Http\Services\PushNotificationService;
 use App\Models\Country;
 use App\Models\PushNotification;
 use App\Models\UserType;
@@ -34,9 +36,66 @@ class PushNotificationController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StorePushNotificationRequest $request, PushNotificationService $service)
     {
-        //
+        $data = $request->validated();
+
+        // Get users that match criteria
+
+        $recipients = $service->filterRecipients($data);
+
+        if ($recipients->isEmpty()) {
+            return redirect()
+                ->route('web.admin.notifications.create')
+                ->with('warning', 'No hay usuarios con notificaciones activadas que coincidan con los filtros seleccionados.');
+        }
+
+        // Save image in public storage before saving the notification
+
+        $imagePath = null;
+
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('push-notifications', 'public');
+        }
+
+        // Create push notification in db
+
+        $pushNotification = PushNotification::create([
+            'title'        => $data['title'],
+            'description'  => $data['description'],
+            'image_path'   => $imagePath,
+            'user_type_id' => $data['user_type_id'] ?? null,
+            'country_id'   => $data['country_id'] ?? null,
+            'recipients'   => $recipients->count(),
+            'created_by'   => $request->user()->id,
+            'from_system'  => false,
+        ]);
+
+        // Validate notifications sent
+
+        $result = $service->send($pushNotification, $recipients);
+
+        $pushNotification->update([
+            'success' => $result['success'],
+            'failed'  => $result['failed'],
+            'comment' => $result['error'],
+        ]);
+
+        if ($result['success'] === false) {
+            return redirect()
+                ->route('web.admin.notifications.create')
+                ->with('error', 'Ocurrió un error al enviar las notificaciones, intenta nuevamente o contacta a Soporte.');
+        }
+
+        return redirect()
+            ->route('web.admin.notifications.create')
+            ->with('status', '¡Notificación enviada correctamente!');
+
+        // if ($result['failed'] > 0) {
+        //     return redirect()
+        //         ->route('web.admin.notifications.create')
+        //         ->with('warning', "Notificación enviada con {$result['failed']} fallo(s). Revisa los logs para más detalles.");
+        // }
     }
 
     /**
