@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Events\MatchCreated;
 use App\Models\EquipoPartido;
 use App\Models\Partido;
 use Carbon\Carbon;
@@ -951,6 +952,11 @@ class PartidoSeeder extends Seeder
                 'equipo_2' => $equipo_2
             ]);
 
+            // Carga la relación para que los listeners (AddBracketGame,
+            // ScheduleMatchPushNotification) puedan acceder a $partido->equipos.
+            $partido_db->load('equipos');
+
+            MatchCreated::dispatch($partido_db);
         }
     }
 }

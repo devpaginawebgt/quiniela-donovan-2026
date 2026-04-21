@@ -31,6 +31,11 @@ class DatabaseSeeder extends Seeder
             EquipoSeeder::class,
             EstadioSeeder::class,
             JornadaSeeder::class,
+
+            // Scaffolding requerido por los listeners de MatchCreated.
+            SystemSettingSeeder::class,
+            PushNotificationTypeSeeder::class,
+
             PartidoSeeder::class,
             EquipoPartidoSeeder::class,
             BracketGameSeeder::class,
@@ -42,9 +47,6 @@ class DatabaseSeeder extends Seeder
             QuizQuestionSeeder::class,
             QuizOptionSeeder::class,
             BonusSeeder::class,
-
-            SystemSettingSeeder::class,
-            PushNotificationTypeSeeder::class,
         ]);
     }
 }

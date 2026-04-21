@@ -18,6 +18,16 @@ use Throwable;
 class PushNotificationService
 {
     /**
+     * Query base: usuarios activos con al menos un token FCM activo.
+     */
+    protected function baseRecipientsQuery()
+    {
+        return User::query()
+            ->where('status_user', 1)
+            ->whereHas('pushTokens', fn ($q) => $q->where('is_active', true));
+    }
+
+    /**
      * Filtro base: usuarios activos con al menos un push token activo.
      * Usado por el controlador admin para contar destinatarios antes de crear
      * el registro.
@@ -88,16 +98,6 @@ class PushNotificationService
             $recipients,
             new MatchWithoutPredictionNotification($pushNotification),
         );
-    }
-
-    /**
-     * Query base: usuarios activos con al menos un token FCM activo.
-     */
-    protected function baseRecipientsQuery()
-    {
-        return User::query()
-            ->where('status_user', 1)
-            ->whereHas('pushTokens', fn ($q) => $q->where('is_active', true));
     }
 
     /**
