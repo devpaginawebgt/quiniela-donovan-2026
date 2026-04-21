@@ -81,6 +81,8 @@ class RegisteredUserController extends Controller
 
         $user = User::create($data);
 
+        $user->assignRole('participant');
+
         event(new Registered($user));
 
         Auth::login($user);
