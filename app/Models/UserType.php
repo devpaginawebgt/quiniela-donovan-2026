@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class UserType extends Model
 {
     protected $fillable = [
-        'name'
+        'name',
+        'plural_name',
     ];
 
     public function users(): HasMany

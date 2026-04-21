@@ -21,14 +21,27 @@
 
                             {{-- Audiencia --}}
                             <div>
-                                <label for="audience" class="block mb-2 text-sm font-medium text-light">Audiencia</label>
-                                <select id="audience"
-                                        name="audience"
+                                <label for="user_type_id" class="block mb-2 text-sm font-medium text-light">Audiencia</label>
+                                <select id="user_type_id"
+                                        name="user_type_id"
                                         class="block w-full py-2.5 px-3 text-sm rounded-lg bg-light text-dark border border-complementary-dark/30 focus:ring-secondary focus:border-secondary">
-                                    <option value="all" selected>Todos los participantes</option>
-                                    <option value="doctor">Doctores</option>
-                                    <option value="dependent">Dependientes</option>
-                                    <option value="active">Solo participantes activos</option>
+                                    <option value="" selected>Todos los participantes</option>
+                                    @foreach($userTypes as $userType)
+                                        <option value="{{ $userType->id }}">{{ $userType->plural_name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            {{-- País --}}
+                            <div>
+                                <label for="country_id" class="block mb-2 text-sm font-medium text-light">País</label>
+                                <select id="country_id"
+                                        name="country_id"
+                                        class="block w-full py-2.5 px-3 text-sm rounded-lg bg-light text-dark border border-complementary-dark/30 focus:ring-secondary focus:border-secondary">
+                                    <option value="" selected>Todos los países</option>
+                                    @foreach($countries as $country)
+                                        <option value="{{ $country->id }}">{{ $country->name }}</option>
+                                    @endforeach
                                 </select>
                             </div>
 

@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\NotificationsController;
 use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\BracketController;
 use App\Http\Controllers\EstadioController;
@@ -10,6 +9,7 @@ use App\Http\Controllers\ResultadoPartidoController;
 use App\Http\Controllers\EquipoController;
 use App\Http\Controllers\GrupoController;
 use App\Http\Controllers\JornadaController;
+use App\Http\Controllers\PushNotificationController;
 use App\Http\Controllers\QuizController;
 use App\Http\Controllers\UserController;
 
@@ -114,8 +114,8 @@ Route::middleware(['auth'])->as('web.')->group(function() {
             Route::get('reporte', 'report')->name('report');
         });
 
-        Route::controller(NotificationsController::class)->as('notifications.')->group(function() {
-            Route::get('notificaciones', 'index')->name('index');
+        Route::controller(PushNotificationController::class)->as('notifications.')->group(function() {
+            Route::get('notificaciones/nueva', 'create')->name('create');
         });
 
     });
