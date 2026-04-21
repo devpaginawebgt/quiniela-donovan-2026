@@ -8,7 +8,7 @@
                 <div class="flex items-center justify-between mb-6">
                     <div class="flex items-center gap-3">
                         <span class="icon-[material-symbols--notifications-active-outline-rounded] w-6 h-6 lg:w-8 lg:h-8 text-secondary"></span>
-                        <h2 class="font-semibold text-light text-lg lg:text-2xl">Notificaciones Push</h2>
+                        <h2 class="font-semibold text-light text-lg lg:text-2xl">Enviar notificación</h2>
                     </div>
                 </div>
 
