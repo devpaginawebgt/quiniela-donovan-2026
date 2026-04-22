@@ -49,7 +49,7 @@
               <p style="margin:0; text-align:center;">
                 <a href="https://quiniela-donovan.plan-paciente.com/inicio"
                    style="color:#FFDD00; text-decoration:none; font-weight:bold;">
-                  https://quiniela-donovan.plan-paciente.com/inicio
+                    {{ rtrim(config('app.url'), '/') }}
                 </a>
               </p>
             </td>
