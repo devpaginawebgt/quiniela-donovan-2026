@@ -1,4 +1,8 @@
 <x-app-layout>
+    @php
+        $user = Auth::user();
+    @endphp
+
     <x-inicio-header :activeTab="'trivia'" />
 
     @if (!$quiz)
@@ -10,6 +14,7 @@
              id="trivia-container"
              data-quiz-id="{{ $quiz['id'] }}"
              data-total="{{ count($quiz['questions']) }}"
+             data-index-url="{{ route('web.inicio.trivias.index') }}"
              data-store-url="{{ route('web.inicio.trivias.store') }}"
              data-results-url="{{ route('web.inicio.trivias.last-attempt', $quiz['id']) }}">
 
@@ -67,6 +72,7 @@
                 // Información de la quiz
                 const quizId = parseInt(container.dataset.quizId);
                 const total = parseInt(container.dataset.total);
+                const indexUrl = container.dataset.indexUrl;
                 const storeUrl = container.dataset.storeUrl;
                 const resultsUrl = container.dataset.resultsUrl;
 
@@ -216,6 +222,11 @@
                 });
 
                 function submitQuiz() {
+                    @if($user->hasRole('admin'))
+                        window.location.href = indexUrl;
+                        return;
+                    @endif
+
                     btnNext.disabled = true;
                     btnNext.className = 'w-full py-3.5 rounded-full font-bold text-lg flex items-center justify-center gap-2 transition-all duration-200 bg-secondary/30 text-light/40 cursor-not-allowed';
                     btnNextText.textContent = 'Guardando predicción...';
