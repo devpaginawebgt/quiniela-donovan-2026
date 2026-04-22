@@ -71,6 +71,8 @@ class ApiAuthController extends Controller
 
         $user = User::create($data);
 
+        $user->assignRole('participant');
+
         event(new Registered($user));
 
         $token = $user->createToken('mobile-app')->plainTextToken;
