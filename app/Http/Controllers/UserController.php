@@ -69,8 +69,9 @@ class UserController extends Controller
         $user = $request->user();
 
         $id_pais = (int) $user->pais_id;
+        $type_id = (int) $user->user_type_id;
 
-        $users = $this->userService->getRanking($id_pais);
+        $users = $this->userService->getRanking($id_pais, $type_id);
 
         $users = $this->userService->setUserBrands($users, $id_pais);
 
@@ -128,9 +129,10 @@ class UserController extends Controller
     {
         $user = Auth::user();
         $id_pais = (int) $user->pais_id;
+        $type_id = (int) $user->user_type_id;
         $perPage = (int) $request->query('perPage', 100);
 
-        $result = $this->userService->getRankingWeb($id_pais, $perPage);
+        $result = $this->userService->getRankingWeb($id_pais, $type_id, $perPage);
 
         return $this->successResponse([
             'has_more' => $result->hasMorePages(),

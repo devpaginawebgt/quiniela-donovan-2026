@@ -34,17 +34,18 @@ class UserService {
             ->first();
     }
 
-    public function getRanking($id_pais)
+    public function getRanking($id_pais, $type_id)
     {
         $participantes = User::select('id', 'nombres', 'apellidos', 'pais_id', 'numero_documento', 'email', 'telefono', 'puntos', 'created_at')
             ->selectRaw('RANK() OVER (ORDER BY puntos DESC, nombres ASC) as posicion')
+            ->where('pais_id', $id_pais)
+            ->where('user_type_id', $type_id)
             ->where(function (Builder $query) {
                 return $query
                     ->has('predictions')
                     ->orHas('quizzes');
             })
             ->where('status_user', 1)
-            ->where('pais_id', $id_pais)
             ->get();
 
         return $participantes;
@@ -59,17 +60,18 @@ class UserService {
      * @param  array  $columns   Columnas adicionales a seleccionar.
      * @return \Illuminate\Contracts\Pagination\Paginator
      */
-    public function getRankingWeb($id_pais, $perPage = 100)
+    public function getRankingWeb($id_pais, $type_id, $perPage = 100)
     {
         return User::select('id', 'nombres', 'apellidos', 'puntos', 'pais_id', 'numero_documento', 'email', 'telefono', 'created_at')
             ->selectRaw('RANK() OVER (ORDER BY puntos DESC, nombres ASC) as posicion')
+            ->where('pais_id', $id_pais)
+            ->where('user_type_id', $type_id)
             ->where(function (Builder $query) {
                 return $query
                     ->has('predictions')
                     ->orHas('quizzes');
             })
             ->where('status_user', 1)
-            ->where('pais_id', $id_pais)
             ->simplePaginate($perPage);
     }
 
@@ -77,13 +79,14 @@ class UserService {
     {
         $rankingQuery = User::select('id', 'nombres', 'apellidos', 'pais_id', 'puntos', 'created_at')
             ->selectRaw('RANK() OVER (ORDER BY puntos DESC, nombres ASC) as posicion')
+            ->where('pais_id', $user->pais_id)
+            ->where('user_type_id', $user->user_type_id)
             ->where(function (Builder $query) {
                 return $query
                     ->has('predictions')
                     ->orHas('quizzes');
             })
-            ->where('status_user', 1)
-            ->where('pais_id', $user->pais_id);
+            ->where('status_user', 1);
         
         $rank = DB::query()
             ->fromSub($rankingQuery, 'ranking')
