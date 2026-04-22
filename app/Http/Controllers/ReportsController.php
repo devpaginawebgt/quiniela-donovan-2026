@@ -38,7 +38,7 @@ class ReportsController extends Controller
             ->addColumn('region', fn($u) => $u->region ?? 'N/A')
             ->addColumn('capital', fn($u) => $u->capital ?? 'N/A')
             ->addColumn('farmacia', fn($u) => $u->branch ?? 'N/A')
-            ->addColumn('fecha_registro', fn($u) => $u->created_at->format('d/m/Y h:i A'))
+            ->addColumn('fecha_registro', fn($u) => $u->created_at->timezone('America/Guatemala')->format('d/m/Y h:i A'))
             ->addColumn('estado_badge', function ($u) {
                 if ($u->status_user) {
                     return '
@@ -144,9 +144,9 @@ class ReportsController extends Controller
                 return "{$e1} VS {$e2}";
             })
             ->addColumn('jornada', fn($p) => $p->partido?->jornada ? 'Jornada ' . $p->partido->jornada->name : 'N/A')
-            ->addColumn('fecha_partido', fn($p) => $p->partido?->fecha_partido?->format('d/m/Y H:i A') ?? 'N/A')
-            ->addColumn('fecha_registro', fn($p) => $p->created_at->format('d/m/Y H:i A'))
-            ->addColumn('fecha_actualizacion', fn($p) => $p->updated_at->format('d/m/Y H:i A'))
+            ->addColumn('fecha_partido', fn($p) => $p->partido?->fecha_partido?->timezone('America/Guatemala')->format('d/m/Y h:i A') ?? 'N/A')
+            ->addColumn('fecha_registro', fn($p) => $p->created_at->timezone('America/Guatemala')->format('d/m/Y h:i A'))
+            ->addColumn('fecha_actualizacion', fn($p) => $p->updated_at->timezone('America/Guatemala')->format('d/m/Y h:i A'))
             ->addColumn('pronostico', fn($p) => $p->goles_equipo_1 . ' - ' . $p->goles_equipo_2)
             ->addColumn('resultado_real', function ($p) {
                 $r = $p->resultado;
@@ -171,14 +171,14 @@ class ReportsController extends Controller
                     return '
                         <span class="inline-flex items-center gap-1 px-2.5 py-0.5 text-xs font-medium rounded-full border bg-green-100 text-green-700 border-green-200">
                             <span class="w-1.5 h-1.5 rounded-full bg-green-600"></span>
-                            Pronosticado
+                            Puntos acreditados
                         </span>
                     ';
                 }
                 return '
                    <span class="inline-flex items-center gap-1 px-2.5 py-0.5 text-xs font-medium rounded-full border bg-red-100 text-red-700 border-red-200">
                         <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span>
-                        Pendiente
+                        Pendiente de procesar
                     </span>
                 ';
             })
