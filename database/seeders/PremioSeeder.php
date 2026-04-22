@@ -12,60 +12,45 @@ class PremioSeeder extends Seeder
      */
     public function run(): void
     {
-        $premios = [
-            [
-                'posicion' => 1,
-                'titulo_posicion' => 'Primeros 3 lugares',
-                'nombre' => 'Televisión 55" 4K UHD',
-                'descripcion' => 'Televisor de alta definición con conectividad inteligente y control por voz.',
-                'imagen' => '/images/premios/tv.png',
-                'pais_id' => 1,
-            ],
-            [
-                'posicion' => 2,
-                'titulo_posicion' => 'Siguientes 3 lugares',
-                'nombre' => 'Teléfono Xiaomi 5G',
-                'descripcion' => 'Smartphone Xiaomi con conectividad 5G, pantalla AMOLED y cámara de alta resolución.',
-                'imagen' => '/images/premios/phone.png',
-                'pais_id' => 1,
-            ],
-            [
-                'posicion' => 3,
-                'titulo_posicion' => 'Siguientes 2 lugares',
-                'nombre' => 'Smartwatch deportivo',
-                'descripcion' => 'Reloj inteligente con monitor de ritmo cardíaco y seguimiento de actividad física.',
-                'imagen' => '/images/premios/smartwatch.png',
-                'pais_id' => 1,
-            ],
+        // user_type_id: 1 = Dependiente, 2 = Doctor
+        // pais_id: 1, 2
 
+        $base = [
             [
                 'posicion' => 1,
-                'titulo_posicion' => 'Primeros 3 lugares',
-                'nombre' => 'Consola PlayStation 5',
-                'descripcion' => 'Consola de videojuegos de última generación con gráficos 4K, almacenamiento SSD ultrarrápido y experiencia de juego inmersiva.',
-                'imagen' => '/images/premios/ps5.png',
-                'pais_id' => 2,
+                'titulo_posicion' => 'Primer Lugar',
+                'nombre' => 'Televisión 65Q6QV 65" QLED TV Ultra HD-4K',
+                'descripcion' => 'Televisor QLED de 65" con resolución Ultra HD 4K, colores vibrantes y tecnología inteligente.',
+                'imagen' => '/images/premios/television-65.png',
             ],
             [
                 'posicion' => 2,
-                'titulo_posicion' => 'Siguientes 3 lugares',
-                'nombre' => 'Apple AirPods inalámbricos',
-                'descripcion' => 'Audífonos inalámbricos con sonido de alta calidad, conexión automática y estuche de carga portátil.',
-                'imagen' => '/images/premios/airpods.png',
-                'pais_id' => 2,
+                'titulo_posicion' => 'Segundo Lugar',
+                'nombre' => 'Televisión 50A4NV 50" Smart TV LED Full HD',
+                'descripcion' => 'Smart TV LED de 50" con resolución Full HD, conectividad inteligente y aplicaciones integradas.',
+                'imagen' => '/images/premios/television-50.png',
             ],
             [
                 'posicion' => 3,
-                'titulo_posicion' => 'Siguientes 2 lugares',
-                'nombre' => 'Audífonos Bluetooth con cancelación de ruido',
-                'descripcion' => 'Auriculares inalámbricos con tecnología de cancelación de ruido, batería de larga duración y sonido envolvente de alta fidelidad.',
-                'imagen' => '/images/premios/headphones.png',
-                'pais_id' => 2,
+                'titulo_posicion' => 'Tercer Lugar  ',
+                'nombre' => 'Televisión 43Q6QV 43" QLED TV Ultra HD-4K',
+                'descripcion' => 'Televisor QLED de 43" con resolución Ultra HD 4K, colores vibrantes y tecnología inteligente.',
+                'imagen' => '/images/premios/television-43.png',
             ],
         ];
 
-        foreach($premios as $premio) {
-            Premio::create($premio);
+        $paises = [1, 2];
+        $userTypes = [1, 2];
+
+        foreach ($paises as $paisId) {
+            foreach ($userTypes as $userTypeId) {
+                foreach ($base as $premio) {
+                    Premio::create(array_merge($premio, [
+                        'pais_id' => $paisId,
+                        'user_type_id' => $userTypeId,
+                    ]));
+                }
+            }
         }
     }
 }
