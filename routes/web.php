@@ -116,6 +116,12 @@ Route::middleware(['auth'])->as('web.')->group(function () {
                 Route::get('/data', 'data')->name('data');
                 Route::get('/export', 'export')->name('export');
             });
+
+            Route::controller(ReportsController::class)->prefix('predictions')->as('predictions.')->group(function () {
+                Route::get('/', 'predictionsReport')->name('index');
+                Route::get('/data', 'predictionsData')->name('data');
+                Route::get('/export', 'predictionsExport')->name('export');
+            });
         });
 
         Route::controller(PushNotificationController::class)->as('notifications.')->group(function() {
