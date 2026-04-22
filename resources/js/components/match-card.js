@@ -3,9 +3,10 @@ const iconClock    = `<svg class="w-4 h-4 shrink-0 inline -mt-0.5" xmlns="http:/
 const iconInfo     = `<svg class="w-3.5 h-3.5 shrink-0 inline -mt-0.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" /></svg>`;
 
 export const renderMatchCard = (partido) => {
-    const opcionesFecha = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    const fechaPartido  = new Date(partido.fechaPartido).toLocaleDateString('es-GT', opcionesFecha);
-    const horaPartido   = new Date(partido.fechaPartido).toLocaleTimeString('es-GT', { hour: '2-digit', minute: '2-digit', hour12: true });
+    const opcionesFecha = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' };
+    const fechaUtc      = new Date(partido.fechaPartido.replace(' ', 'T') + 'Z');
+    const fechaPartido  = fechaUtc.toLocaleDateString('es-GT', opcionesFecha);
+    const horaPartido   = fechaUtc.toLocaleTimeString('es-GT', { hour: '2-digit', minute: '2-digit', hour12: true, timeZone: 'UTC' });
 
     const brandHtml = partido.marca
         ? `<div class="flex">
