@@ -113,13 +113,13 @@ class PronosticosExport implements FromQuery, WithHeadings, WithMapping, WithChu
             $p->user->branch ?? 'N/A',
             $partido,
             $p->partido?->jornada ? 'Jornada ' . $p->partido->jornada->name : 'N/A',
-            $p->partido?->fecha_partido?->format('d/m/Y H:i') ?? 'N/A',
-            $p->created_at->format('d/m/Y H:i'),
-            $p->updated_at->format('d/m/Y H:i'),
+            $p->partido?->fecha_partido?->timezone('America/Guatemala')->format('d/m/Y H:i') ?? 'N/A',
+            $p->created_at->timezone('America/Guatemala')->format('d/m/Y H:i'),
+            $p->updated_at->timezone('America/Guatemala')->format('d/m/Y H:i'),
             $p->goles_equipo_1 . ' - ' . $p->goles_equipo_2,
             $resultado,
             $pts,
-            $p->status === 1 ? 'Pronosticado' : 'Pendiente',
+            $p->status === 1 ? 'Puntos acreditados' : 'Pendiente de procesar',
         ];
     }
 }

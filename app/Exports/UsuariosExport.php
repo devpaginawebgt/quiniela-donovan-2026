@@ -89,7 +89,7 @@ class UsuariosExport implements FromQuery, WithHeadings, WithMapping, WithChunkR
             $user->puntos_predicciones,
             $user->puntos_bonus,
             $user->puntos,
-            $user->created_at->format('d/m/Y h:i'),
+            $user->created_at->timezone('America/Guatemala')->format('d/m/Y H:i'),
             $user->status_user ? 'Activo' : 'Inactivo',
             $user->pushTokens->where('is_active', true)->isNotEmpty() ? 'Sí' : 'No',
         ];
