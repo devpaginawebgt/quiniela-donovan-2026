@@ -156,10 +156,6 @@
                                     <span class="icon-[material-symbols--check-circle-outline-rounded] w-4 h-4 text-secondary shrink-0 mt-0.5"></span>
                                     <span>Evita enviar más de 2 notificaciones al día.</span>
                                 </li>
-                                <li class="flex items-start gap-2">
-                                    <span class="icon-[material-symbols--check-circle-outline-rounded] w-4 h-4 text-secondary shrink-0 mt-0.5"></span>
-                                    <span>Incluye una URL solo si es necesaria.</span>
-                                </li>
                             </ul>
                         </div>
                     </aside>
