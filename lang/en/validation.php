@@ -192,25 +192,6 @@ return [
     |
     */
 
-    'attributes' => [
-        'form.name'               => 'name',
-        'form.phone_number'       => 'phone number',
-        'form.genre'              => 'genre',
-        'form.academic_level'     => 'academic level',
-        'form.birthdate'          => 'birthdate',
-        'form.division_id'        => 'state',
-        'form.marital_status'     => 'marital status',
-        'form.children'           => 'children',
-        'form.people_depending'   => 'people depending',
-        'form.diseases'           => 'chronic disease',
-        'form.diseases.*'         => 'chronic disease',
-        'form.transportation'     => 'transportation',
-        'form.hiring_date'        => 'hiring date',
-        'form.shift'              => 'shift',
-        'form.branch_number'      => 'branch id',
-        'form.branch_address'     => 'branch address',
-        'form.position'           => 'position',
-        'form.sales_productivity' => 'sales productivity',
-    ],
+    'attributes' => [],
 
 ];

@@ -14,10 +14,12 @@ class CompanySeeder extends Seeder
     public function run(): void
     {
         $companies = [
-            ['name' => 'Cadena 1', 'country_id' => 1],
-            ['name' => 'Cadena 2', 'country_id' => 1],
-            ['name' => 'Cadena 3', 'country_id' => 2],
-            ['name' => 'Cadena 4', 'country_id' => 2],
+            ['name' => 'Farmacias Cruz Verde',    'country_id' => 1],
+            ['name' => 'Farmacias Galeno',        'country_id' => 1],
+            ['name' => 'Farmacias Batres',        'country_id' => 1],
+            ['name' => 'Farmacia Independiente',  'country_id' => 1],
+
+            ['name' => 'Farmacia Independiente', 'country_id' => 2],
         ];
 
         foreach($companies as $company) {

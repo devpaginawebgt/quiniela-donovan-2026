@@ -21,7 +21,6 @@ class DatabaseSeeder extends Seeder
             BrandSeeder::class,
             BrandPositionSeeder::class,
             CompanySeeder::class,
-            BranchSeeder::class,
             VisitorSeeder::class,
             CodigoSeeder::class,
             UserTypeSeeder::class,
