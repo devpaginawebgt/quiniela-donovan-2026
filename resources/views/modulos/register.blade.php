@@ -83,10 +83,17 @@
                     {{-- Tab Content --}}
                     <div id="register-tab-content">
                         <div class="hidden" id="dependiente-panel" role="tabpanel" aria-labelledby="dependiente-tab">
-                            <x-register-dependent-form :companies="$companies" :country="$country" />
+                            <x-register-dependent-form
+                                :companies="$companies"
+                                :visitors="$visitors"
+                                :country="$country"
+                            />
                         </div>
                         <div class="hidden" id="doctor-panel" role="tabpanel" aria-labelledby="doctor-tab">
-                            <x-register-doctor-form :visitors="$visitors" :country="$country" />
+                            <x-register-doctor-form
+                                :visitors="$visitors"
+                                :country="$country"
+                            />
                         </div>
                     </div>
 
