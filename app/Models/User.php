@@ -42,7 +42,6 @@ class User extends Authenticatable
         'puntos',
 
         'region',
-        'capital',
         'visitor_id',
 
         'company_id',

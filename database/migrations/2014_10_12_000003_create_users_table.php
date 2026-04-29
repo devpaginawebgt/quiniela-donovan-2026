@@ -34,7 +34,6 @@ class CreateUsersTable extends Migration
             // Campos doctor
             $table->string('colegiado')->nullable();
             $table->string('region')->nullable();
-            $table->string('capital')->nullable();
             $table->unsignedBigInteger('visitor_id')->nullable();
 
             // Campos dependiente

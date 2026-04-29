@@ -53,13 +53,12 @@ class UserFactory extends Factory
             'branch'       => 'Sucursal ' . $this->faker->numberBetween(1, 50),
             'colegiado'    => null,
             'region'       => null,
-            'capital'      => null,
             'visitor_id'   => null,
         ]);
     }
 
     /**
-     * Tipo 2: Doctor (con colegiado, region, capital y visitor).
+     * Tipo 2: Doctor (con colegiado, region y visitor).
      */
     public function doctor(int $paisId = 1): static
     {
@@ -72,7 +71,6 @@ class UserFactory extends Factory
             'branch'       => null,
             'colegiado'    => (string) $this->faker->numberBetween(10000, 99999),
             'region'       => $this->faker->randomElement(['Central', 'Norte', 'Sur', 'Oriente', 'Occidente']),
-            'capital'      => $this->faker->randomElement(['Ciudad capital', 'Departamental']),
             'visitor_id'   => $this->faker->numberBetween($visitorRange[0], $visitorRange[1]),
         ]);
     }

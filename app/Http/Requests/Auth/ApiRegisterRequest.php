@@ -50,14 +50,6 @@ class ApiRegisterRequest extends FormRequest
                 'min:2',
                 'max:100',
             ],
-            'capital' => [
-                'nullable',
-                'required_if:user_type_id,2',
-                'prohibited_unless:user_type_id,2',
-                'string',
-                'min:2',
-                'max:100',
-            ],
             'visitor_id' => [
                 'nullable',
                 'prohibited_unless:user_type_id,2',
@@ -171,13 +163,6 @@ class ApiRegisterRequest extends FormRequest
             'region.string'            => 'El campo región debe ser un texto válido.',
             'region.min'               => 'El campo región debe tener al menos 2 caracteres.',
             'region.max'               => 'El campo región no puede tener más de 100 caracteres.',
-
-            // CAPITAL
-            'capital.required_if'       => 'Por favor, ingrese su capital.',
-            'capital.prohibited_unless' => 'La capital solo aplica para usuarios tipo doctor.',
-            'capital.string'            => 'El campo capital debe ser un texto válido.',
-            'capital.min'               => 'El campo capital debe tener al menos 2 caracteres.',
-            'capital.max'               => 'El campo capital no puede tener más de 100 caracteres.',
 
             // VISITOR
             'visitor_id.prohibited_unless' => 'El campo visitador no aplica para usuarios tipo dependiente.',

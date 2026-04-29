@@ -48,7 +48,6 @@
                         <th class="px-4 py-3 border border-gray-200">Cadena</th>
                         <th class="px-4 py-3 border border-gray-200">Visitador</th>
                         <th class="px-4 py-3 border border-gray-200">Región</th>
-                        <th class="px-4 py-3 border border-gray-200">Capital</th>
                         <th class="px-4 py-3 border border-gray-200">Farmacia</th>
                         <th class="px-4 py-3 border border-gray-200">Pts. Trivias</th>
                         <th class="px-4 py-3 border border-gray-200">Pts. Predicciones</th>

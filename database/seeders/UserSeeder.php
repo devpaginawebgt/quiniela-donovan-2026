@@ -33,7 +33,6 @@ class UserSeeder extends Seeder
                 'branch'           =>  'Sucursal 12',
                 'colegiado'        => null,
                 'region'           => null,
-                'capital'          => null,
                 'visitor_id'       => null,
 
                 'accepted_terms_version' => '0.1.0',
@@ -56,7 +55,6 @@ class UserSeeder extends Seeder
                 'branch'           =>  'Sucursal 20',
                 'colegiado'        => null,
                 'region'           => null,
-                'capital'          => null,
                 'visitor_id'       => null,
 
                 'accepted_terms_version' => '0.1.0',
@@ -78,8 +76,7 @@ class UserSeeder extends Seeder
                 'company_id'       =>  null,
                 'branch'           =>  null,
                 'colegiado'        => '43552',
-                'region'           => 'Central',
-                'capital'          => 'Ciudad capital',
+                'region'           => null,
                 'visitor_id'       => 1,
 
                 'accepted_terms_version' => '0.1.0',
@@ -102,7 +99,6 @@ class UserSeeder extends Seeder
                 'branch'           =>  null,    
                 'colegiado'        => '43552',
                 'region'           => 'Central',
-                'capital'          => 'Ciudad capital',
                 'visitor_id'       => 2,
 
                 'accepted_terms_version' => '0.1.0',
@@ -124,8 +120,7 @@ class UserSeeder extends Seeder
                 'company_id'       =>  null,
                 'branch'           =>  null,    
                 'colegiado'        => '2345',
-                'region'           => 'Central',
-                'capital'          => 'Ciudad capital',
+                'region'           => 'Central',                
                 'visitor_id'       => 59,
 
                 'accepted_terms_version' => '0.1.0',

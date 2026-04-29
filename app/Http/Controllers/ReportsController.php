@@ -36,7 +36,6 @@ class ReportsController extends Controller
             ->addColumn('cadena', fn($u) => $u->company?->name ?? 'N/A')
             ->addColumn('visitador', fn($u) => $u->visitor ? $u->visitor->name . ' ' . $u->visitor->lastname : 'N/A')
             ->addColumn('region', fn($u) => $u->region ?? 'N/A')
-            ->addColumn('capital', fn($u) => $u->capital ?? 'N/A')
             ->addColumn('farmacia', fn($u) => $u->branch ?? 'N/A')
             ->addColumn('fecha_registro', fn($u) => $u->created_at->timezone('America/Guatemala')->format('d/m/Y h:i A'))
             ->addColumn('estado_badge', function ($u) {
@@ -134,7 +133,6 @@ class ReportsController extends Controller
                 ? $p->user->visitor->name . ' ' . $p->user->visitor->lastname
                 : 'N/A')
             ->addColumn('region', fn($p) => $p->user->region ?? 'N/A')
-            ->addColumn('capital', fn($p) => $p->user->capital ?? 'N/A')
             ->addColumn('farmacia', fn($p) => $p->user->branch ?? 'N/A')
             ->addColumn('partido', function ($p) {
                 $equipos = $p->partido?->equipos;
