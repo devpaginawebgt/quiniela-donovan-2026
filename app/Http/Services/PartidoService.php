@@ -2,6 +2,7 @@
 
 namespace App\Http\Services;
 
+use App\Events\JourneyCompleted;
 use App\Models\BracketGame;
 use App\Models\EquipoPartido;
 use App\Models\Jornada;
@@ -214,4 +215,41 @@ class PartidoService {
         });
     }
 
+    public function verifyJourneyStatus()
+    {
+        $journey = Jornada::where('is_current', true)->first();
+
+        if (empty($journey)) return;
+
+        $next_journey = Jornada::find((int)$journey->id + 1);
+
+        if (empty($next_journey)) return;
+
+        // Obtener y validar que los partidos de la jornada actual hayan concluido
+
+        $pending = Partido::where('jornada_id', $journey->id)
+            ->where('estado', '!=', 1)
+            ->exists();
+
+        $completed = ! $pending;
+
+        // Verificar que ya exitan partidos de la siguiente jornada
+
+        $next_matches = Partido::where('jornada_id', $next_journey->id)->exists();
+
+        if ($completed === true && $next_matches === true) {
+
+            JourneyCompleted::dispatch($journey);
+
+        }
+    }
+
+    public function updateCurrentJourney(Jornada $journey)
+    {
+        $journey->update(['is_current' => false]);
+
+        $next_journey = Jornada::find((int)$journey->id + 1);
+
+        $next_journey->update(['is_current' => true]);
+    }
 }

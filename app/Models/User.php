@@ -36,6 +36,11 @@ class User extends Authenticatable
         'status_user',
         'user_type_id',
 
+        'puntos_predicciones_grupos',
+        'puntos_trivias_grupos',
+        'puntos_bonus_grupos',
+        'puntos_grupos',
+
         'puntos_trivias',
         'puntos_predicciones',
         'puntos_bonus',

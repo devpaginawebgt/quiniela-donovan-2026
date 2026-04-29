@@ -46,6 +46,7 @@ class DatabaseSeeder extends Seeder
             QuizQuestionSeeder::class,
             QuizOptionSeeder::class,
             BonusSeeder::class,
+            RankingTabSeeder::class
         ]);
     }
 }

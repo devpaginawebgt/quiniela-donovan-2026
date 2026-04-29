@@ -73,8 +73,6 @@ class RegisteredUserController extends Controller
     {
         $data = $request->validated();
 
-        $data['puntos'] = 0;
-
         $pass = config('quiniela.default_pass');
         
         $data['password'] = Hash::make($pass);

@@ -59,7 +59,7 @@ class TestResultadoPartido extends Command
 
             }
 
-            ResultCreated::dispatch($resultado);                
+            ResultCreated::dispatch($resultado['resultado']);
 
             $this->info($resultado['message']);
 

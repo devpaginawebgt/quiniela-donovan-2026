@@ -11,6 +11,7 @@ use App\Http\Controllers\GrupoController;
 use App\Http\Controllers\JornadaController;
 use App\Http\Controllers\PushNotificationController;
 use App\Http\Controllers\QuizController;
+use App\Http\Controllers\RankingController;
 use App\Http\Controllers\UserController;
 
 /*
@@ -95,10 +96,18 @@ Route::middleware(['auth'])->as('web.')->group(function () {
         // Route::post('/obtener-predicciones/', 'obtenerPrediccionesGuardadas');
     });
 
+    // Users
+
     Route::controller(UserController::class)->as('users')->group(function () {
-        Route::get('ranking', 'indexWeb')->name('.ranking');
-        Route::get('ranking/data', 'getRankingData')->name('.ranking.data');
         Route::get('/perfil', 'perfil')->name('.perfil');
+    });
+
+    // Ranking
+
+    Route::controller(RankingController::class)->prefix('ranking')->as('ranking.')->group(function() {
+        Route::get('ranking', 'indexWeb')->name('index');
+        Route::get('ranking/grupos', 'getRankingGrupos')->name('grupos');
+        Route::get('ranking/eliminatorias', 'getRankingEliminatorias')->name('eliminatorias');
     });
 
     // Premios

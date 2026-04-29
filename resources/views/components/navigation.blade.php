@@ -10,8 +10,8 @@
             'show'  => true,
         ],
         [
-            'route' => 'web.users.ranking',
-            'match' => 'web.users.ranking',
+            'route' => 'web.ranking.grupos',
+            'match' => 'web.ranking.grupos',
             'icon'  => 'icon-[material-symbols--leaderboard-rounded]',
             'label' => 'Clasificación',
             'show'  => true,

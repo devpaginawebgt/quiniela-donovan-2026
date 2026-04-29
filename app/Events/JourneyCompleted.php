@@ -2,7 +2,7 @@
 
 namespace App\Events;
 
-use App\Models\ResultadoPartido;
+use App\Models\Jornada;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -11,7 +11,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class ResultCreated
+class JourneyCompleted
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -19,7 +19,7 @@ class ResultCreated
      * Create a new event instance.
      */
     public function __construct(
-        public ResultadoPartido $result
+        public Jornada $journey
     ) {}
 
     /**

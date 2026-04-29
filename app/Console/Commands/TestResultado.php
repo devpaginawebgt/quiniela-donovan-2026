@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Events\ResultCreated;
 use App\Models\Partido;
 use App\Models\ResultadoPartido;
 use Illuminate\Console\Command;
@@ -70,6 +71,8 @@ class TestResultado extends Command
             return Command::INVALID;
         
         }
+
+        ResultCreated::dispatch($resultado_creado);
 
         $this->info('Se ha generado el resultado con éxito');
 

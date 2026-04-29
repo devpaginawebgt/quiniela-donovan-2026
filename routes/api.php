@@ -11,6 +11,7 @@ use App\Http\Controllers\JornadaController;
 use App\Http\Controllers\ModuleController;
 use App\Http\Controllers\PremioController;
 use App\Http\Controllers\QuizController;
+use App\Http\Controllers\RankingController;
 use App\Http\Controllers\ResultadoPartidoController;
 use App\Http\Controllers\TermsController;
 use App\Http\Controllers\UserController;
@@ -102,15 +103,6 @@ Route::middleware(['auth:sanctum'])->group(function() {
         Route::get('estadios', 'getEstadios');
     });
 
-    // Users
-
-    Route::controller(UserController::class)->group(function() {
-        Route::get('user', 'getUser');
-        Route::get('user/rank', 'getUserRank');
-        Route::get('ranking', 'getRanking');
-        // Route::get('users', 'getUsers');
-    });
-
     Route::controller(UserPushTokenController::class)->group(function() {
         Route::post('users/push-tokens', 'store');
     });
@@ -136,6 +128,18 @@ Route::middleware(['auth:sanctum'])->group(function() {
         Route::post('', 'store');
         Route::get('/{id}', 'show');
         Route::get('/{id}/last-attempt', 'lastAttempt');
+    });
+
+    // Users
+    Route::controller(UserController::class)->group(function() {
+        Route::get('user', 'getUser');
+        Route::get('user/rank', 'getUserRank');
+    });
+
+    Route::controller(RankingController::class)->prefix('ranking')->as('api.ranking.')->group(function() {
+        Route::get('tabs', 'getTabs')->name('tabs');
+        Route::get('grupos', 'getRankingGrupos')->name('grupos');
+        Route::get('eliminatorias', 'getRanking')->name('eliminatorias');
     });
 
 });

@@ -75,8 +75,6 @@ class ResultadoPartidoController extends Controller
 
         $user_id = $request->user()->id;
 
-        $this->actualizacionDataGeneral($user_id);
-
         // Validar predicciones
 
         $predicciones_nuevas = collect($request->validated()['predicciones']);
@@ -165,14 +163,6 @@ class ResultadoPartidoController extends Controller
         // Actualizar los estados de los partidos cuya hora ya pasó
 
         $this->partidoService->actualizarPartidosPasados();
-        
-        // Actualizar los puntos de los equipos cuyo estado partido no es 1 (Actualizado)
-
-        $this->partidoService->actualizarPuntosEquipos();
-
-        // Actualizar puntos de usuario
-
-        $this->prediccionService->actualizarPuntosParticipante($user_id);
 
     }
 
@@ -259,8 +249,6 @@ class ResultadoPartidoController extends Controller
         $user = Auth::user();
 
         $user_id = $user->id;
-
-        $this->actualizacionDataGeneral($user_id);
 
         // Validar predicciones
 

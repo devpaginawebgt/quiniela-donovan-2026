@@ -29,8 +29,6 @@ class MatchCreated
      */
     public function broadcastOn(): array
     {
-        return [
-            // new PrivateChannel('channel-name'),
-        ];
+        return [];
     }
 }

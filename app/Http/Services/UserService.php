@@ -34,9 +34,24 @@ class UserService {
             ->first();
     }
 
-    public function getRanking($id_pais, $type_id)
+    public function getRankingGrupos(string|int $id_pais, string|int $type_id)
     {
-        $participantes = User::select('id', 'nombres', 'apellidos', 'pais_id', 'numero_documento', 'email', 'telefono', 'puntos', 'created_at')
+        return User::select('*')
+            ->selectRaw('RANK() OVER (ORDER BY puntos_grupos DESC, nombres ASC) as posicion')
+            ->where('pais_id', $id_pais)
+            ->where('user_type_id', $type_id)
+            ->where(function (Builder $query) {
+                return $query
+                    ->has('predictions')
+                    ->orHas('quizzes');
+            })
+            ->where('status_user', 1)
+            ->get();
+    }
+
+    public function getRanking(string|int $id_pais, string|int $type_id)
+    {
+        return User::select('id', 'nombres', 'apellidos', 'pais_id', 'numero_documento', 'email', 'telefono', 'puntos', 'created_at')
             ->selectRaw('RANK() OVER (ORDER BY puntos DESC, nombres ASC) as posicion')
             ->where('pais_id', $id_pais)
             ->where('user_type_id', $type_id)
@@ -47,20 +62,9 @@ class UserService {
             })
             ->where('status_user', 1)
             ->get();
-
-        return $participantes;
-
     }
 
-    /**
-     * Obtiene el ranking de participantes activos con predicciones, paginado.
-     *
-     * @param  int    $id_pais   ID del país para filtrar participantes.
-     * @param  int    $perPage   Cantidad de registros por página.
-     * @param  array  $columns   Columnas adicionales a seleccionar.
-     * @return \Illuminate\Contracts\Pagination\Paginator
-     */
-    public function getRankingWeb($id_pais, $type_id, $perPage = 100)
+    public function getRankingWeb(string|int $id_pais, string|int $type_id, $perPage = 100)
     {
         return User::select('id', 'nombres', 'apellidos', 'puntos', 'pais_id', 'numero_documento', 'email', 'telefono', 'created_at')
             ->selectRaw('RANK() OVER (ORDER BY puntos DESC, nombres ASC) as posicion')
@@ -75,7 +79,7 @@ class UserService {
             ->simplePaginate($perPage);
     }
 
-    public function getUserRank($user)
+    public function getUserRank(User $user)
     {
         $rankingQuery = User::select('id', 'nombres', 'apellidos', 'pais_id', 'puntos', 'created_at')
             ->selectRaw('RANK() OVER (ORDER BY puntos DESC, nombres ASC) as posicion')
@@ -98,7 +102,7 @@ class UserService {
         return $user;
     }
 
-    public function getUserPredictionsCount($user)
+    public function getUserPredictionsCount(User $user)
     {
         $partidos_existentes = EquipoPartido::whereHas('partido')->count();
 

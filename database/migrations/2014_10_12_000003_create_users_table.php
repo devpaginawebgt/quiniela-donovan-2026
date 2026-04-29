@@ -24,8 +24,14 @@ class CreateUsersTable extends Migration
             $table->string('telefono');
             $table->string('email')->unique();
 
+            $table->integer('puntos_predicciones_grupos')->default(0);
+            $table->integer('puntos_trivias_grupos')->default(0);
+            $table->integer('puntos_bonus_grupos')->default(0);
+            $table->integer('puntos_grupos')->index()->default(0);
+
             $table->integer('puntos_predicciones')->default(0);
             $table->integer('puntos_trivias')->default(0);
+            $table->integer('puntos_bonus')->default(0);
             $table->integer('puntos')->index()->default(0);
 
             $table->unsignedBigInteger('pais_id');

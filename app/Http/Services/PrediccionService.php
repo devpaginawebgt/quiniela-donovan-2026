@@ -370,7 +370,7 @@ class PrediccionService {
 
     }
 
-    public function actualizarPuntosParticipante($user_id)
+    public function actualizarPuntosParticipante(string|int $user_id)
     {
         $predicciones = Preccion::where('user_id', $user_id)
             ->where('status', 0)
@@ -406,22 +406,43 @@ class PrediccionService {
     {
         Preccion::where('status', 0)
             ->whereHas('resultado')
-            ->with('resultado', 'user')
-            ->chunkById(500, function ($predicciones) {
+            ->with('partido', 'resultado', 'user')
+            ->chunkById(1000, function ($predicciones) {
                 $porUsuario = $predicciones->groupBy('user_id');
                 $prediccionIds = [];
 
                 foreach ($porUsuario as $prediccionesUsuario) {
+
                     $usuario = $prediccionesUsuario->first()->user;
-                    $puntosTotal = 0;
+
+                    $puntosGrupos = 0;
+                    $puntosEliminatorias = 0;
 
                     foreach ($prediccionesUsuario as $prediccion) {
-                        $puntosTotal += $this->getResultadoPrediccion($prediccion, $prediccion->resultado);
+                        
+                        $puntos_prediccion = $this->getResultadoPrediccion($prediccion, $prediccion->resultado);
+
+                        $prediccion->partido->jornada_id > 3
+                            ? $puntosEliminatorias += $puntos_prediccion
+                            : $puntosGrupos += $puntos_prediccion;
+
                         $prediccionIds[] = $prediccion->id;
+
                     }
 
-                    $usuario->increment('puntos_predicciones', $puntosTotal);
-                    $usuario->puntos = $usuario->puntos_bonus + $usuario->puntos_trivias + $usuario->puntos_predicciones;
+                    $usuario->puntos_predicciones_grupos += $puntosGrupos;
+                    $usuario->puntos_predicciones += $puntosEliminatorias;
+
+                    $usuario->puntos_grupos = 
+                        $usuario->puntos_bonus_grupos + 
+                        $usuario->puntos_trivias_grupos + 
+                        $usuario->puntos_predicciones_grupos;
+
+                    $usuario->puntos = 
+                        $usuario->puntos_bonus + 
+                        $usuario->puntos_trivias + 
+                        $usuario->puntos_predicciones;
+
                     $usuario->save();
                 }
 
