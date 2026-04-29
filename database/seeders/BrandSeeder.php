@@ -14,9 +14,21 @@ class BrandSeeder extends Seeder
     public function run(): void
     {
         $brands = [
-            [ 'name'  => 'Kralfato',  'image' => '/images/brands/kralfato.png' ],
-            [ 'name'  => 'Heprakal',  'image' => '/images/brands/heprakal.png' ],
-            [ 'name'  => 'Enterovid', 'image' => '/images/brands/enterovid.png' ],
+            [ 
+                'name'  => 'Kralfato',
+                'image' => '/images/brands/kralfato.png',
+                'url'   => 'https://donovanwerke.com/'
+            ],
+            [ 
+                'name'  => 'Heprakal',
+                'image' => '/images/brands/heprakal.png',
+                'url'   => 'https://donovanwerke.com/'
+            ],
+            [ 
+                'name'  => 'Enterovid',
+                'image' => '/images/brands/enterovid.png',
+                'url'   => 'https://donovanwerke.com/'
+            ],
         ];
 
         foreach($brands as $brand) {
