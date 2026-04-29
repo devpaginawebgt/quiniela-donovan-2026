@@ -75,7 +75,7 @@ class RegisteredUserController extends Controller
 
         $data['puntos'] = 0;
 
-        $pass = env('DEFAULT_PASS');
+        $pass = config('quiniela.default_pass');
         
         $data['password'] = Hash::make($pass);
 

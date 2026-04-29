@@ -33,7 +33,7 @@ class ApiAuthController extends Controller
             return $this->errorResponse('El número de documento ingresado no está registrado en el sistema.', 422);
         }
 
-        if ( !Hash::check(env('DEFAULT_PASS'), $user->password) ) {
+        if ( !Hash::check(config('quiniela.default_pass'), $user->password) ) {
             $request->hitRateLimiter();
 
             return $this->errorResponse('Ha ocurrido un error al iniciar la sesión, contacta a Soporte.', 401);
@@ -65,7 +65,7 @@ class ApiAuthController extends Controller
 
         $data['puntos'] = 0;
 
-        $pass = env('DEFAULT_PASS');
+        $pass = config('quiniela.default_pass');
         
         $data['password'] = Hash::make($pass);
 

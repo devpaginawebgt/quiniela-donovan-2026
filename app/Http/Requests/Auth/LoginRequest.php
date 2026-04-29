@@ -68,7 +68,7 @@ class LoginRequest extends FormRequest
             ]);
         }
 
-        $credentials = ['email' => $user->email, 'password' => env('DEFAULT_PASS')];
+        $credentials = ['email' => $user->email, 'password' => config('quiniela.default_pass')];
 
         if (! Auth::attempt($credentials)) {
             throw ValidationException::withMessages([

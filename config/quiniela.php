@@ -13,5 +13,7 @@ return [
     */
 
     'system_notifications_email' => env('SYSTEM_NOTIFICATIONS_EMAIL'),
+    'api_key' => env('API_KEY'),
+    'default_pass' => env('DEFAULT_PASS'),
 
 ];

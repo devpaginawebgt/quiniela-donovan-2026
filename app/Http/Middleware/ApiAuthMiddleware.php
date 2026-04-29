@@ -34,7 +34,7 @@ class ApiAuthMiddleware
 
         }
 
-        if ( $apiKey !== env('API_KEY') ) {
+        if ( $apiKey !== config('quiniela.api_key') ) {
 
             return $this->errorResponse('No tienes permiso para acceder a este recurso', 401);
 
