@@ -15,13 +15,27 @@
             @for($i = 0; $i < 3; $i++)
                 @foreach($brands as $brand)
                     <div class="swiper-slide">
-                        <div class="bg-green-900/80 rounded-xl p-4 flex items-center justify-center h-full shadow-md shadow-black">
-                            <img
-                                src="{{ asset($brand->image) }}"
-                                alt="{{ $brand->name }}"
-                                class="w-full max-w-35 object-contain"
+                        @if(!empty($brand->url))
+                            <a
+                                href="{{ $brand->url }}"
+                                target="_blank"
+                                class="bg-green-900/80 rounded-xl p-4 flex items-center justify-center h-full shadow-md shadow-black"
                             >
-                        </div>
+                                <img
+                                    src="{{ asset($brand->image) }}"
+                                    alt="{{ $brand->name }}"
+                                    class="w-full max-w-35 object-contain"
+                                >
+                            </a>
+                        @else
+                            <div class="bg-green-900/80 rounded-xl p-4 flex items-center justify-center h-full shadow-md shadow-black">
+                                <img
+                                    src="{{ asset($brand->image) }}"
+                                    alt="{{ $brand->name }}"
+                                    class="w-full max-w-35 object-contain"
+                                >
+                            </div>
+                        @endif
                     </div>
                 @endforeach
             @endfor
