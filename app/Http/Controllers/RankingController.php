@@ -89,11 +89,13 @@ class RankingController extends Controller
 
     // Funciones para la web
 
-    public function indexWeb()
+    public function indexWeb(Request $request)
     {
         $user = Auth::user();
 
         $country_id = (int) $user->pais_id;
+
+        $tabs = RankingTab::where('is_visible', true)->get();
 
         $first_place = BrandPosition::where('country_id', $country_id)
             ->where('position', 1)
@@ -103,7 +105,7 @@ class RankingController extends Controller
 
         $brands = Brand::all();
 
-        return view('modulos.ranking', compact('brands', 'first_place_brand'));
+        return view('modulos.ranking', compact('tabs', 'brands', 'first_place_brand'));
     }
 
     /**
@@ -116,13 +118,13 @@ class RankingController extends Controller
         $type_id = (int) $user->user_type_id;
         $perPage = (int) $request->query('perPage', 100);
 
-        $result = $this->userService->getRankingWeb($id_pais, $type_id, $perPage);
+        $result = $this->userService->getRankingGruposWeb($id_pais, $type_id, $perPage);
 
         return $this->successResponse([
             'has_more' => $result->hasMorePages(),
             'current_page' => $result->currentPage(),
             'next_page' => $result->hasMorePages() ? $result->currentPage() + 1 : null,
-            'users' => UserRankingResource::collection($result->items()),
+            'users' => UserRankingGruposResource::collection($result->items()),
         ]);
     }
 

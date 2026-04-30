@@ -24,7 +24,7 @@
                                 <img
                                     src="{{ asset($brand->image) }}"
                                     alt="{{ $brand->name }}"
-                                    class="w-full max-w-35 object-contain"
+                                    class="w-full max-w-35 aspect-8/5 object-contain"
                                 >
                             </a>
                         @else

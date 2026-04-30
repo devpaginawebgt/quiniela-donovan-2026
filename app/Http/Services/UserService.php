@@ -103,7 +103,7 @@ class UserService {
 
     public function getRankingGruposWeb(string|int $id_pais, string|int $type_id, int $perPage = 100)
     {
-        return User::select('id', 'nombres', 'apellidos', 'puntos', 'pais_id', 'numero_documento', 'email', 'telefono', 'created_at')
+        return User::select('id', 'nombres', 'apellidos', 'puntos_grupos', 'pais_id', 'numero_documento', 'email', 'telefono', 'created_at')
             ->selectRaw('RANK() OVER (ORDER BY puntos_grupos DESC, nombres ASC) as posicion')
             ->where('pais_id', $id_pais)
             ->where('user_type_id', $type_id)
