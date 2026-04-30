@@ -24,7 +24,7 @@ class RankingTabSeeder extends Seeder
 
         RankingTab::create([
             'name' => 'Fase Eliminatoria',
-            'code' => 'elminatoria',
+            'code' => 'eliminatorias',
             'is_active' => false,
             'is_visible' => false,
             'app_route_name' => 'api.ranking.eliminatorias',
