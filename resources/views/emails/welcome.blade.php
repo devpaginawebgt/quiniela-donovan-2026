@@ -18,10 +18,10 @@
           <tr>
             <td align="center" style="padding:30px 20px 10px 20px;">
               <img 
-                src="{{ rtrim(config('app.url'), '/') . '/images/logos/logo-white.png' }}"
+                src="{{ rtrim(config('app.url'), '/') . '/images/logos/logo-liga.png' }}"
                 alt="Logo"
-                width="320"
-                style="display:block; max-width:320px; height:auto;"
+                width="140"
+                style="display:block; max-width:140px; height:auto;"
               >
             </td>
           </tr>
@@ -74,19 +74,28 @@
                 También puedes descargar nuestra aplicación móvil desde la Play Store y vivir la experiencia desde tu teléfono móvil.
                 </p>
 
-                <a href="https://play.google.com/store/apps/details?id=com.ejemplo.quiniela"
-                target="_blank"
-                style="text-decoration:none;">
-
-                <img 
-                    src="{{ rtrim(config('app.url'), '/') . '/images/decoracion/play_store.png' }}"
-                    alt="Descargar en Google Play"
-                    width="180"
-                    style="display:block; width:160px; max-width:100%; height:auto; margin:16px auto 0 auto;"
-                >
-
-                </a>
-
+                <table cellpadding="0" cellspacing="0" style="margin:0 auto;">
+                    <tr>
+                        <td style="padding:0 8px;" align="center" valign="middle">
+                            <a
+                                href="https://play.google.com/store/apps/details?id=com.donovanwerke.pronosticos"
+                                style="text-decoration:none;"
+                                target="_blank"
+                            >
+                                <img src="{{ rtrim(config('app.url'), '/') . '/images/decoracion/play_store.png' }}"
+                                    alt="Descargar en Google Play" width="147" height="46"
+                                    style="display:block; border:0; outline:none; width:147px; height:46px;">
+                            </a>
+                        </td>
+                        <td style="padding:0 8px;" align="center" valign="middle">
+                            <a href="https://apps.apple.com/app/id6761441900" style="text-decoration:none;" target="_blank">
+                                <img src="{{ rtrim(config('app.url'), '/') . '/images/decoracion/app_store.png' }}"
+                                    alt="Descargar en App Store" width="133" height="46"
+                                    style="display:block; border:0; outline:none; width:133px; height:46px;">
+                            </a>
+                        </td>
+                    </tr>
+                </table>
             </td>
           </tr>
 

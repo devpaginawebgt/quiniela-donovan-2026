@@ -131,7 +131,7 @@
                         <p class="text-xs uppercase tracking-wider text-complementary-light mb-2">Vista previa</p>
                         <div class="rounded-xl border border-zinc-100 bg-zinc-600 backdrop-blur-xl p-4">
                             <div class="flex items-start gap-3">
-                                <img src="{{ asset('images/logos/logo-sm.png') }}"
+                                <img src="{{ asset('images/logos/logo-liga.png') }}"
                                     alt="{{ config('app.name', 'Quiniela') }}"
                                     class="shrink-0 w-10 h-10 rounded-lg object-contain bg-complementary-primary p-1" />
                                 <div class="min-w-0 flex-1">

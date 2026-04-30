@@ -6,9 +6,9 @@
     {{-- Logo --}}
     <div class="flex items-center justify-center px-4 py-3 lg:p-0 lg:shrink-0">
         <img
-            src="{{ asset('images/logos/logo-white.png') }}"
+            src="{{ asset('images/logos/logo-liga.png') }}"
             alt="{{ config('app.name', 'Quiniela') }}"
-            class="w-full max-w-64 lg:max-w-52 2xl:max-w-64"
+            class="w-full max-w-28 lg:max-w-18"
         >
     </div>
 
