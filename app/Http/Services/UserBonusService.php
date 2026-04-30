@@ -38,10 +38,16 @@ class UserBonusService {
 
     public function updateUserBonusPoints(User $user)
     {
-        $puntos_bonus = $user->bonuses()->sum('puntos');
+        $all_bonuses = $user->bonuses()
+            ->where('is_active', true)
+            ->with('bonus')
+            ->get();
 
-        $user->puntos_bonus = $puntos_bonus;
-        $user->puntos = $user->puntos_bonus + $user->puntos_trivias + $user->puntos_predicciones;
+        $user->puntos_bonus_grupos = $all_bonuses->where('bonus.ranking_tab_id', 1)->sum('puntos');
+        $user->puntos_bonus        = $all_bonuses->where('bonus.ranking_tab_id', 2)->sum('puntos');
+
+        $user->puntos_grupos = $user->puntos_bonus_grupos + $user->puntos_trivias_grupos + $user->puntos_predicciones_grupos;
+        $user->puntos        = $user->puntos_bonus + $user->puntos_trivias + $user->puntos_predicciones;
 
         $user->save();
     }
@@ -49,16 +55,10 @@ class UserBonusService {
     public function updateUserBonusPointsChunked()
     {
         User::where('status_user', 1)
-            ->with('bonuses')
             ->has('bonuses')
-            ->chunkById(500, function ($users) {
+            ->chunkById(1000, function ($users) {
                 foreach ($users as $user) {
-                    $puntos_bonus = $user->bonuses()->sum('puntos');
-
-                    $user->puntos_bonus = $puntos_bonus;
-                    $user->puntos = $user->puntos_bonus + $user->puntos_trivias + $user->puntos_predicciones;
-
-                    $user->save();
+                    $this->updateUserBonusPoints($user);
                 }
             });
     }
