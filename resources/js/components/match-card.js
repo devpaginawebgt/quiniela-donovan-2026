@@ -8,16 +8,20 @@ export const renderMatchCard = (partido) => {
     const fechaPartido  = fechaUtc.toLocaleDateString('es-GT', opcionesFecha);
     const horaPartido   = fechaUtc.toLocaleTimeString('es-GT', { hour: '2-digit', minute: '2-digit', hour12: true, timeZone: 'UTC' });
 
-    const brandHtml = partido.marca
-        ? `<div class="flex">
+    let brandHtml = '';
+    if (partido.marca) {
+        const brandInner = `
             <div class="bg-red-700/80 flex items-center py-2 px-3 shrink-0">
                 <span class="text-light text-sm font-medium whitespace-nowrap">Patrocinado por</span>
             </div>
             <div class="flex-1 flex items-center justify-center p-2 bg-green-700">
                 <img src="${partido.marca.image}" alt="${partido.marca.name}" class="w-full max-w-28 object-contain">
-            </div>
-        </div>`
-        : '';
+            </div>`;
+
+        brandHtml = partido.marca.url
+            ? `<a class="flex" href="${partido.marca.url}" target="_blank">${brandInner}</a>`
+            : `<div class="flex">${brandInner}</div>`;
+    }
 
     const equipos = `${partido.equipoUno.nombre} ${partido.equipoDos.nombre}`.toLowerCase();
 

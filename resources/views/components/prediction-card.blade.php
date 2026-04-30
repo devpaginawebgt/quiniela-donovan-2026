@@ -26,18 +26,33 @@
 
     {{-- Header: Brand --}}
     @if(!empty($partido->brand))
-        <div class="flex">
-            <div class="bg-red-700/80 flex items-center py-2 px-3">
-                <span class="text-light text-sm font-medium whitespace-nowrap">Patrocinado por</span>
+        @if(!empty($partido->brand->url))
+            <a class="flex" href="{{ $partido->brand->url }}" target="_blank">
+                <div class="bg-red-700/80 flex items-center py-2 px-3">
+                    <span class="text-light text-sm font-medium whitespace-nowrap">Patrocinado por</span>
+                </div>
+                <div class="flex-1 flex items-center justify-center p-2 bg-green-700">
+                    <img
+                        src="{{ asset($partido->brand->image) }}"
+                        alt="{{ $partido->brand->name }}"
+                        class="w-full max-w-28 object-contain"
+                    >
+                </div>
+            </a>
+        @else
+            <div class="flex">
+                <div class="bg-red-700/80 flex items-center py-2 px-3">
+                    <span class="text-light text-sm font-medium whitespace-nowrap">Patrocinado por</span>
+                </div>
+                <div class="flex-1 flex items-center justify-center p-2 bg-green-700">
+                    <img
+                        src="{{ asset($partido->brand->image) }}"
+                        alt="{{ $partido->brand->name }}"
+                        class="w-full max-w-28 object-contain"
+                    >
+                </div>
             </div>
-            <div class="flex-1 flex items-center justify-center p-2 bg-green-700">
-                <img
-                    src="{{ asset($partido->brand->image) }}"
-                    alt="{{ $partido->brand->name }}"
-                    class="w-full max-w-28 object-contain"
-                >
-            </div>
-        </div>
+        @endif
     @endif
 
     <div class="flex flex-col flex-1 p-6 gap-6">
