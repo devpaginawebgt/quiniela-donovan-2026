@@ -6,6 +6,7 @@ use App\Http\Resources\User\UserRankingResource;
 use App\Http\Resources\User\UserRankResource;
 use App\Http\Resources\User\UserResource;
 use App\Http\Services\BrandService;
+use App\Http\Services\TermsService;
 use App\Http\Services\UserService;
 use App\Models\Brand;
 use App\Models\BrandPosition;
@@ -21,6 +22,7 @@ class UserController extends Controller
     public function __construct(
         private readonly UserService $userService,
         private readonly BrandService $brandService,
+        private readonly TermsService $termsService,
     ) {}
 
     // API responses
@@ -71,8 +73,11 @@ class UserController extends Controller
         $user = $this->userService->getUserRank($user);
         $user = $this->userService->getUserPredictionsCount($user);
 
+        $terms = $this->termsService->getTerms();
+
         return view('modulos.perfil', [
             'user' => $user,
+            'terms' => $terms,
         ]);
     }
 
