@@ -39,8 +39,8 @@
                     {{-- Logo --}}
                     <div class="mb-8">
                         <img
-                            src="/images/logos/logo-white.png"
-                            class="w-full max-w-92 mx-auto"
+                            src="/images/logos/logo-liga.png"
+                            class="w-full max-w-48 aspect-square object-contain mx-auto"
                             alt="{{ config('app.name', 'Quiniela') }}"
                         >
                     </div>
@@ -64,8 +64,8 @@
 
                         <div class="mb-6">
                             <div class="relative">
-                                <div class="absolute inset-y-0 inset-s-0 flex items-center ps-3.5 pointer-events-none">
-                                    <span class="icon-[material-symbols--mail-rounded] w-5 h-5 text-base"></span>
+                                <div class="absolute inset-y-0 inset-s-0 flex items-center ps-2 pointer-events-none">
+                                    <span class="icon-[material-symbols--person-book] w-7 h-7 text-base"></span>
                                 </div>
                                 <input
                                     id="documento"
@@ -77,7 +77,7 @@
                                     pattern="{{ $country->document_regex }}"
                                     title="{{ $country->document_regex_message }}"
                                     placeholder="Ingrese su {{ $country->document_name ?? 'Número de documento' }}"
-                                    class="w-full ps-11 py-3 bg-transparent border-0 border-b-2 border-secondary text-light placeholder-complementary-light focus:ring-0 focus:border-secondary text-base"
+                                    class="w-full ms-11 py-3 bg-transparent border-0 border-b-2 border-secondary text-light placeholder-complementary-light focus:ring-0 focus:border-secondary text-base"
                                 >
                             </div>
                         </div>

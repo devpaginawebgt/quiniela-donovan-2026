@@ -17,8 +17,8 @@
                     {{-- Logo --}}
                     <div class="mb-6">
                         <img
-                            src="/images/logos/logo-white.png"
-                            class="w-full max-w-92 mx-auto"
+                            src="/images/logos/logo-liga.png"
+                            class="w-full max-w-48 aspect-square object-contain mx-auto"
                             alt="{{ config('app.name', 'Quiniela') }}"
                         >
                     </div>
