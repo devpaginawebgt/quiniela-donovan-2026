@@ -11,8 +11,8 @@
         {{-- Header --}}
         <div class="shrink-0 pt-4 pb-4 px-6">
             <img
-                src="{{ asset('images/logos/logo-white.png') }}"
-                class="w-full max-w-60 mx-auto"
+                src="{{ asset('images/logos/logo-liga.png') }}"
+                class="w-full max-w-24 md:max-w-36 mx-auto"
                 alt="{{ config('app.name', 'Quiniela') }}"
             >
             <div class="w-full h-0.5 bg-secondary mt-3"></div>
