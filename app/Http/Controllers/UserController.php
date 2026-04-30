@@ -50,6 +50,20 @@ class UserController extends Controller
 
     }
 
+    public function getUserRank(Request $request)
+    {
+        $user = $request->user();
+
+        $user = $this->userService->getUserRank($user);
+
+        $user = $this->userService->getUserPredictionsCount($user);
+
+        $user = new UserRankResource($user);
+
+        return $this->successResponse($user);
+
+    }
+
     public function perfil()
     {
         $user = Auth::user();

@@ -31,20 +31,6 @@ class RankingController extends Controller
         return $this->successResponse($tabs);
     }
 
-    public function getUserRank(Request $request)
-    {
-        $user = $request->user();
-
-        $user = $this->userService->getUserRank($user);
-
-        $user = $this->userService->getUserPredictionsCount($user);
-
-        $user = new UserRankResource($user);
-
-        return $this->successResponse($user);
-
-    }
-
     public function getRankingGrupos(Request $request)
     {
         $user = $request->user();
