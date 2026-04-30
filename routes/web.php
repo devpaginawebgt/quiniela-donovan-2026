@@ -106,8 +106,8 @@ Route::middleware(['auth'])->as('web.')->group(function () {
 
     Route::controller(RankingController::class)->prefix('ranking')->as('ranking.')->group(function() {
         Route::get('ranking', 'indexWeb')->name('index');
-        Route::get('ranking/grupos', 'getRankingGrupos')->name('grupos');
-        Route::get('ranking/eliminatorias', 'getRankingEliminatorias')->name('eliminatorias');
+        Route::get('ranking/grupos', 'getRankingGruposData')->name('grupos');
+        Route::get('ranking/eliminatorias', 'getRankingData')->name('eliminatorias');
     });
 
     // Premios

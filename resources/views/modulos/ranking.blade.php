@@ -166,7 +166,7 @@
                 loader.classList.remove('hidden');
                 btnCargarMas.classList.add('hidden');
 
-                axios.get('{{ route("web.users.ranking.data") }}', {
+                axios.get('{{ route("web.ranking.grupos") }}', {
                     params: { page: page }
                 })
                 .then(function (response) {

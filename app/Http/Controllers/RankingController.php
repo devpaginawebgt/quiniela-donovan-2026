@@ -109,6 +109,26 @@ class RankingController extends Controller
     /**
      * Devuelve los datos paginados del ranking vía JSON.
      */
+    public function getRankingGruposData(Request $request)
+    {
+        $user = Auth::user();
+        $id_pais = (int) $user->pais_id;
+        $type_id = (int) $user->user_type_id;
+        $perPage = (int) $request->query('perPage', 100);
+
+        $result = $this->userService->getRankingWeb($id_pais, $type_id, $perPage);
+
+        return $this->successResponse([
+            'has_more' => $result->hasMorePages(),
+            'current_page' => $result->currentPage(),
+            'next_page' => $result->hasMorePages() ? $result->currentPage() + 1 : null,
+            'users' => UserRankingResource::collection($result->items()),
+        ]);
+    }
+
+    /**
+     * Devuelve los datos paginados del ranking vía JSON.
+     */
     public function getRankingData(Request $request)
     {
         $user = Auth::user();
