@@ -1,7 +1,7 @@
 <div class="max-w-screen-2xl mx-auto mb-6 px-4 lg:px-8 pt-8">
 
     {{-- Título --}}
-    <h1 class="text-2xl lg:text-3xl text-center font-bold mb-4">Ranking de AA</h1>
+    <h1 class="text-2xl lg:text-3xl text-center font-bold mb-4">Ranking de Participantes</h1>
 
     {{-- Subtítulo podio --}}
     <h2 id="podio-subtitle" class="text-lg lg:text-xl text-center font-semibold mb-6 hidden">Primeros 3 Lugares</h2>
