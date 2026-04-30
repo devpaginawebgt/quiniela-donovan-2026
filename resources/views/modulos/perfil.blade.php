@@ -56,7 +56,7 @@
                         type="button"
                         id="btn-terms"
                         class="w-full flex items-center gap-2 py-3 text-light font-semibold hover:text-secondary transition-colors duration-150 cursor-pointer">
-                        <span class="icon-[material-symbols--shield-outline] w-7 h-7"></span>
+                        <span class="icon-[material-symbols--shield] w-7 h-7"></span>
                         Términos y condiciones
                     </button>
 

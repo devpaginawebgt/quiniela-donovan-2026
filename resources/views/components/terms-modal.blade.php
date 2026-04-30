@@ -10,9 +10,11 @@
 
         {{-- Header --}}
         <div class="shrink-0 pt-4 pb-4 px-6">
-            {{-- Pill decorativa --}}
-            {{-- <div class="w-12 h-1.5 bg-complementary-dark rounded-full mx-auto mb-4"></div> --}}
-            <h2 class="text-xl font-bold text-light text-center">Términos y Condiciones</h2>
+            <img
+                src="{{ asset('images/logos/logo-white.png') }}"
+                class="w-full max-w-60 mx-auto"
+                alt="{{ config('app.name', 'Quiniela') }}"
+            >
             <div class="w-full h-0.5 bg-secondary mt-3"></div>
         </div>
 
