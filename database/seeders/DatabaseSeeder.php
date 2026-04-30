@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
             UserTypeSeeder::class,
             RolePermissionSeeder::class,
             UserSeeder::class,
+            RankingTabSeeder::class,
             GrupoSeeder::class,
             EquipoSeeder::class,
             EstadioSeeder::class,
@@ -46,7 +47,6 @@ class DatabaseSeeder extends Seeder
             QuizQuestionSeeder::class,
             QuizOptionSeeder::class,
             BonusSeeder::class,
-            RankingTabSeeder::class
         ]);
     }
 }
