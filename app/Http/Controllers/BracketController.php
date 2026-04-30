@@ -37,6 +37,38 @@ class BracketController extends Controller
 
         $jornadas = Jornada::all()->keyBy('id');
 
-        return view('embed.bracket', compact('rondas', 'grupos', 'jornadas'));
+        return view('modulos.bracket-public', compact('rondas', 'grupos', 'jornadas'));
+    }
+
+    public function showWeb()
+    {
+        $rondas = BracketGame::with([
+                'teamOne:id,nombre,imagen,codigo_iso',
+                'teamTwo:id,nombre,imagen,codigo_iso',
+                'result',
+                'localFeeder:id,bracket_position',
+                'visitorFeeder:id,bracket_position',
+            ])
+            ->orderBy('journey_id')
+            ->orderBy('bracket_position')
+            ->get()
+            ->groupBy('journey_id');
+
+        $grupos = Grupo::with(['equipos' => function ($q) {
+                $q->select([
+                        'id', 'nombre', 'imagen', 'grupo',
+                        'goles_favor', 'goles_contra', 'puntos',
+                    ])
+                    ->orderBy('puntos', 'desc')
+                    ->orderByRaw('(goles_favor - goles_contra) desc')
+                    ->orderBy('goles_favor', 'desc')
+                    ->orderBy('nombre', 'asc');
+            }])
+            ->orderBy('name')
+            ->get();
+
+        $jornadas = Jornada::all()->keyBy('id');
+
+        return view('modulos.bracket', compact('rondas', 'grupos', 'jornadas'));
     }
 }

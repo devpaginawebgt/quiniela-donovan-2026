@@ -47,7 +47,7 @@
                     @endphp
 
                     @if(!$user->hasRole('admin'))
-                        <div class="flex ">
+                        <div class="flex">
                             <button
                                 type="submit"
                                 class="focus:outline-none hover:brightness-[1.2] focus:ring-4 focus:ring-primary rounded-full fixed bottom-20 right-4 shadow-lg shadow-dark bg-green-700 text-light text-md lg:text-xl py-2 lg:py-3 px-4 lg:px-6 font-semibold gap-1 flex justify-center items-center z-50"

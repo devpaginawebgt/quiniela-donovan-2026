@@ -65,6 +65,9 @@ Route::middleware(['auth'])->as('web.')->group(function () {
             Route::post('trivias', 'store')->name('store');
             Route::get('trivias/{id}/ultimo-intento', 'lastAttemptWeb')->name('last-attempt');
         });
+
+        // Bracket
+        Route::get('/bracket', [BracketController::class, 'showWeb'])->name('bracket');
     });
 
     // Selecciones
@@ -145,6 +148,8 @@ Route::middleware(['auth'])->as('web.')->group(function () {
     });
 });
 
+Route::get('/embed/bracket', [BracketController::class, 'show'])->name('embed.bracket');
+
 // Route::middleware(['guest'])->group(function() {
 
 //     // Participantes inscritos
@@ -159,8 +164,5 @@ Route::middleware(['auth'])->as('web.')->group(function () {
 
 
 // Embed (público, sin auth — para Flutter WebView)
-
-Route::get('/embed/bracket', [BracketController::class, 'show'])->name('embed.bracket');
-
 
 require __DIR__ . '/auth.php';

@@ -37,4 +37,13 @@
             </div>
         </div>
     </div>
+
+
+    <a
+        href="{{ route('web.inicio.bracket') }}"
+        class="focus:outline-none hover:brightness-[1.2] focus:ring-4 focus:ring-primary rounded-full fixed bottom-20 right-4 shadow-lg shadow-dark bg-green-700 text-light text-md lg:text-lg py-2 lg:py-3 px-4 lg:px-6 font-semibold gap-2 flex justify-center items-center z-50"
+    >
+        <span class="icon-[material-symbols--account-tree-rounded] w-5 h-5"></span>
+        Eliminatoria
+    </a>
 </x-app-layout>
