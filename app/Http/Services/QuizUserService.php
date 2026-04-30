@@ -232,25 +232,11 @@ class QuizUserService {
             ->get()
             ->unique('quiz_id');
 
-        // Sumar puntos de quizzes de fase de grupos
-
-        $quizzes_grupos = $quizzes->where('quiz.ranking_tab_id', 1);
-
-        $puntos_trivias_grupos = $quizzes_grupos->sum('response_points');
-
-        $user->puntos_trivias_grupos = $puntos_trivias_grupos;
+        $user->puntos_trivias_grupos = $quizzes->where('quiz.ranking_tab_id', 1)->sum('response_points');
+        $user->puntos_trivias        = $quizzes->where('quiz.ranking_tab_id', 2)->sum('response_points');
 
         $user->puntos_grupos = $user->puntos_bonus_grupos + $user->puntos_trivias_grupos + $user->puntos_predicciones_grupos;
-
-        // Sumar puntos de quizzes de eliminatorias
-
-        $quizzes_eliminatorias = $quizzes->where('quiz.ranking_tab_id', 2);
-
-        $puntos_trivias = $quizzes_eliminatorias->sum('response_points');
-
-        $user->puntos_trivias = $puntos_trivias;
-
-        $user->puntos = $user->puntos_bonus + $user->puntos_trivias + $user->puntos_predicciones;
+        $user->puntos        = $user->puntos_bonus + $user->puntos_trivias + $user->puntos_predicciones;
 
         $user->save();
     }
