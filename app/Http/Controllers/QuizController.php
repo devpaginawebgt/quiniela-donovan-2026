@@ -69,6 +69,12 @@ class QuizController extends Controller
 
         $quiz = $this->quizService->getQuizById($data['quiz_id']);
 
+        $is_active = empty($quiz->expires_at) || $quiz->expires_at->isFuture();
+
+        if ($is_active === false) {
+            return $this->errorResponse('La vigencia de esta trivia ha terminado, ya no se aceptan respuestas.', 422);
+        }
+
         $lastAttempt = $this->quizUserService->getLastAttempt($quiz->id);
 
         $current_attempt = $lastAttempt ? $lastAttempt->attempt_number + 1 : 1;

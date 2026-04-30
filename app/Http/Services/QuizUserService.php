@@ -61,13 +61,15 @@ class QuizUserService {
             ->first();
     }
 
-    public function getQuizUserInfo($quiz, $last_attempt, $best_attempt)
+    public function getQuizUserInfo(Quiz $quiz, QuizUser|null $last_attempt, QuizUser|null $best_attempt)
     {
+        $is_active = empty($quiz->expires_at) || $quiz->expires_at->isFuture();
+
         $next_attempt_number = $last_attempt ? $last_attempt->attempt_number + 1 : 1;
 
         $hasAnsweredCorrectly = $best_attempt ? $best_attempt->all_correct : false;
 
-        $quiz->retry = $next_attempt_number <= $quiz->attempts && !$hasAnsweredCorrectly;
+        $quiz->retry = $next_attempt_number <= $quiz->attempts && !$hasAnsweredCorrectly && $is_active;
 
         $quiz->current_score = $best_attempt ? $best_attempt->response_points : 0;
 
@@ -80,13 +82,15 @@ class QuizUserService {
         return $quiz;
     }
 
-    public function getQuizLastAttemptInfo($quiz, $last_attempt, $best_attempt)
+    public function getQuizLastAttemptInfo(Quiz $quiz, QuizUser|null $last_attempt, QuizUser|null $best_attempt)
     {
+        $is_active = empty($quiz->expires_at) || $quiz->expires_at->isFuture();
+
         $next_attempt_number = $last_attempt ? $last_attempt->attempt_number + 1 : 1;
 
         $hasAnsweredCorrectly = $best_attempt ? $best_attempt->all_correct : false;
 
-        $last_attempt->retry = $next_attempt_number <= $quiz->attempts && !$hasAnsweredCorrectly;
+        $last_attempt->retry = $next_attempt_number <= $quiz->attempts && !$hasAnsweredCorrectly && $is_active;
 
         $last_attempt->current_score = $best_attempt ? $best_attempt->response_points : 0;
 
@@ -222,12 +226,27 @@ class QuizUserService {
         $user = request()->user();
 
         $quizzes = $user->quizzes()
+            ->with('quiz')
             ->orderBy('response_points', 'desc')
             ->orderBy('created_at', 'desc')
             ->get()
             ->unique('quiz_id');
 
-        $puntos_trivias = $quizzes->sum('response_points');
+        // Sumar puntos de quizzes de fase de grupos
+
+        $quizzes_grupos = $quizzes->where('quiz.ranking_tab_id', 1);
+
+        $puntos_trivias_grupos = $quizzes_grupos->sum('response_points');
+
+        $user->puntos_trivias_grupos = $puntos_trivias_grupos;
+
+        $user->puntos_grupos = $user->puntos_bonus_grupos + $user->puntos_trivias_grupos + $user->puntos_predicciones_grupos;
+
+        // Sumar puntos de quizzes de eliminatorias
+
+        $quizzes_eliminatorias = $quizzes->where('quiz.ranking_tab_id', 2);
+
+        $puntos_trivias = $quizzes_eliminatorias->sum('response_points');
 
         $user->puntos_trivias = $puntos_trivias;
 

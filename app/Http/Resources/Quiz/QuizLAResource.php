@@ -21,6 +21,7 @@ class QuizLAResource extends JsonResource
             'attempts'             => $this->quiz->attempts,
             'availableScore'       => $this->quiz->points,
             'currentScore'         => $this->current_score,
+            'expiresAt'            => $this->quiz->expires_at?->toDateTimeString(),
 
             'retry'                => $this->retry,
             'nextAttemptNumber'    => $this->next_attempt_number,
