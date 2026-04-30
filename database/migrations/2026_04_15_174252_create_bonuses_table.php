@@ -17,6 +17,10 @@ return new class extends Migration
             $table->string('code')->index();
             $table->integer('puntos')->default(0);
             $table->string('description')->nullable();
+            $table->foreignId('ranking_tab_id')
+                ->constrained('ranking_tabs')
+                ->onUpdate('cascade')
+                ->onDelete('restrict');
             $table->timestamps();
         });
     }

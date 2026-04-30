@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Bonus extends Model
@@ -12,6 +13,7 @@ class Bonus extends Model
         'code',
         'puntos',
         'description',
+        'ranking_tab_id',
     ];
 
     protected function casts(): array
@@ -24,5 +26,10 @@ class Bonus extends Model
     public function bonusUsers(): HasMany
     {
         return $this->hasMany(BonusUser::class);
+    }
+
+    public function rankingTab(): BelongsTo
+    {
+        return $this->belongsTo(RankingTab::class);
     }
 }
