@@ -16,7 +16,12 @@ return new class extends Migration
             $table->string('name');
             $table->integer('attempts');
             $table->integer('points');
-            $table->boolean('is_active')->default(false);
+            $table->foreignId('ranking_tab_id')
+                ->constrained('ranking_tabs')
+                ->onUpdate('cascade')
+                ->onDelete('restrict');
+            $table->boolean('is_visible')->default(true);
+            $table->timestamp('expires_at')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

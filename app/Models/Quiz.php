@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -15,16 +16,23 @@ class Quiz extends Model
         'name',
         'attempts',
         'points',
-        'is_active',
+        'ranking_tab_id',
+        'is_visible',
+        'expires_at',
     ];
 
     protected $casts = [
         'attempts' => 'integer',
-        'is_active' => 'boolean',
+        'expires_at' => 'datetime',
     ];
 
     public function questions(): HasMany
     {
         return $this->hasMany(QuizQuestion::class)->orderBy('order')->orderBy('id');
+    }
+
+    public function rankingTab(): BelongsTo
+    {
+        return $this->belongsTo(RankingTab::class);
     }
 }

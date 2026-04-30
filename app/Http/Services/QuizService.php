@@ -8,17 +8,10 @@ class QuizService {
 
     public function getQuizzes()
     {
-        return Quiz::all();
+        return Quiz::where('is_visible', true)->get();
     }
 
-    public function getCurrentQuiz()
-    {
-        return Quiz::with('questions.options')
-            ->where('is_active', true)
-            ->firstOrFail();
-    }
-
-    public function getQuizById($id)
+    public function getQuizById(string|int $id)
     {
         return Quiz::find($id);
     }

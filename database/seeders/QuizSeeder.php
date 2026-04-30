@@ -15,10 +15,10 @@ class QuizSeeder extends Seeder
     {
         $quizzes = [
             [ 
-                'name'      => 'GastroQuiz',
-                'attempts'  => 3, 
-                'points'    => 3, 
-                'is_active' => 1 
+                'name'           => 'GastroQuiz',
+                'attempts'       => 3, 
+                'points'         => 3,                 
+                'ranking_tab_id' => 1,
             ],
         ];
 
