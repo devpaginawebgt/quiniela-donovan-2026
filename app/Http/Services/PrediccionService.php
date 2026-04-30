@@ -370,34 +370,6 @@ class PrediccionService {
 
     }
 
-    public function actualizarPuntosParticipante(string|int $user_id)
-    {
-        $predicciones = Preccion::where('user_id', $user_id)
-            ->where('status', 0)
-            ->whereHas('resultado')
-            ->with('resultado', 'user')
-            ->get();
-
-        if ($predicciones->isEmpty()) {
-            return;
-        }
-
-        $usuario = $predicciones->first()->user;
-
-        foreach ($predicciones as $prediccion) {
-            $puntos = $this->getResultadoPrediccion($prediccion, $prediccion->resultado);
-
-            $usuario->puntos_predicciones += $puntos;
-
-            $prediccion->status = 1;
-            $prediccion->save();
-        }
-
-        $usuario->puntos = $usuario->puntos_bonus + $usuario->puntos_trivias + $usuario->puntos_predicciones;
-
-        $usuario->save();
-    }
-
     /**
      * Versión optimizada de actualizarPuntosGlobal usando chunks.
      * Diseñada para el comando artisan con grandes volúmenes de datos.
@@ -449,4 +421,33 @@ class PrediccionService {
                 Preccion::whereIn('id', $prediccionIds)->update(['status' => 1]);
             });
     }
+
+
+    // public function actualizarPuntosParticipante(string|int $user_id)
+    // {
+    //     $predicciones = Preccion::where('user_id', $user_id)
+    //         ->where('status', 0)
+    //         ->whereHas('resultado')
+    //         ->with('resultado', 'user')
+    //         ->get();
+
+    //     if ($predicciones->isEmpty()) {
+    //         return;
+    //     }
+
+    //     $usuario = $predicciones->first()->user;
+
+    //     foreach ($predicciones as $prediccion) {
+    //         $puntos = $this->getResultadoPrediccion($prediccion, $prediccion->resultado);
+
+    //         $usuario->puntos_predicciones += $puntos;
+
+    //         $prediccion->status = 1;
+    //         $prediccion->save();
+    //     }
+
+    //     $usuario->puntos = $usuario->puntos_bonus + $usuario->puntos_trivias + $usuario->puntos_predicciones;
+
+    //     $usuario->save();
+    // }
 }
