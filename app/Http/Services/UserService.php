@@ -73,14 +73,22 @@ class UserService {
 
     public function getRankingGrupos(string|int $id_pais, string|int $type_id)
     {
-        return User::select('*')
-            ->selectRaw('RANK() OVER (ORDER BY puntos_grupos DESC, nombres ASC) as posicion')
+        return User::select('id', 'nombres', 'apellidos', 'puntos_grupos', 'pais_id', 'numero_documento', 'email', 'telefono', 'created_at')
+            ->selectRaw('RANK() OVER (ORDER BY puntos_grupos DESC, created_at ASC) as posicion')
             ->where('pais_id', $id_pais)
             ->where('user_type_id', $type_id)
             ->where(function (Builder $query) {
                 return $query
-                    ->has('predictions')
-                    ->orHas('quizzes');
+                    ->whereHas('predictions', function ($query) {
+                        $query->whereHas('partido', function ($query) {
+                            $query->whereIn('jornada_id', [1, 2, 3]);
+                        });
+                    })
+                    ->orWhereHas('quizzes', function ($query) {
+                        $query->whereHas('quiz', function ($query) {
+                            $query->where('ranking_tab_id', 1);
+                        });
+                    });
             })
             ->where('status_user', 1)
             ->get();
@@ -89,13 +97,21 @@ class UserService {
     public function getRanking(string|int $id_pais, string|int $type_id)
     {
         return User::select('id', 'nombres', 'apellidos', 'pais_id', 'numero_documento', 'email', 'telefono', 'puntos', 'created_at')
-            ->selectRaw('RANK() OVER (ORDER BY puntos DESC, nombres ASC) as posicion')
+            ->selectRaw('RANK() OVER (ORDER BY puntos DESC, created_at ASC, nombres ASC) as posicion')
             ->where('pais_id', $id_pais)
             ->where('user_type_id', $type_id)
             ->where(function (Builder $query) {
                 return $query
-                    ->has('predictions')
-                    ->orHas('quizzes');
+                    ->whereHas('predictions', function ($query) {
+                        $query->whereHas('partido', function ($query) {
+                            $query->where('jornada_id', '>', 3);
+                        });
+                    })
+                    ->orWhereHas('quizzes', function ($query) {
+                        $query->whereHas('quiz', function ($query) {
+                            $query->where('ranking_tab_id', 2);
+                        });
+                    });
             })
             ->where('status_user', 1)
             ->get();
@@ -104,28 +120,44 @@ class UserService {
     public function getRankingGruposWeb(string|int $id_pais, string|int $type_id, int $perPage = 100)
     {
         return User::select('id', 'nombres', 'apellidos', 'puntos_grupos', 'pais_id', 'numero_documento', 'email', 'telefono', 'created_at')
-            ->selectRaw('RANK() OVER (ORDER BY puntos_grupos DESC, nombres ASC) as posicion')
+            ->selectRaw('RANK() OVER (ORDER BY puntos_grupos DESC, created_at ASC, nombres ASC) as posicion')
             ->where('pais_id', $id_pais)
             ->where('user_type_id', $type_id)
             ->where(function (Builder $query) {
                 return $query
-                    ->has('predictions')
-                    ->orHas('quizzes');
+                    ->whereHas('predictions', function ($query) {
+                        $query->whereHas('partido', function ($query) {
+                            $query->whereIn('jornada_id', [1, 2, 3]);
+                        });
+                    })
+                    ->orWhereHas('quizzes', function ($query) {
+                        $query->whereHas('quiz', function ($query) {
+                            $query->where('ranking_tab_id', 1);
+                        });
+                    });
             })
             ->where('status_user', 1)
             ->simplePaginate($perPage);
     }
 
-    public function getRankingWeb(string|int $id_pais, string|int $type_id, $perPage = 100)
+    public function getRankingWeb(string|int $id_pais, string|int $type_id, int $perPage = 100)
     {
         return User::select('id', 'nombres', 'apellidos', 'puntos', 'pais_id', 'numero_documento', 'email', 'telefono', 'created_at')
-            ->selectRaw('RANK() OVER (ORDER BY puntos DESC, nombres ASC) as posicion')
+            ->selectRaw('RANK() OVER (ORDER BY puntos DESC, created_at ASC, nombres ASC) as posicion')
             ->where('pais_id', $id_pais)
             ->where('user_type_id', $type_id)
             ->where(function (Builder $query) {
                 return $query
-                    ->has('predictions')
-                    ->orHas('quizzes');
+                    ->whereHas('predictions', function ($query) {
+                        $query->whereHas('partido', function ($query) {
+                            $query->where('jornada_id', '>', 3);
+                        });
+                    })
+                    ->orWhereHas('quizzes', function ($query) {
+                        $query->whereHas('quiz', function ($query) {
+                            $query->where('ranking_tab_id', 2);
+                        });
+                    });
             })
             ->where('status_user', 1)
             ->simplePaginate($perPage);
@@ -134,7 +166,7 @@ class UserService {
     public function getUserRank(User $user)
     {
         $rankingQuery = User::select('id', 'nombres', 'apellidos', 'pais_id', 'puntos', 'created_at')
-            ->selectRaw('RANK() OVER (ORDER BY puntos DESC, nombres ASC) as posicion')
+            ->selectRaw('RANK() OVER (ORDER BY puntos DESC, created_at ASC, nombres ASC) as posicion')
             ->where('pais_id', $user->pais_id)
             ->where('user_type_id', $user->user_type_id)
             ->where(function (Builder $query) {
