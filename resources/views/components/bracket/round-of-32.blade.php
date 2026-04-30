@@ -4,7 +4,7 @@
     <h2 @if($jornada) id="jornada-{{ $jornada->id }}" @endif
         data-active="{{ $jornada?->is_current ? '1' : '0' }}"
         class="text-sm font-bold uppercase tracking-wider text-light mb-2">
-        32avos
+        16avos
     </h2>
 
     <div class="flex flex-col justify-around h-full" style="gap: 0.75rem;">
