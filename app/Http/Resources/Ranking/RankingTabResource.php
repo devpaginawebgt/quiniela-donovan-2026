@@ -18,8 +18,6 @@ class RankingTabResource extends JsonResource
             'name'        => $this->name,
             'code'        => $this->code,
             'is_active'   => $this->is_active,
-            'is_visible'  => $this->is_visible,
-            'api_url'     => route($this->app_route_name),
         ];
     }
 }

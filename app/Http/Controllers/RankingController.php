@@ -24,7 +24,7 @@ class RankingController extends Controller
 
     public function getTabs()
     {
-        $tabs = RankingTab::all();
+        $tabs = RankingTab::where('is_visible', true)->get();
 
         $tabs = RankingTabResource::collection($tabs);
 
