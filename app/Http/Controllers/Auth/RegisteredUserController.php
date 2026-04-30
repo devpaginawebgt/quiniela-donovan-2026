@@ -8,6 +8,7 @@ use App\Http\Requests\Auth\RegisterRequest;
 use App\Http\Services\CompanyService;
 use App\Http\Services\CountryService;
 use App\Http\Services\TermsService;
+use App\Http\Services\UserService;
 use App\Http\Services\VisitorService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -22,6 +23,7 @@ class RegisteredUserController extends Controller
         private readonly CompanyService $companyService,
         private readonly VisitorService $visitorService,
         private readonly TermsService $termsService,
+        private readonly UserService $userService,
     ) {}
 
     /**
@@ -31,26 +33,7 @@ class RegisteredUserController extends Controller
      */
     public function create(Request $request)
     {
-        $ip = $request->ip();
-        // $ip = '45.164.150.249'; // GT
-        // $ip = '190.181.222.119'; // HN
-
-        $country_code = 'GT';
-
-        try {
-            $response = Http::timeout(3)->get("http://api.ipinfo.io/lite/{$ip}", [
-                'token' => config('services.geolocation.key'),
-            ]);
-
-            if ($response->ok() && !empty($response->json('country_code'))) {
-                $country_code = $response->json('country_code');
-            }
-        } catch (\Exception $e) {
-            // fallback silencioso, $country_code ya es 'GT'
-        }
-
-        $country = $this->countryService->getCountryByCode($country_code)
-            ?? $this->countryService->getCountryByCode('GT');
+        $country = $this->userService->getGuestCountry();
 
         $companies = $this->companyService->getCompaniesByCountry($country->id);
 

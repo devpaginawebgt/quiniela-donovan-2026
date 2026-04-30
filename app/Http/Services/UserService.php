@@ -10,8 +10,45 @@ use App\Models\EquipoPartido;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 
 class UserService {
+
+    public function getGuestCountry()
+    {
+        $cached = session('guest_country');
+        
+        if ($cached instanceof Country) {
+            return $cached;
+        }
+
+        $ip = request()->ip();
+        // $ip = '45.164.150.249'; // GT
+        // $ip = '190.181.222.119'; // HN
+        // $ip = '190.62.80.251'; // SV
+        // $ip = '152.231.33.166'; // NI
+
+        $country_code = 'GT';
+
+        try {
+            $response = Http::timeout(3)->get("http://api.ipinfo.io/lite/{$ip}", [
+                'token' => config('services.geolocation.key'),
+            ]);
+
+            if ($response->ok() && !empty($response->json('country_code'))) {
+                $country_code = $response->json('country_code');
+            }
+        } catch (\Exception $e) {
+            // fallback silencioso, $country_code ya es 'GT'
+        }
+
+        $country = Country::where('country_code', $country_code)->first()
+            ?? Country::where('country_code', 'GT')->first();
+
+        session(['guest_country' => $country]);
+
+        return $country;
+    }
 
     public function getUsers()
     {

@@ -41,12 +41,13 @@
     </x-auth-input>
 
     <x-auth-input
-        label="DPI del Dependiente"
+        label="{{ ($country->document_name ?? 'Número de documento') . ' del Dependiente' }}"
         id="dep_numero_documento"
         name="numero_documento"
-        placeholder="Ingrese su DPI"
-        minlength="6"
+        placeholder="Ingrese su {{ $country->document_name ?? 'Número de documento' }}"
         maxlength="20"
+        pattern="{{ $country->document_regex }}"
+        title="{{ $country->document_regex_message }}"
         :required="true"
     >
         <x-slot name="prefix">

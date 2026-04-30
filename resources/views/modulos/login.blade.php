@@ -74,8 +74,9 @@
                                     value="{{ old('numero_documento') }}"
                                     required
                                     autofocus
-                                    maxlength="13"
-                                    placeholder="Ingrese su número de documento"
+                                    pattern="{{ $country->document_regex }}"
+                                    title="{{ $country->document_regex_message }}"
+                                    placeholder="Ingrese su {{ $country->document_name ?? 'Número de documento' }}"
                                     class="w-full ps-11 py-3 bg-transparent border-0 border-b-2 border-secondary text-light placeholder-complementary-light focus:ring-0 focus:border-secondary text-base"
                                 >
                             </div>
