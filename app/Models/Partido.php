@@ -43,4 +43,9 @@ class Partido extends Model
         return $this->hasOne(EquipoPartido::class, 'partido_id');
     }
 
+    public function puntos(): HasOne
+    {
+        return $this->hasOne(PartidoPuntos::class, 'partido_id');
+    }
+
 }
