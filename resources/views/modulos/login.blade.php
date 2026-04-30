@@ -63,8 +63,8 @@
                         @csrf
 
                         <div class="mb-6">
-                            <div class="relative">
-                                <div class="absolute inset-y-0 inset-s-0 flex items-center ps-2 pointer-events-none">
+                            <div class="flex gap-3">
+                                <div class="flex items-center ps-2 pointer-events-none">
                                     <span class="icon-[material-symbols--person-book] w-7 h-7 text-base"></span>
                                 </div>
                                 <input
@@ -77,7 +77,7 @@
                                     pattern="{{ $country->document_regex }}"
                                     title="{{ $country->document_regex_message }}"
                                     placeholder="Ingrese su {{ $country->document_name ?? 'Número de documento' }}"
-                                    class="w-full ms-11 py-3 bg-transparent border-0 border-b-2 border-secondary text-light placeholder-complementary-light focus:ring-0 focus:border-secondary text-base"
+                                    class="w-full py-3 bg-transparent border-0 border-b-2 border-secondary text-light placeholder-complementary-light focus:ring-0 focus:border-secondary text-base"
                                 >
                             </div>
                         </div>
