@@ -239,8 +239,8 @@ class PartidoSeeder extends Seeder
                     ->setTimezone('UTC')
                     ->toDateTimeString(), // 22:00 UTC
                 'estadio_id' => 12, // Miami Stadium
-                'equipo_1' => 9,  // Brasil
-                'equipo_2' => 12, // Escocia
+                'equipo_1' => 12, // Escocia
+                'equipo_2' => 9,  // Brasil
             ],
             [
                 'fase' => 'GRUPOS',
