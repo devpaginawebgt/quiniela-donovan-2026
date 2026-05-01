@@ -220,7 +220,7 @@ class PartidoSeeder extends Seeder
             [
                 'fase' => 'GRUPOS',
                 'jornada_id' => 2,
-                'fecha_partido' => Carbon::create(2026, 6, 19, 21, 0, 0, 'America/New_York')
+                'fecha_partido' => Carbon::create(2026, 6, 19, 20, 30, 0, 'America/New_York')
                     ->setTimezone('UTC')
                     ->toDateTimeString(), // 01:00 UTC (20 junio)
                 'estadio_id' => 14, // Philadelphia Stadium
@@ -270,7 +270,7 @@ class PartidoSeeder extends Seeder
             [
                 'fase' => 'GRUPOS',
                 'jornada_id' => 1,
-                'fecha_partido' => Carbon::create(2026, 6, 13, 0, 0, 0, 'America/New_York')
+                'fecha_partido' => Carbon::create(2026, 6, 14, 0, 0, 0, 'America/New_York')
                     ->setTimezone('UTC')
                     ->toDateTimeString(), // 04:00 UTC
                 'estadio_id' => 2, // BC Place Vancouver
@@ -295,7 +295,7 @@ class PartidoSeeder extends Seeder
             [
                 'fase' => 'GRUPOS',
                 'jornada_id' => 2,
-                'fecha_partido' => Carbon::create(2026, 6, 19, 0, 0, 0, 'America/New_York')
+                'fecha_partido' => Carbon::create(2026, 6, 19, 23, 0, 0, 'America/New_York')
                     ->setTimezone('UTC')
                     ->toDateTimeString(), // 04:00 UTC
                 'estadio_id' => 15, // San Francisco Bay Area Stadium
@@ -370,7 +370,7 @@ class PartidoSeeder extends Seeder
             [
                 'fase' => 'GRUPOS',
                 'jornada_id' => 2,
-                'fecha_partido' => Carbon::create(2026, 6, 20, 22, 0, 0, 'America/New_York')
+                'fecha_partido' => Carbon::create(2026, 6, 20, 20, 0, 0, 'America/New_York')
                     ->setTimezone('UTC')
                     ->toDateTimeString(), // 02:00 UTC (21 junio)
                 'estadio_id' => 10, // Kansas City Stadium
@@ -445,7 +445,7 @@ class PartidoSeeder extends Seeder
             [
                 'fase' => 'GRUPOS',
                 'jornada_id' => 2,
-                'fecha_partido' => Carbon::create(2026, 6, 20, 0, 0, 0, 'America/New_York')
+                'fecha_partido' => Carbon::create(2026, 6, 21, 0, 0, 0, 'America/New_York')
                     ->setTimezone('UTC')
                     ->toDateTimeString(), // 04:00 UTC
                 'estadio_id' => 5, // Estadio Monterrey
