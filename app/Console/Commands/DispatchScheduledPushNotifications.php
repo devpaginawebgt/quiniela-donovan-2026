@@ -16,6 +16,10 @@ class DispatchScheduledPushNotifications extends Command
 
     public function handle(PushNotificationService $service): int
     {
+        // Cinturón de seguridad: muere antes de que expire el lock de
+        // withoutOverlapping(10) en el scheduler para evitar solapes.
+        set_time_limit(540);
+
         $limit = (int) $this->option('limit');
 
         $pending = PushNotification::query()
