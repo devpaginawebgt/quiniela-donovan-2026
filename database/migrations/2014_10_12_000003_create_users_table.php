@@ -20,9 +20,9 @@ class CreateUsersTable extends Migration
             // $table->unsignedBigInteger('codigo_id')->nullable();
             $table->string('nombres');
             $table->string('apellidos');
-            $table->string('numero_documento');
-            $table->string('telefono');
-            $table->string('email')->unique();
+            $table->string('numero_documento')->nullable()->index();
+            $table->string('telefono')->nullable();
+            $table->string('email')->nullable()->unique();
 
             $table->integer('puntos_predicciones_grupos')->default(0);
             $table->integer('puntos_trivias_grupos')->default(0);
@@ -34,62 +34,42 @@ class CreateUsersTable extends Migration
             $table->integer('puntos_bonus')->default(0);
             $table->integer('puntos')->index()->default(0);
 
-            $table->unsignedBigInteger('pais_id');
-            $table->string('direccion');
+            $table->foreignId('pais_id')
+                ->constrained('countries')
+                ->cascadeOnUpdate()
+                ->restrictOnDelete();
+            $table->string('direccion')->nullable();
 
             // Campos doctor
             $table->string('colegiado')->nullable();
             $table->string('region')->nullable();
-            $table->unsignedBigInteger('visitor_id')->nullable();
+            $table->foreignId('visitor_id')
+                ->nullable()
+                ->constrained('visitors')
+                ->cascadeOnUpdate()
+                ->restrictOnDelete();
 
             // Campos dependiente
-            $table->unsignedBigInteger('company_id')->nullable();
+            $table->foreignId('company_id')
+                ->nullable()
+                ->constrained('companies')
+                ->cascadeOnUpdate()
+                ->restrictOnDelete();
             $table->string('branch')->nullable();
 
-            $table->unsignedBigInteger('user_type_id');
+            $table->string('puesto')->nullable();
+
+            $table->foreignId('user_type_id')
+                ->constrained('user_types')
+                ->cascadeOnUpdate()
+                ->restrictOnDelete();
             $table->integer('status_user')->index()->default(1);
 
             $table->string('password');
-            $table->string('accepted_terms_version');
+            $table->string('accepted_terms_version')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
-
-            // $table->foreign('codigo_id')
-            //     ->references('id')
-            //     ->on('codigos')
-            //     ->onUpdate('cascade')
-            //     ->onDelete('restrict');
-
-            $table->foreign('user_type_id')
-                ->references('id')
-                ->on('user_types')
-                ->onUpdate('cascade')
-                ->onDelete('restrict');
-
-            $table->foreign('visitor_id')
-                ->references('id')
-                ->on('visitors')
-                ->onUpdate('cascade')
-                ->onDelete('restrict');
-
-            $table->foreign('company_id')
-                ->references('id')
-                ->on('companies')
-                ->onUpdate('cascade')
-                ->onDelete('restrict');
-
-            // $table->foreign('branch_id')
-            //     ->references('id')
-            //     ->on('branches')
-            //     ->onUpdate('cascade')
-            //     ->onDelete('restrict');
-                
-            $table->foreign('pais_id')
-                ->references('id')
-                ->on('countries')
-                ->onUpdate('cascade')
-                ->onDelete('restrict');
         });
     }
 

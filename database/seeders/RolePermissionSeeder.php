@@ -16,14 +16,26 @@ class RolePermissionSeeder extends Seeder
 
         // 1. Definir permisos
         $permissions = [
-            // Permisos del participante
-            'participant.quiniela',
-            'participant.trivias',
+            'read   pools',
+            'create pools',
+            'update pools',
+
+            'read   pools results',
+
+            'read   quizzes',
+            'create quizzes response',
+
+            'read   calendar',
+            'read   stadiums',
+            'read   groups',
+            'read   teams',
+            'read   ranking',
+            'read   prizes',
 
             // Permisos de admin
-            'admin.acceder-panel',
-            'admin.ver-reportes',
-            'admin.enviar-notificaciones-push',
+            'read admin',
+            'read admin reports',
+            'create admin notifications',
         ];
 
         foreach ($permissions as $name) {
@@ -32,13 +44,57 @@ class RolePermissionSeeder extends Seeder
 
         // 2. Crear rol admin y asignarle TODOS los permisos
         $admin = Role::firstOrCreate(['name' => 'admin', 'guard_name' => 'web']);
-        $admin->syncPermissions(Permission::all());
+        $admin->syncPermissions([
+            'read   pools',
+            'read   pools results',
+            'read   calendar',
+            'read   stadiums',
+            'read   groups',
+            'read   teams',
+            'read   ranking',
+            'read   prizes',
+
+            // Permisos de admin
+            'read admin',
+            'read admin reports',
+            'create admin notifications',
+        ]);
 
         // 3. Crear rol participante con permisos limitados
         $participante = Role::firstOrCreate(['name' => 'participant', 'guard_name' => 'web']);
         $participante->syncPermissions([
-            'participant.quiniela',
-            'participant.trivias',
+            'read   pools',
+            'create pools',
+            'update pools',
+
+            'read   pools results',
+
+            'read   quizzes',
+            'create quizzes response',
+
+            'read   calendar',
+            'read   stadiums',
+            'read   groups',
+            'read   teams',
+            'read   ranking',
+            'read   prizes',
+        ]);
+
+        // 3. Crear rol trabajdor con permisos limitados
+        $participante = Role::firstOrCreate(['name' => 'employee', 'guard_name' => 'web']);
+        $participante->syncPermissions([
+            'read   pools',
+            'create pools',
+            'update pools',
+
+            'read   pools results',
+
+            'read   calendar',
+            'read   stadiums',
+            'read   groups',
+            'read   teams',
+            'read   ranking',
+            'read   prizes',
         ]);
     }
 }
