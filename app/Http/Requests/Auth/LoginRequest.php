@@ -68,13 +68,7 @@ class LoginRequest extends FormRequest
             ]);
         }
 
-        $credentials = ['email' => $user->email, 'password' => config('quiniela.default_pass')];
-
-        if (! Auth::attempt($credentials)) {
-            throw ValidationException::withMessages([
-                'numero_documento' => 'Ha ocurrido un error al iniciar la sesión, contacta a Soporte.',
-            ]);
-        }
+        Auth::login($user);
 
         RateLimiter::clear($this->throttleKey());
     }
