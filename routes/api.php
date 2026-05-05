@@ -79,13 +79,13 @@ Route::middleware(['auth:sanctum'])->group(function() {
 
     // Equipos
 
-    Route::controller(EquipoController::class)->group(function() {
+    Route::controller(EquipoController::class)->middleware('can:read teams')->group(function() {
         Route::get('equipos', 'index');
     });
 
     // Grupos
 
-    Route::controller(GrupoController::class)->prefix('grupos')->group(function() {
+    Route::controller(GrupoController::class)->prefix('grupos')->middleware('can:read groups')->group(function() {
         Route::get('', 'getGrupos');
         Route::get('/{grupo}/equipos', 'getEquiposGrupo');
         Route::get('/{grupo}/jornadas', 'getJornadasGrupo');
@@ -93,14 +93,14 @@ Route::middleware(['auth:sanctum'])->group(function() {
 
     // Partidos
 
-    Route::controller(JornadaController::class)->prefix('jornadas')->group(function() {
+    Route::controller(JornadaController::class)->prefix('jornadas')->middleware('can:read calendar')->group(function() {
         Route::get('', 'getJornadas');
         Route::get('/{jornada}/partidos', 'getPartidosJornada');
     });
 
     // Estadios
 
-    Route::controller(EstadioController::class)->group(function() {
+    Route::controller(EstadioController::class)->middleware('can:read stadiums')->group(function() {
         Route::get('estadios', 'getEstadios');
     });
 
@@ -110,25 +110,27 @@ Route::middleware(['auth:sanctum'])->group(function() {
 
     // Premios
 
-    Route::controller(PremioController::class)->group(function() {
+    Route::controller(PremioController::class)->middleware('can:read prizes')->group(function() {
         Route::get('premios', 'getPremios');
     });
 
     // Predicciones
 
     Route::controller(ResultadoPartidoController::class)->prefix('predicciones')->group(function() {
-        Route::post('', 'savePredicciones');
-        Route::get('/{jornada}', 'getPredicciones');
-        Route::get('/{jornada}/resultados', 'getResultados');
+        Route::post('', 'savePredicciones')->middleware('can:create pools');
+        Route::get('/{jornada}', 'getPredicciones')->middleware('can:read pools');
+        Route::get('/{jornada}/resultados', 'getResultados')->middleware('can:read pools results');
     });
 
     // Quiz
 
     Route::controller(QuizController::class)->prefix('trivias')->group(function() {
-        Route::get('', 'index');
-        Route::post('', 'store');
-        Route::get('/{id}', 'show');
-        Route::get('/{id}/last-attempt', 'lastAttempt');
+        Route::middleware('can:read quizzes')->group(function () {
+            Route::get('', 'index');
+            Route::get('/{id}', 'show');
+            Route::get('/{id}/last-attempt', 'lastAttempt');
+        });
+        Route::post('', 'store')->middleware('can:create quizzes response');
     });
 
     // Users
@@ -137,7 +139,7 @@ Route::middleware(['auth:sanctum'])->group(function() {
         Route::get('user/rank', 'getUserRank');
     });
 
-    Route::controller(RankingController::class)->prefix('ranking')->as('api.ranking.')->group(function() {
+    Route::controller(RankingController::class)->prefix('ranking')->as('api.ranking.')->middleware('can:read ranking')->group(function() {
         Route::get('tabs', 'getTabs')->name('tabs');
         Route::get('grupos', 'getRankingGrupos')->name('grupos');
         Route::get('eliminatorias', 'getRanking')->name('eliminatorias');

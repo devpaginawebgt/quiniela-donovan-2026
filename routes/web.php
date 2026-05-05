@@ -34,24 +34,24 @@ Route::middleware(['auth'])->as('web.')->group(function () {
     Route::prefix('inicio')->as('inicio.')->group(function () {
 
         Route::controller(ResultadoPartidoController::class)->group(function () {
-            Route::get('proximos-partidos', 'proximosPartidosWeb')->name('proximos-partidos');
-            Route::get('mis-predicciones', 'misPrediccionesWeb')->name('mis-predicciones');
-            Route::post('predicciones', 'savePrediccionesWeb')->name('save-predicciones');
+            Route::get('proximos-partidos', 'proximosPartidosWeb')->name('proximos-partidos')->middleware('can:read pools');
+            Route::get('mis-predicciones', 'misPrediccionesWeb')->name('mis-predicciones')->middleware('can:read pools results');
+            Route::post('predicciones', 'savePrediccionesWeb')->name('save-predicciones')->middleware('can:create pools');
         });
 
-        Route::controller(JornadaController::class)->group(function () {
+        Route::controller(JornadaController::class)->middleware('can:read calendar')->group(function () {
             Route::get('calendario', 'calendarioWeb')->name('calendario');
         });
 
-        Route::controller(EstadioController::class)->group(function () {
+        Route::controller(EstadioController::class)->middleware('can:read stadiums')->group(function () {
             Route::get('estadios', 'estadiosWeb')->name('estadios');
         });
 
-        Route::controller(GrupoController::class)->group(function () {
+        Route::controller(GrupoController::class)->middleware('can:read groups')->group(function () {
             Route::get('grupos', 'gruposWeb')->name('grupos');
         });
 
-        Route::controller(EquipoController::class)->group(function () {
+        Route::controller(EquipoController::class)->middleware('can:read teams')->group(function () {
             Route::get('equipos', 'equiposWeb')->name('equipos');
         });
 
@@ -60,28 +60,30 @@ Route::middleware(['auth'])->as('web.')->group(function () {
         });
 
         Route::controller(QuizController::class)->as('trivias.')->group(function() {
-            Route::get('trivias', 'triviasWeb')->name('index');
-            Route::get('trivias/{id}', 'triviaWeb')->name('show');
-            Route::post('trivias', 'store')->name('store');
-            Route::get('trivias/{id}/ultimo-intento', 'lastAttemptWeb')->name('last-attempt');
+            Route::middleware('can:read quizzes')->group(function () {
+                Route::get('trivias', 'triviasWeb')->name('index');
+                Route::get('trivias/{id}', 'triviaWeb')->name('show');
+                Route::get('trivias/{id}/ultimo-intento', 'lastAttemptWeb')->name('last-attempt');
+            });
+            Route::post('trivias', 'store')->name('store')->middleware('can:create quizzes response');
         });
 
         // Bracket
-        Route::get('/bracket', [BracketController::class, 'showWeb'])->name('bracket');
+        Route::get('/bracket', [BracketController::class, 'showWeb'])->name('bracket')->middleware('can:read pools');
     });
 
     // Selecciones
 
     // Grupos
 
-    Route::controller(GrupoController::class)->prefix('grupos')->as('grupos.')->group(function () {
+    Route::controller(GrupoController::class)->prefix('grupos')->as('grupos.')->middleware('can:read groups')->group(function () {
         Route::get('/{grupo_id}/equipos', 'getEquiposWeb')->name('equipos');
         Route::get('/{grupo_id}/jornadas', 'getJornadasWeb')->name('jornadas');
     });
 
     // Jornadas
 
-    Route::controller(JornadaController::class)->prefix('jornadas')->group(function () {
+    Route::controller(JornadaController::class)->prefix('jornadas')->middleware('can:read calendar')->group(function () {
         // Route::get('', 'jornadasWeb')->name('jornadas');
 
         Route::post('/partidos-grupo', 'partidosGrupo');
@@ -91,7 +93,7 @@ Route::middleware(['auth'])->as('web.')->group(function () {
     // Partidos y resultados
 
     Route::controller(ResultadoPartidoController::class)->group(function () {
-        Route::post('/guardar-predicciones-form', 'guardarPrediccionesForm')->name('guardar-predicciones-form');
+        Route::post('/guardar-predicciones-form', 'guardarPrediccionesForm')->name('guardar-predicciones-form')->middleware('can:create pools');
         // Route::get('/ver-quiniela/{jornada?}/{message?}', 'verQuiniela')->name('ver-quiniela');
         // Route::get('/ver-tabla-resultados', 'verTablaResultados')->name('ver-tabla-resultados');
         // Route::get('/obtener-tabla-participantes', 'obtenerParticipantes');
@@ -107,7 +109,7 @@ Route::middleware(['auth'])->as('web.')->group(function () {
 
     // Ranking
 
-    Route::controller(RankingController::class)->prefix('ranking')->as('ranking.')->group(function() {
+    Route::controller(RankingController::class)->prefix('ranking')->as('ranking.')->middleware('can:read ranking')->group(function() {
         Route::get('ranking', 'indexWeb')->name('index');
         Route::get('ranking/grupos', 'getRankingGruposData')->name('grupos');
         Route::get('ranking/eliminatorias', 'getRankingData')->name('eliminatorias');
@@ -115,14 +117,14 @@ Route::middleware(['auth'])->as('web.')->group(function () {
 
     // Premios
 
-    Route::controller(PremioController::class)->group(function () {
+    Route::controller(PremioController::class)->middleware('can:read prizes')->group(function () {
         Route::get('/recompensas', 'recompensas')->name('recompensas');
     });
 
     // Rutas solo para admins
-    Route::middleware('role:admin')->prefix('admin')->as('admin.')->group(function () {
+    Route::middleware('can:read admin')->prefix('admin')->as('admin.')->group(function () {
 
-        Route::controller(ReportsController::class)->as('reports.')->group(function () {
+        Route::controller(ReportsController::class)->as('reports.')->middleware('can:read admin reports')->group(function () {
             Route::controller(ReportsController::class)->prefix('users')->as('users.')->group(function () {
                 Route::get('/', 'report')->name('index');
                 Route::get('/data', 'data')->name('data');
@@ -136,7 +138,7 @@ Route::middleware(['auth'])->as('web.')->group(function () {
             });
         });
 
-        Route::controller(PushNotificationController::class)->as('notifications.')->group(function() {
+        Route::controller(PushNotificationController::class)->as('notifications.')->middleware('can:create admin notifications')->group(function() {
             Route::get('notificaciones/nueva', 'create')->name('create');
             Route::post('notificaciones', 'store')->name('store');
         });
