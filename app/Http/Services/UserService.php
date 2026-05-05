@@ -68,7 +68,7 @@ class UserService {
     public function getUserLogin(ApiLoginRequest $request)
     {
         return User::where('numero_documento', $request->numero_documento)
-            ->select('id', 'email', 'password', 'nombres', 'apellidos', 'pais_id', 'numero_documento', 'email', 'telefono', 'puntos', 'status_user', 'created_at')
+            ->select('id', 'email', 'password', 'nombres', 'apellidos', 'pais_id', 'numero_documento', 'email', 'telefono', 'puntos', 'status_user', 'user_type_id', 'created_at')
             ->first();
     }
 
@@ -156,7 +156,7 @@ class UserService {
             ->where('id', $user->id)
             ->first(['puntos_grupos', 'posicion']);
 
-        $user->puntos = $rank?->puntos_grupos;
+        $user->puntos = $rank?->puntos_grupos ?? 0;
         $user->posicion = $rank?->posicion;
 
         return $user;
@@ -171,7 +171,7 @@ class UserService {
             ->where('id', $user->id)
             ->first(['puntos', 'posicion']);
 
-        $user->puntos = $rank?->puntos;
+        $user->puntos = $rank?->puntos_grupos ?? 0;
         $user->posicion = $rank?->posicion;
 
         return $user;

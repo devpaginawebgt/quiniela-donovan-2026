@@ -1,6 +1,6 @@
 <x-admin-layout>
     <div class="w-full">
-        @can('admin.ver-reportes')
+        @can('read admin reports')
         <section class="py-4 sm:py-6 mb-6">
 
             <div class="flex flex-col gap-4 mb-4 lg:flex-row lg:items-center lg:justify-between">

@@ -1,5 +1,5 @@
 <ul class="space-y-1">
-    @can('admin.ver-reportes')
+    @can('read admin reports')
     <li>
         <a href="{{ route('web.admin.reports.users.index') }}"
             @class([ 'flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors' , 'bg-secondary text-complementary-primary font-semibold'=> request()->routeIs('web.admin.reports.users.*'),
@@ -20,7 +20,7 @@
     </li>
     @endcan
 
-    @can('admin.enviar-notificaciones-push')
+    @can('create admin notifications')
     <li>
         <a href="{{ route('web.admin.notifications.create') }}"
             @class([

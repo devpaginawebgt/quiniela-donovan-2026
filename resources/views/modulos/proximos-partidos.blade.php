@@ -46,7 +46,7 @@
                         $user = Auth::user();
                     @endphp
 
-                    @if(!$user->hasRole('admin'))
+                    @if(!$user->can('create pools') || !$user->can('update pools'))
                         <div class="flex">
                             <button
                                 type="submit"

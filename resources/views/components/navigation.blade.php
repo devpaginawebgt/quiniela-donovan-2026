@@ -1,6 +1,6 @@
-<input type="hidden" id="user_id" value="{{ Auth::user()->id }}">
-
 @php
+    $user = Auth::user();
+
     $items = [
         [
             'route' => 'web.inicio.proximos-partidos',
@@ -8,27 +8,28 @@
             'icon'  => 'icon-[material-symbols--home-rounded]',
             'label' => 'Inicio',
             'show'  => true,
+            'show'  => $user->can('read pools'),
         ],
         [
             'route' => 'web.ranking.index',
             'match' => 'web.ranking.index',
             'icon'  => 'icon-[material-symbols--leaderboard-rounded]',
             'label' => 'Clasificación',
-            'show'  => true,
+            'show'  => $user->can('read ranking'),
         ],
         [
             'route' => 'web.recompensas',
             'match' => 'web.recompensas',
             'icon'  => 'icon-[material-symbols--trophy-rounded]',
             'label' => 'Recompensas',
-            'show'  => true,
+            'show'  => $user->can('read prizes'),
         ],
         [
             'route' => 'web.admin.reports.users.index',
             'match' => 'web.admin.*',
             'icon'  => 'icon-[material-symbols--shield-person-rounded]',
             'label' => 'Administrador',
-            'show'  => Auth::user()->hasRole('admin'),
+            'show'  => $user->can('read admin'),
         ],
         [
             'route' => 'web.users.perfil',
@@ -39,6 +40,8 @@
         ],
     ];
 @endphp
+
+<input type="hidden" id="user_id" value="{{ $user->id }}">
 
 {{-- Bottom Navigation Bar --}}
 <nav class="fixed bottom-0 left-0 right-0 z-40 bg-complementary-primary border-t border-secondary">

@@ -8,7 +8,7 @@ class StorePushNotificationRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return $this->user()?->can('admin.enviar-notificaciones-push') ?? false;
+        return $this->user()?->can('create admin notifications') ?? false;
     }
 
     public function rules(): array

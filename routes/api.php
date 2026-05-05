@@ -69,6 +69,7 @@ Route::middleware(['auth:sanctum'])->group(function() {
     });
 
     Route::controller(ModuleController::class)->prefix('modulos')->group(function() {
+        Route::get('{module_prefix}', 'getModules');
         Route::get('{module_code}/banners', 'banners');
     });
 

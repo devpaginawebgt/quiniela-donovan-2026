@@ -222,7 +222,7 @@
                 });
 
                 function submitQuiz() {
-                    @if($user->hasRole('admin'))
+                    @if(!$user->can('create quizzes response'))
                         window.location.href = indexUrl;
                         return;
                     @endif
