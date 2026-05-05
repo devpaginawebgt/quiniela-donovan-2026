@@ -2675,13 +2675,14 @@ class UserSeeder extends Seeder
             ],
         ];
 
-        foreach($lab_users as $lab_user) {
+        foreach($lab_users as $index => $lab_user) {
             $user = User::create([
                 'nombres'                => $lab_user['nombres'],
                 'apellidos'              => $lab_user['apellidos'],
                 'puesto'                 => $lab_user['puesto'] ?? null,
-                'pais_id'                => 1,
+                'pais_id'                => $lab_user['pais_id'],
                 'user_type_id'           => 3,
+                'email'                  => 'user'.($index + 1).'@donovan.com',
                 'password'               =>  Hash::make(env('DEFAULT_PASS')),
             ]);
 

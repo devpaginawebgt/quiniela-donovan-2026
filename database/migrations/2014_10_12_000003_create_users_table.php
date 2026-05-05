@@ -22,7 +22,7 @@ class CreateUsersTable extends Migration
             $table->string('apellidos');
             $table->string('numero_documento')->nullable()->index();
             $table->string('telefono')->nullable();
-            $table->string('email')->nullable()->unique();
+            $table->string('email')->unique();
 
             $table->integer('puntos_predicciones_grupos')->default(0);
             $table->integer('puntos_trivias_grupos')->default(0);
