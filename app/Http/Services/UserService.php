@@ -171,7 +171,7 @@ class UserService {
             ->where('id', $user->id)
             ->first(['puntos', 'posicion']);
 
-        $user->puntos = $rank?->puntos_grupos ?? 0;
+        $user->puntos = $rank?->puntos ?? 0;
         $user->posicion = $rank?->posicion;
 
         return $user;
