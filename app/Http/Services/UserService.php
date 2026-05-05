@@ -76,7 +76,9 @@ class UserService {
     {
         return User::select('id', 'nombres', 'apellidos', 'puntos_grupos', 'pais_id', 'numero_documento', 'email', 'telefono', 'created_at')
             ->selectRaw('RANK() OVER (ORDER BY puntos_grupos DESC, created_at ASC, nombres ASC) as posicion')
-            ->where('pais_id', $id_pais)
+            ->when($type_id !== 3, function(Builder $query) use($id_pais) {
+                $query->where('pais_id', $id_pais);
+            })
             ->where('user_type_id', $type_id)
             ->where(function (Builder $query) {
                 return $query
@@ -98,7 +100,9 @@ class UserService {
     {
         return User::select('id', 'nombres', 'apellidos', 'pais_id', 'numero_documento', 'email', 'telefono', 'puntos', 'created_at')
             ->selectRaw('RANK() OVER (ORDER BY puntos DESC, created_at ASC, nombres ASC) as posicion')
-            ->where('pais_id', $id_pais)
+            ->when($type_id !== 3, function(Builder $query) use($id_pais) {
+                $query->where('pais_id', $id_pais);
+            })
             ->where('user_type_id', $type_id)
             ->where(function (Builder $query) {
                 return $query
