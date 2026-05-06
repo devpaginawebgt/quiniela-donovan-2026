@@ -2,7 +2,7 @@
 
 @php
     $hasPlayed = !is_null($quiz->last_attempt_number ?? null) || ($quiz->next_attempt_number ?? 1) > 1;
-    $canRetry = !empty($quiz->retry);
+    $canRetry = $quiz->retry !== false;
 @endphp
 
 <li class="bg-complementary-primary border border-secondary rounded-2xl p-5 text-light flex flex-col">
@@ -49,7 +49,9 @@
     @else
         <a
             href="{{ route('web.inicio.trivias.show', $quiz->id) }}"
-            class="flex items-center justify-center gap-2 w-full bg-green-700 hover:bg-green-600 transition-colors text-light font-semibold py-2.5 rounded-full text-sm lg:text-base"
+            class="flex items-center justify-center gap-2 w-full bg-green-700 hover:bg-green-600 transition-colors text-light font-semibold py-2.5 rounded-full text-sm lg:text-base @if (!$canRetry) pointer-events-none opacity-80 @endif"
+            @if (!$canRetry) aria-disabled="true" @endif
+            @if (!$canRetry) tabindex="-1" @endif
         >
             <span class="icon-[material-symbols--play-arrow] w-5 h-5"></span>
             Jugar

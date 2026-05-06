@@ -179,11 +179,11 @@ class QuizController extends Controller
             return redirect()->route('web.inicio.trivias.index');
         }
 
-        $last_attempt = $this->quizUserService->getLastAttemptSimple($quiz->id);
-
-        $best_attempt = $this->quizUserService->getBestAttempt($quiz->id);
-
         $quiz = $this->quizUserService->showQuiz($quiz);
+
+        if ($quiz->retry === false && empty($quiz->last_attempt_number)) {
+            return redirect()->route('web.inicio.trivias.index');
+        }
 
         if ($quiz->retry === false) {
             return redirect()->route('web.inicio.trivias.last-attempt', $quiz_id);
