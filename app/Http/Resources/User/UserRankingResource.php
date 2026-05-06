@@ -44,16 +44,17 @@ class UserRankingResource extends JsonResource
         $fecha_registro = $this->created_at->timezone($user_timezone);
 
         return [
-            'id'            => $this->id,
-            'nombres'       => $this->nombres,
-            'apellidos'     => $this->apellidos,
-            'puntos'        => $this->puntos,
-            'posicion'      => $this->posicion,
-            'pais'          => new CountryUserResource($this->country),
-            'color'         => $color,
-            'decoracion'    => $decoracion,
-            'marca'         => $this->brand ? new BrandResource($this->brand) : null,
-            'fechaRegistro' => $fecha_registro->format('Y-m-d H:i:s'),
+            'id'             => $this->id,
+            'nombres'        => $this->nombres,
+            'apellidos'      => $this->apellidos,
+            'puntos'         => $this->puntos,
+            'posicion'       => $this->posicion,
+            'pais'           => new CountryUserResource($this->country),
+            'color'          => $color,
+            'decoracion'     => $decoracion,
+            'marca'          => $this->brand ? new BrandResource($this->brand) : null,
+            'fechaRegistro'  => $fecha_registro->format('Y-m-d H:i:s'),
+            'mostrarBandera' => $this->user_type_id === 3,
         ];
     }
 }

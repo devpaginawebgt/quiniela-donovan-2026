@@ -82,7 +82,7 @@ class UserService {
 
     private function getRankingGruposQuery(string|int $id_pais, string|int $type_id)
     {
-        return User::select('id', 'nombres', 'apellidos', 'puntos_grupos', 'pais_id', 'numero_documento', 'email', 'telefono', 'created_at')
+        return User::select('id', 'nombres', 'apellidos', 'puntos_grupos', 'pais_id', 'numero_documento', 'email', 'telefono', 'user_type_id', 'created_at')
             ->selectRaw('RANK() OVER (ORDER BY puntos_grupos DESC, created_at ASC, nombres ASC) as posicion')
             ->when($type_id !== 3, function(Builder $query) use($id_pais) {
                 $query->where('pais_id', $id_pais);
@@ -106,7 +106,7 @@ class UserService {
 
     private function getRankingQuery(string|int $id_pais, string|int $type_id)
     {
-        return User::select('id', 'nombres', 'apellidos', 'pais_id', 'numero_documento', 'email', 'telefono', 'puntos', 'created_at')
+        return User::select('id', 'nombres', 'apellidos', 'pais_id', 'numero_documento', 'email', 'telefono', 'puntos', 'user_type_id', 'created_at')
             ->selectRaw('RANK() OVER (ORDER BY puntos DESC, created_at ASC, nombres ASC) as posicion')
             ->when($type_id !== 3, function(Builder $query) use($id_pais) {
                 $query->where('pais_id', $id_pais);

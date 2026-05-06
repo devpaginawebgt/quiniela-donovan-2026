@@ -1,4 +1,4 @@
-<div class="max-w-screen-2xl mx-auto mb-6 px-4 lg:px-8 pt-8">
+<div class="w-full max-w-screen-2xl mx-auto mb-6 px-4 lg:px-8 pt-8">
 
     {{-- Título --}}
     <h1 class="text-2xl lg:text-3xl text-center font-bold mb-4">Ranking de Participantes</h1>
@@ -7,14 +7,14 @@
     <h2 id="podio-subtitle" class="text-lg lg:text-xl text-center font-semibold mb-6 hidden">Primeros 3 Lugares</h2>
 
     {{-- Podio --}}
-    <div id="podio" class="items-end justify-center gap-3 mb-8" style="display: none;">
+    <div id="podio" class="items-end justify-center gap-3 xl:gap-4 mb-8" style="display: none;">
 
         {{-- 2° lugar (izquierda) --}}
-        <div class="w-full max-w-40">
+        <div class="w-full max-w-44">
             <div id="podio-2" style="display: none;" class="flex-col items-center">
                 <span id="podio-2-trophy" class="icon-[material-symbols--trophy-rounded] w-14 h-14 md:w-24 md:h-24"></span>
 
-                <p id="podio-2-name" class="text-sm xl:text-base font-semibold text-center leading-tight my-1"></p>
+                <p id="podio-2-name" class="text-xs xl:text-base font-semibold text-center leading-tight my-1"></p>
 
                 <div class="border-t border-x border-secondary rounded-t-xl p-2 sm:p-4 pt-8 w-full text-center h-40 lg:h-52" style="background: linear-gradient(var(--color-complementary-primary), 88%, transparent);">
                     <p class="text-2xl font-bold">2°</p>
@@ -24,7 +24,7 @@
         </div>
 
         {{-- 1° lugar (centro, más alto) --}}
-        <div class="w-full max-w-40">
+        <div class="w-full max-w-44">
             <div id="podio-1" style="display: none;" class="flex-col items-center">
                 <div class="relative">
                     <span id="podio-1-trophy" class="icon-[material-symbols--trophy-rounded] w-28 h-28 md:w-40 md:h-40"></span>
@@ -36,7 +36,7 @@
                     >
                 </div>
 
-                <p id="podio-1-name" class="text-sm xl:text-base font-semibold text-center leading-tight my-1"></p>
+                <p id="podio-1-name" class="text-xs xl:text-base font-semibold text-center leading-tight my-1"></p>
 
                 <div class="border-t border-x border-secondary rounded-t-xl p-2 sm:p-4 pt-8 w-full text-center h-56 lg:h-72" style="background: linear-gradient(var(--color-complementary-primary), 93%, transparent);">
                     <p class="text-3xl font-bold">1°</p>
@@ -52,11 +52,11 @@
         </div>
 
         {{-- 3° lugar (derecha) --}}
-        <div class="w-full max-w-40">
+        <div class="w-full max-w-44">
             <div id="podio-3" style="display: none;" class="flex-col items-center">
                 <span id="podio-3-trophy" class="icon-[material-symbols--trophy-rounded] w-10 h-10 md:w-20 md:h-20"></span>
 
-                <p id="podio-3-name" class="text-sm xl:text-base font-semibold text-center leading-tight my-1"></p>
+                <p id="podio-3-name" class="text-xs sm:text-sm xl:text-base font-semibold text-center leading-tight my-1"></p>
 
                 <div class="border-t border-x border-secondary rounded-t-xl p-2 sm:p-4 pt-8 w-full text-center h-28 lg:h-32" style="background: linear-gradient(var(--color-complementary-primary), 85%, transparent);">
                     <p class="text-2xl font-bold">3°</p>
@@ -112,6 +112,18 @@
         let currentPage = 1;
         let loading = false;
 
+        function escapeHtml(str) {
+            const div = document.createElement('div');
+            div.textContent = str == null ? '' : String(str);
+            return div.innerHTML;
+        }
+
+        function flagImg(p, extraClasses) {
+            if (!p.mostrarBandera || !p.pais || !p.pais.image) return '';
+            const cls = 'w-6 h-4 object-cover rounded-xs shrink-0' + (extraClasses ? ' ' + extraClasses : '');
+            return '<img src="' + escapeHtml(p.pais.image) + '" alt="' + escapeHtml(p.pais.name || '') + '" class="' + cls + '">';
+        }
+
         function renderPodio(participantes) {
             const top3 = participantes.filter(function (p) { return p.posicion <= 3; });
 
@@ -128,7 +140,10 @@
 
                 if (el && nameEl && pointsEl) {
                     el.style.display = 'flex';
-                    nameEl.textContent = p.nombres + ' ' + p.apellidos;
+                    nameEl.innerHTML = '<span class="inline-flex items-center justify-center gap-1.5 flex-wrap">' +
+                        flagImg(p) +
+                        '<span>' + escapeHtml(p.nombres + ' ' + p.apellidos) + '</span>' +
+                    '</span>';
                     pointsEl.textContent = p.puntos + ' puntos';
 
                     if (trophyEl) {
@@ -145,11 +160,12 @@
         function renderList(participantes) {
             const html = participantes.map(function (p) {
                 return '<div class="flex items-center gap-4 border border-secondary rounded-xl bg-complementary-primary px-4 py-3 w-full max-w-140">' +
-                    '<span class="flex items-center gap-2 text-lg font-bold min-w-16" style="color: ' + p.color + '">' +
+                    '<span class="flex items-center gap-2 text-lg font-bold min-w-16" style="color: ' + escapeHtml(p.color) + '">' +
                         medalSvg + p.posicion + ' °' +
                     '</span>' +
-                    '<div class="flex-1 min-w-0">' +
-                        '<p class="font-semibold truncate">' + p.nombres + ' ' + p.apellidos + '</p>' +
+                    '<div class="flex-1 min-w-0 flex items-center gap-2">' +
+                        '<p class="font-semibold truncate text-xs sm:text-sm lg:text-base">' + escapeHtml(p.nombres + ' ' + p.apellidos) + '</p>' +
+                        flagImg(p) +
                     '</div>' +
                     '<span class="text-light font-bold shrink-0">' + p.puntos + ' puntos</span>' +
                 '</div>';
