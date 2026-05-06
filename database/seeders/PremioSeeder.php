@@ -40,7 +40,7 @@ class PremioSeeder extends Seeder
         ];
 
         $paises = [1, 2];
-        $userTypes = [1, 2];
+        $userTypes = [1, 2, 3];
 
         foreach ($paises as $paisId) {
             foreach ($userTypes as $userTypeId) {
