@@ -2668,11 +2668,6 @@ class UserSeeder extends Seeder
                 'puesto'    => 'ASISTENTE ADMINISTRATIVO TEGUCIGALPA',
                 'pais_id'   => 2,
             ],
-            [
-                'nombres'   => 'RENÉ ALEJANDRO',
-                'apellidos' => 'LAZO MARTÍNEZ',
-                'pais_id'   => 2,
-            ],
         ];
 
         foreach($lab_users as $index => $lab_user) {
