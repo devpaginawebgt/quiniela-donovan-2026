@@ -191,9 +191,31 @@ class UserService {
 
     public function getUserPredictionsCount(User $user)
     {
-        $partidos_existentes = EquipoPartido::whereHas('partido')->count();
+        $jornadaActiva = Jornada::where('is_current', true)->first();
 
-        $predicciones_realizadas = $user->predictions->count();
+        $isEliminatorias = $jornadaActiva->id > 3;
+
+        if ($isEliminatorias) {
+
+            $partidos_existentes = EquipoPartido::whereHas('partido', function(Builder $query) {
+                $query->where('jornada_id', '>', 3);
+            })->count();
+
+            $predicciones_realizadas = $user->predictions()->whereHas('partido', function(Builder $query) {
+                $query->where('jornada_id', '>', 3);
+            })->count();
+
+        } else {
+
+            $partidos_existentes = EquipoPartido::whereHas('partido', function(Builder $query) {
+                $query->where('jornada_id', '<', 4);
+            })->count();
+
+            $predicciones_realizadas = $user->predictions()->whereHas('partido', function(Builder $query) {
+                $query->where('jornada_id', '<', 4);
+            })->count();
+
+        }
 
         $predicciones_pendientes = $partidos_existentes - $predicciones_realizadas;
 
