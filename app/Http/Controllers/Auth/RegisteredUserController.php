@@ -110,6 +110,8 @@ class RegisteredUserController extends Controller
 
         unset($data['employee_id']);
 
+        $data['created_at'] = now();
+
         $user->update($data);
 
         Auth::login($user);
