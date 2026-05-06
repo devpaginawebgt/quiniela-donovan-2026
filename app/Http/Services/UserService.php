@@ -60,6 +60,14 @@ class UserService {
 
     }
 
+    public function getEmployees(string|int $country_id)
+    {
+        return User::where('user_type_id', 3)
+            ->whereNull('numero_documento')
+            ->where('pais_id', $country_id)
+            ->get();
+    }
+
     public function getUser(int $userId)
     {
         return User::find($userId);

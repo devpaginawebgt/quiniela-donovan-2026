@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Models\User;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\RegisterEmployeeRequest;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Http\Services\CompanyService;
 use App\Http\Services\CountryService;
@@ -16,10 +17,11 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Auth\Events\Registered;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
+
 class RegisteredUserController extends Controller
 {
     public function __construct(
-        private readonly CountryService $countryService,
         private readonly CompanyService $companyService,
         private readonly VisitorService $visitorService,
         private readonly TermsService $termsService,
@@ -42,7 +44,23 @@ class RegisteredUserController extends Controller
         $terms = $this->termsService->getTerms();
 
         return view('modulos.register', compact('country', 'companies', 'visitors', 'terms'));
-    }    
+    }
+
+    /**
+     * Display the registration view.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function createEmployee(Request $request)
+    {
+        $country = $this->userService->getGuestCountry();
+
+        $employees = $this->userService->getEmployees($country->id);
+
+        $terms = $this->termsService->getTerms();
+
+        return view('modulos.register-employee', compact('employees', 'country', 'terms'));
+    }
 
     /**
      * Handle an incoming registration request.
@@ -65,6 +83,34 @@ class RegisteredUserController extends Controller
         $user->assignRole('participant');
 
         event(new Registered($user));
+
+        Auth::login($user);
+
+        return redirect(RouteServiceProvider::HOME);
+        
+    }
+
+    public function storeEmployee(RegisterEmployeeRequest $request)
+    {
+        $data = $request->validated();        
+
+        $user = User::find($data['employee_id']);
+
+        if ((int)$user->user_type_id !== 3) {
+            throw ValidationException::withMessages([
+                'employee_id' => 'El colaborador seleccionado es inválido.',
+            ]);
+        }
+
+        if (!is_null($user->numero_documento)) {
+            throw ValidationException::withMessages([
+                'employee_id' => 'El colaborador seleccionado ya está activo.',
+            ]);
+        }
+
+        unset($data['employee_id']);
+
+        $user->update($data);
 
         Auth::login($user);
 

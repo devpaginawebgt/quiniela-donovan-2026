@@ -24,7 +24,11 @@ Route::middleware('guest')->group(function () {
 
         Route::get('', 'create')->name('.index');
 
+        Route::get('donovan', 'createEmployee')->name('.employee');
+
         Route::post('', 'store');
+
+        Route::post('donovan', 'storeEmployee')->name('.employee');
      
     });
 
