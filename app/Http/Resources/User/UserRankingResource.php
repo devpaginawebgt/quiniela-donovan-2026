@@ -17,26 +17,36 @@ class UserRankingResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $decoracion = null;
-        $color      = '';
+        $decoracion      = null;
+        $color           = '';
+        $backgroundColor = '';
+        $fontColor       = '';
 
         switch($this->posicion) {
             case 1:
                 $decoracion = HelperService::ImagePath('/images/decoracion/trophy_overlay.png');
                 $color = '#FFBF00';
+                $backgroundColor = '#d2d4da';
+                $fontColor       = '#101820';
                 break;
 
             case 2:
                 $color = '#BEBEBE';
+                $backgroundColor = '#d2d4da';
+                $fontColor       = '#101820';
                 break;
 
             case 3:
                 $color = '#A0522D';
+                $backgroundColor = '#d2d4da';
+                $fontColor       = '#101820';
                 break;
                 
             default:
                 $decoracion = null;
-                $color = '#FFFFFF';
+                $color = '#101820';
+                $backgroundColor = '#d2d4da';
+                $fontColor       = '#101820';
                 break;
         }
 
@@ -44,17 +54,19 @@ class UserRankingResource extends JsonResource
         $fecha_registro = $this->created_at->timezone($user_timezone);
 
         return [
-            'id'             => $this->id,
-            'nombres'        => $this->nombres,
-            'apellidos'      => $this->apellidos,
-            'puntos'         => $this->puntos,
-            'posicion'       => $this->posicion,
-            'pais'           => new CountryUserResource($this->country),
-            'color'          => $color,
-            'decoracion'     => $decoracion,
-            'marca'          => $this->brand ? new BrandResource($this->brand) : null,
-            'fechaRegistro'  => $fecha_registro->format('Y-m-d H:i:s'),
-            'mostrarBandera' => $this->user_type_id === 3,
+            'id'              => $this->id,
+            'nombres'         => $this->nombres,
+            'apellidos'       => $this->apellidos,
+            'puntos'          => $this->puntos,
+            'posicion'        => $this->posicion,
+            'pais'            => new CountryUserResource($this->country),
+            'color'           => $color,
+            'backgroundColor' => $backgroundColor,
+            'fontColor'       => $fontColor,
+            'decoracion'      => $decoracion,
+            'marca'           => $this->brand ? new BrandResource($this->brand) : null,
+            'fechaRegistro'   => $fecha_registro->format('Y-m-d H:i:s'),
+            'mostrarBandera'  => $this->user_type_id === 3,
         ];
     }
 }
