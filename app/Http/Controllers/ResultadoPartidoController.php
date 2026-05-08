@@ -176,7 +176,7 @@ class ResultadoPartidoController extends Controller
 
         // Banners
 
-        $banners = $this->moduleService->getBanners(7);
+        $banners = $this->moduleService->getBanners(10);
 
         // User Info
         
@@ -213,7 +213,7 @@ class ResultadoPartidoController extends Controller
 
         // Banners
 
-        $banners = $this->moduleService->getBanners(8);        
+        $banners = $this->moduleService->getBanners(11);        
 
         // User Info
         

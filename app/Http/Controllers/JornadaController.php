@@ -67,7 +67,7 @@ class JornadaController extends Controller
 
         // Banners
 
-        $banners = $this->moduleService->getBanners(9);
+        $banners = $this->moduleService->getBanners(13);
 
         // User Info
 

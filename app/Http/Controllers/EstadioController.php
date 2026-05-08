@@ -34,7 +34,7 @@ class EstadioController extends Controller
     {
         // Banners
 
-        $banners = $this->moduleService->getBanners(10);        
+        $banners = $this->moduleService->getBanners(14);        
 
         // User Info
 
