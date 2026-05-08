@@ -18,6 +18,7 @@ class BrandResource extends JsonResource
         return [
             'id'    => $this->id,
             'name'  => $this->name,
+            'backgorund'  => $this->background,
             'image' => HelperService::ImagePath($this->image),
             'url'   => $this->url,
         ];

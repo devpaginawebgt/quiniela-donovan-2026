@@ -8,6 +8,7 @@ class Brand extends Model
 {
     protected $fillable = [
         'name',
+        'background',
         'image',
         'url',
     ];

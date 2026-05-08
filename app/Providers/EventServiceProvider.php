@@ -7,6 +7,7 @@ use App\Events\MatchCreated;
 use App\Events\ResultCreated;
 use App\Listeners\AddBracketGame;
 use App\Listeners\AddBracketGameResult;
+use App\Listeners\AddMatchBrand;
 use App\Listeners\DeactivateInvalidFcmToken;
 use App\Listeners\ScheduleMatchPushNotification;
 use App\Listeners\SendWelcomeEmail;
@@ -35,6 +36,7 @@ class EventServiceProvider extends ServiceProvider
         MatchCreated::class => [
             AddBracketGame::class,
             ScheduleMatchPushNotification::class,
+            AddMatchBrand::class,
         ],
         ResultCreated::class => [
             AddBracketGameResult::class,
