@@ -86,7 +86,7 @@
                             type="submit"
                             class="w-full bg-secondary text-dark font-bold rounded-full text-lg px-6 py-3.5 hover:brightness-110 focus:ring-4 focus:ring-secondary/50 flex items-center justify-center gap-2"
                         >
-                            <span class="icon-[fa-solid--right-to-bracket] w-5 h-5"></span>
+                            <span class="icon-[material-symbols--login] w-6 h-6"></span>
                             Iniciar Sesión
                         </button>
                     </form>
