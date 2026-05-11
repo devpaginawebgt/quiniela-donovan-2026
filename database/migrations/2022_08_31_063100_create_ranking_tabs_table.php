@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('code');
+            $table->boolean('is_current');
             $table->boolean('is_active');
             $table->boolean('is_visible');
             $table->string('app_route_name');

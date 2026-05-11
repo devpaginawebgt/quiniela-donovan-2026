@@ -14,19 +14,21 @@ class RankingTabSeeder extends Seeder
     public function run(): void
     {
         RankingTab::create([
-            'name' => 'Fase de Grupos',
-            'code' => 'grupos',
-            'is_active' => true,
-            'is_visible' => true,
+            'name'           => 'Fase de Grupos',
+            'code'           => 'grupos',
+            'is_current'     => true,
+            'is_active'      => true,
+            'is_visible'     => true,
             'app_route_name' => 'api.ranking.grupos',
             'web_route_name' => 'web.ranking.grupos',
         ]);
 
         RankingTab::create([
-            'name' => 'Fase Eliminatoria',
-            'code' => 'eliminatorias',
-            'is_active' => false,
-            'is_visible' => false,
+            'name'           => 'Fase Eliminatoria',
+            'code'           => 'eliminatorias',
+            'is_current'     => false,
+            'is_active'      => false,
+            'is_visible'     => true,
             'app_route_name' => 'api.ranking.eliminatorias',
             'web_route_name' => 'web.ranking.eliminatorias',
         ]);

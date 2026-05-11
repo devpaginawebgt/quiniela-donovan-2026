@@ -10,6 +10,7 @@ class RankingTab extends Model
         'name',
         'code',
         'route_name',
+        'is_current',
         'is_active',
         'is_visible',
     ];
@@ -17,6 +18,7 @@ class RankingTab extends Model
     protected function casts(): array
     {
         return [
+            'is_current' => 'boolean',
             'is_active' => 'boolean',
             'is_visible' => 'boolean',
         ];

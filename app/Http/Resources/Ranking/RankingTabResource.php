@@ -15,9 +15,10 @@ class RankingTabResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'name'        => $this->name,
-            'code'        => $this->code,
-            'is_active'   => $this->is_active,
+            'name'       => $this->name,
+            'code'       => $this->code,
+            'is_current' => $this->is_current,
+            'is_active'  => $this->is_active,
         ];
     }
 }
