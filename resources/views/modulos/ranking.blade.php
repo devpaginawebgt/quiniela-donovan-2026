@@ -13,18 +13,20 @@
             role="tablist"
         >
             @php
-                $activeTab   = $tabs->firstWhere('is_active', true) ?? $tabs->first();
+                $activeTab   = $tabs->firstWhere('is_current', true) ?? $tabs->first();
             @endphp
             @foreach($tabs as $tab)
                 <li class="flex-1" role="presentation">
                     <button
-                        class="w-full inline-flex items-center justify-center gap-2 p-3 rounded-full transition-colors"
+                        class="w-full inline-flex items-center justify-center gap-2 p-3 rounded-full transition-colors disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:text-light/80"
                         id="tab-{{ $tab->code }}-btn"
                         data-tabs-target="#tab-{{ $tab->code }}"
                         type="button"
                         role="tab"
                         aria-controls="tab-{{ $tab->code }}"
                         aria-selected="{{ $activeTab && $tab->id === $activeTab->id ? 'true' : 'false' }}"
+                        aria-disabled="{{ $tab->is_active ? 'false' : 'true' }}"
+                        @disabled(!$tab->is_active)
                     >
                         {{-- <span class="icon-[material-symbols--leaderboard] w-5 h-5"></span> --}}
                         {{ $tab->name }}
