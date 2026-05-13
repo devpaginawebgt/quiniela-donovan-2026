@@ -36,7 +36,7 @@ class UserSeeder extends Seeder
                 'visitor_id'       => null,
 
                 'accepted_terms_version' => '1.0.0',
-                'password'         =>  Hash::make(env('DEFAULT_PASS')),
+                'password'         =>  Hash::make(config('quiniela.default_pass')),
                 'created_at'       =>  (Carbon::now())->toDateTimeString(),
             ],
 
@@ -58,39 +58,35 @@ class UserSeeder extends Seeder
                 'visitor_id'       => null,
 
                 'accepted_terms_version' => '1.0.0',
-                'password'         =>  Hash::make(env('DEFAULT_PASS')),
+                'password'         =>  Hash::make(config('quiniela.default_pass')),
                 'created_at'       =>  (Carbon::now())->toDateTimeString(),
             ],
 
             [
-                // 'codigo_id'        =>  13,
-                'nombres'          =>  'Revisor',
-                'apellidos'        =>  'Google',
-                'numero_documento' =>  '1234567891113',
-                'telefono'         =>  '39987867',
-                'email'            =>  'revisor@email.com',
-                'direccion'        =>  'Ciudad de Guatemala',
-                'pais_id'          =>  1,
-                'user_type_id'     =>  2,
-
-                'company_id'       =>  null,
-                'branch'           =>  null,
-                'colegiado'        => '43552',
+                'nombres'          => 'Revisor',
+                'apellidos'        => 'Dependiente',
+                'numero_documento' => '1234567891113',
+                'telefono'         => '39987867',
+                'email'            => 'revisor.dependiente@email.com',
+                'direccion'        => 'Ciudad de Guatemala',
+                'pais_id'          => 1,
+                'user_type_id'     => 1,
+                'company_id'       => 1,
+                'branch'           => 'Sucursal 1',
+                'colegiado'        => null,
                 'region'           => null,
                 'visitor_id'       => 1,
-
                 'accepted_terms_version' => '1.0.0',
-                'password'         =>  Hash::make(env('DEFAULT_PASS')),
+                'password'         =>  Hash::make(config('quiniela.default_pass')),
                 'created_at'       =>  (Carbon::now())->toDateTimeString(),
             ],
 
             [
-                // 'codigo_id'        =>  14,
                 'nombres'          =>  'Revisor',
-                'apellidos'        =>  'IOS',
+                'apellidos'        =>  'Doctor',
                 'numero_documento' =>  '1234567891114',
                 'telefono'         =>  '83323462',
-                'email'            =>  'revisorios@email.com    ',
+                'email'            =>  'revisor.doctor@email.com',
                 'direccion'        =>  'Ciudad de Guatemala',
                 'pais_id'          =>  1,
                 'user_type_id'     =>  2,
@@ -102,15 +98,36 @@ class UserSeeder extends Seeder
                 'visitor_id'       => 2,
 
                 'accepted_terms_version' => '1.0.0',
-                'password'         =>  Hash::make(env('DEFAULT_PASS')),
+                'password'         =>  Hash::make(config('quiniela.default_pass')),
+                'created_at'       =>  (Carbon::now())->toDateTimeString(),
+            ],
+
+            [
+                'nombres'          => 'Revisor',
+                'apellidos'        => 'Colaborador',
+                'numero_documento' => '1234567891115',
+                'telefono'         => '83326889',
+                'email'            => 'revisor.colaborador@email.com',
+                'direccion'        => 'Ciudad de Guatemala',
+                'pais_id'          => 1,
+                'user_type_id'     => 3,
+                'company_id'       => null,
+                'branch'           => null,    
+                'colegiado'        => null,
+                'region'           => null,
+                'visitor_id'       => null,
+
+                'accepted_terms_version' => '1.0.0',
+                'password'         =>  Hash::make(config('quiniela.default_pass')),
                 'created_at'       =>  (Carbon::now())->toDateTimeString(),
             ],
         ];
 
         DB::table('users')->insert($users);
 
-        User::whereIn('id', [1, 2])->each(fn (User $user) => $user->assignRole('admin'));
-        User::whereIn('id', [3, 4])->each(fn (User $user) => $user->assignRole('participant'));
+        User::whereIn('id', [1])->each(fn (User $user) => $user->assignRole('admin'));
+        User::whereIn('id', [2, 3, 4])->each(fn (User $user) => $user->assignRole('participant'));
+        User::whereIn('id', [5])->each(fn (User $user) => $user->assignRole('employee'));
 
         // 500 dependientes (tipo 1) — mixto GT y HN
         // User::factory()->count(250)->dependiente(paisId: 1)->create();
@@ -2678,7 +2695,7 @@ class UserSeeder extends Seeder
                 'pais_id'                => $lab_user['pais_id'],
                 'user_type_id'           => 3,
                 'email'                  => 'user'.($index + 1).'@donovan.com',
-                'password'               =>  Hash::make(env('DEFAULT_PASS')),
+                'password'               =>  Hash::make(config('quiniela.default_pass')),
             ]);
 
             $user->assignRole('employee');
