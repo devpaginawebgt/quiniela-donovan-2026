@@ -14,13 +14,17 @@ class QuizResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $user_timezone = $request->user()->country->timezone;
+        $expires_at    = $this->expires_at?->copy()->setTimezone($user_timezone);
+
         return [
             'id'                   => $this->id,
             'title'                => $this->name,
             'attempts'             => $this->attempts,
             'availableScore'       => $this->points,
             'currentScore'         => $this->current_score,
-            'expiresAt'            => $this->expires_at?->toDateTimeString(),
+            'expiresAt'            => $expires_at?->format('Y-m-d H:i:s'),
+            'expired'              => $expires_at?->isPast() ?? false,
             
             'retry'                => $this->retry,
             'nextAttemptNumber'    => $this->next_attempt_number,

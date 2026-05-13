@@ -14,6 +14,9 @@ class QuizLAResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $user_timezone = $request->user()->country->timezone;
+        $expires_at    = $this->quiz->expires_at?->copy()->setTimezone($user_timezone);
+
         return [
             'id'                   => $this->id,
             'quiz_id'              => $this->quiz->id,
@@ -21,7 +24,8 @@ class QuizLAResource extends JsonResource
             'attempts'             => $this->quiz->attempts,
             'availableScore'       => $this->quiz->points,
             'currentScore'         => $this->current_score,
-            'expiresAt'            => $this->quiz->expires_at?->toDateTimeString(),
+            'expiresAt'            => $expires_at?->format('Y-m-d H:i:s'),
+            'expired'              => $expires_at?->isPast() ?? false,
 
             'retry'                => $this->retry,
             'nextAttemptNumber'    => $this->next_attempt_number,
