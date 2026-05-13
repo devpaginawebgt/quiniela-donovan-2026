@@ -1281,8 +1281,8 @@ class UserSeeder extends Seeder
                 'pais_id' => 1,
             ],
             [
-                'nombres' => '',
-                'apellidos' => 'SAMUEL MEJÍA DE LEÓN',
+                'nombres' => 'SAMUEL',
+                'apellidos' => 'MEJÍA DE LEÓN',
                 'puesto' => 'GERENTE FINANCIERO',
                 'pais_id' => 1,
             ],
@@ -1827,8 +1827,8 @@ class UserSeeder extends Seeder
                 'pais_id' => 1,
             ],
             [
-                'nombres' => '',
-                'apellidos' => 'FLORIDALMA RAMIREZ DE PAZ',
+                'nombres' => 'FLORIDALMA',
+                'apellidos' => 'RAMIREZ DE PAZ',
                 'puesto' => 'ENCARGADO DE LAVADO Y ESTERILIZADO DE ENVASE',
                 'pais_id' => 1,
             ],

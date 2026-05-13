@@ -65,6 +65,7 @@ class UserService {
         return User::where('user_type_id', 3)
             ->whereNull('numero_documento')
             ->where('pais_id', $country_id)
+            ->orderBy('nombres', 'asc')
             ->get();
     }
 
