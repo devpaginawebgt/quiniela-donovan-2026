@@ -35,7 +35,7 @@ class UserSeeder extends Seeder
                 'region'           => null,
                 'visitor_id'       => null,
 
-                'accepted_terms_version' => '0.1.0',
+                'accepted_terms_version' => '1.0.0',
                 'password'         =>  Hash::make(env('DEFAULT_PASS')),
                 'created_at'       =>  (Carbon::now())->toDateTimeString(),
             ],
@@ -57,7 +57,7 @@ class UserSeeder extends Seeder
                 'region'           => null,
                 'visitor_id'       => null,
 
-                'accepted_terms_version' => '0.1.0',
+                'accepted_terms_version' => '1.0.0',
                 'password'         =>  Hash::make(env('DEFAULT_PASS')),
                 'created_at'       =>  (Carbon::now())->toDateTimeString(),
             ],
@@ -79,7 +79,7 @@ class UserSeeder extends Seeder
                 'region'           => null,
                 'visitor_id'       => 1,
 
-                'accepted_terms_version' => '0.1.0',
+                'accepted_terms_version' => '1.0.0',
                 'password'         =>  Hash::make(env('DEFAULT_PASS')),
                 'created_at'       =>  (Carbon::now())->toDateTimeString(),
             ],
@@ -101,7 +101,7 @@ class UserSeeder extends Seeder
                 'region'           => 'Central',
                 'visitor_id'       => 2,
 
-                'accepted_terms_version' => '0.1.0',
+                'accepted_terms_version' => '1.0.0',
                 'password'         =>  Hash::make(env('DEFAULT_PASS')),
                 'created_at'       =>  (Carbon::now())->toDateTimeString(),
             ],
