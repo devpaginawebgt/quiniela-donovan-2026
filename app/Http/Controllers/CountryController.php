@@ -23,16 +23,20 @@ class CountryController extends Controller
 
             $country = $this->countryService->getCountryByCode($country_code);
 
-            if (empty($country)) {
+            // if (empty($country)) {
 
-                return $this->errorResponse('No se encontró el código de país', 422);
+            //     return $this->errorResponse('No se encontró el código de país', 422);
 
-            }
+            // }
 
-            if ($country->is_active === false) {
+            // if ($country->is_active === false) {
 
-                return $this->errorResponse('El código de país está inactivo en la plataforma', 422);
+            //     return $this->errorResponse('El código de país está inactivo en la plataforma', 422);
 
+            // }
+
+            if (empty($country) || $country->is_active === false ) {
+                $country = $this->countryService->getCountryByCode('GT');
             }
 
             $country = new CountryResource($country);
