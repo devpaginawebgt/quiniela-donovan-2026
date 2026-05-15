@@ -30,7 +30,7 @@ class RegisterRequest extends FormRequest
             'email'            => ['required', 'email', 'min:5', 'max:255', 'unique:users'],
             'direccion'        => ['required', 'string', 'min:5', 'max:255'],
             'pais_id'          => ['required', 'integer', 'exists:countries,id'],
-            'visitor_id'       => ['required', 'integer', 'exists:visitors,id'],
+            'visitor_id'       => ['nullable', 'integer', 'exists:visitors,id'],
             'user_type_id'     => ['required', 'integer', 'exists:user_types,id'],
 
             'colegiado' => [
