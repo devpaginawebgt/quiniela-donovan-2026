@@ -93,7 +93,7 @@ class PronosticosExport implements FromQuery, WithHeadings, WithMapping, WithChu
             ? $p->resultado->goles_equipo_1 . ' - ' . $p->resultado->goles_equipo_2
             : 'Sin resultado';
 
-        $pts = $this->prediccionService->getResultadoPrediccion($p, $p->resultado);
+        $pts = $this->prediccionService->getResultadoPrediccion($p, $p->resultado, $p->partido?->puntos);
 
         return [
             $p->id,

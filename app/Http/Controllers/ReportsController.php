@@ -37,7 +37,7 @@ class ReportsController extends Controller
             ->addColumn('visitador', fn($u) => $u->visitor ? $u->visitor->name . ' ' . $u->visitor->lastname : 'N/A')
             ->addColumn('region', fn($u) => $u->region ?? 'N/A')
             ->addColumn('farmacia', fn($u) => $u->branch ?? 'N/A')
-            ->addColumn('fecha_registro', fn($u) => $u->created_at->timezone('America/Guatemala')->format('d/m/Y h:i A'))
+            ->addColumn('fecha_registro', fn($u) => $u->created_at->timezone('America/Guatemala')->format('d/m/Y h:i:s A'))
             ->addColumn('estado_badge', function ($u) {
                 if ($u->status_user) {
                     return '
@@ -152,7 +152,7 @@ class ReportsController extends Controller
                 return $r->goles_equipo_1 . ' - ' . $r->goles_equipo_2;
             })
             ->addColumn('puntos_badge', function ($p) {
-                $pts = $this->prediccionService->getResultadoPrediccion($p, $p->resultado);
+                $pts = $this->prediccionService->getResultadoPrediccion($p, $p->resultado, $p->partido?->puntos);
                 $color = match ($pts) {
                     3 => 'bg-green-100 text-green-700 border-green-200',
                     1 => 'bg-blue-100 text-blue-700 border-blue-200',
