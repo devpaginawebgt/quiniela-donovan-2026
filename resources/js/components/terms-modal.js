@@ -1,3 +1,5 @@
+import { setButtonLoading } from './button-loading';
+
 /**
  * Inicializa el modal/drawer de Términos y Condiciones.
  * Los botones .btn-crear-cuenta abren el modal.
@@ -55,6 +57,9 @@ export const initTermsModal = () => {
         if (hiddenInput) {
             hiddenInput.value = termsVersion;
         }
+
+        setButtonLoading(btnConfirm, 'Creando cuenta...');
+        setButtonLoading(activeForm.querySelector('.btn-crear-cuenta'), 'Creando cuenta...');
 
         activeForm.submit();
     });
