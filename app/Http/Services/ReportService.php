@@ -11,7 +11,6 @@ class ReportService
     {
         return User::with(['country', 'type', 'company', 'visitor', 'pushTokens'])
             ->select('users.*')
-            ->whereNot('user_type_id', 1)
             ->orderBy('puntos', 'desc');
     }
 
