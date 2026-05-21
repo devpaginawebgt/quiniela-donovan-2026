@@ -35,7 +35,7 @@
                     <img
                         src="{{ asset($partido->brand->image) }}"
                         alt="{{ $partido->brand->name }}"
-                        class="w-full max-w-36 aspect-6/3 object-contain"
+                        class="w-full max-w-40 lg:max-w-44 aspect-6/3 object-contain"
                     >
                 </div>
             </a>
@@ -48,7 +48,7 @@
                     <img
                         src="{{ asset($partido->brand->image) }}"
                         alt="{{ $partido->brand->name }}"
-                        class="w-full max-w-32 aspect-6/3 object-contain"
+                        class="w-full max-w-40 lg:max-w-44 aspect-6/3 object-contain"
                     >
                 </div>
             </div>

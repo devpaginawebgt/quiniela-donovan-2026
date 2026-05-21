@@ -23,11 +23,11 @@
                 <div class="bg-red-700/80 flex items-center py-2 px-3">
                     <span class="text-light text-sm font-medium whitespace-nowrap">Patrocinado por</span>
                 </div>
-                <div class="flex-1 flex items-center justify-center p-2 bg-green-700">
+                <div class="flex-1 flex items-center justify-center p-2" style="background-color: {{ $partido->brand->background }};">
                     <img
                         src="{{ asset($partido->brand->image) }}"
                         alt="{{ $partido->brand->name }}"
-                        class="w-full max-w-28 object-contain"
+                        class="w-full max-w-40 lg:max-w-44 object-contain"
                     >
                 </div>
             </a>
@@ -36,11 +36,11 @@
                 <div class="bg-red-700/80 flex items-center py-2 px-3">
                     <span class="text-light text-sm font-medium whitespace-nowrap">Patrocinado por</span>
                 </div>
-                <div class="flex-1 flex items-center justify-center p-2 bg-green-700">
+                <div class="flex-1 flex items-center justify-center p-2" style="background-color: {{ $partido->brand->background }};">
                     <img
                         src="{{ asset($partido->brand->image) }}"
                         alt="{{ $partido->brand->name }}"
-                        class="w-full max-w-28 object-contain"
+                        class="w-full max-w-40 lg:max-w-44 object-contain"
                     >
                 </div>
             </div>

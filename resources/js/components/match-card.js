@@ -11,11 +11,11 @@ export const renderMatchCard = (partido) => {
     let brandHtml = '';
     if (partido.marca) {
         const brandInner = `
-            <div class="bg-red-700/80 flex items-center py-2 px-3 shrink-0">
+            <div class="bg-red-700/80 flex items-center py-2 px-3">
                 <span class="text-light text-sm font-medium whitespace-nowrap">Patrocinado por</span>
             </div>
-            <div class="flex-1 flex items-center justify-center p-2 bg-green-700">
-                <img src="${partido.marca.image}" alt="${partido.marca.name}" class="w-full max-w-28 object-contain">
+            <div class="flex-1 flex items-center justify-center p-2" style="background-color: ${partido.marca.background};">
+                <img src="${partido.marca.image}" alt="${partido.marca.name}" class="w-full max-w-40 lg:max-w-44 aspect-6/3 object-contain">
             </div>`;
 
         brandHtml = partido.marca.url
