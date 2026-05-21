@@ -29,6 +29,7 @@ class UsuariosExport implements FromQuery, WithHeadings, WithMapping, WithChunkR
                         ->orWhereHas('visitor', fn($visitor) => $visitor->whereRaw("CONCAT(name, ' ', lastname) LIKE ?", ["%{$this->search}%"]));
                 });
             })
+            ->whereDoesntHave('roles', fn($q) => $q->where('name', 'admin'))
             ->orderBy('puntos', 'desc');
     }
 
