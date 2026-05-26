@@ -26,9 +26,9 @@ Route::middleware('guest')->group(function () {
 
         Route::get('donovan', 'createEmployee')->name('.employee');
 
-        Route::post('', 'store');
+        Route::post('', 'store')->name('.store');
 
-        Route::post('donovan', 'storeEmployee')->name('.employee');
+        Route::post('donovan', 'storeEmployee')->name('.store-employee');
      
     });
 

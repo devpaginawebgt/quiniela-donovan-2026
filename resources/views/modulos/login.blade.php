@@ -94,7 +94,7 @@
                     {{-- Register link --}}
                     <div class="text-center mt-8">
                         <p class="text-complementary-light text-sm mb-2">¿No tienes cuenta?</p>
-                        <a href="{{ route('register') }}" class="text-light font-bold text-base hover:text-secondary">
+                        <a href="{{ route('register.index') }}" class="text-light font-bold text-base hover:text-secondary">
                             Regístrate
                         </a>
                     </div>
