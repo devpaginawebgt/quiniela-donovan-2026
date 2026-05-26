@@ -43,7 +43,7 @@ class TestService
             ),
             2 =>
             array(
-                'id' => 7,
+                'id' => 3,
                 'fase' => 'GRUPOS',
                 'jornada_id' => 1,
                 'fecha_partido' => '2026-06-12 19:00:00',
@@ -56,46 +56,7 @@ class TestService
             ),
             3 =>
             array(
-                'id' => 8,
-                'fase' => 'GRUPOS',
-                'jornada_id' => 1,
-                'fecha_partido' => '2026-06-13 19:00:00',
-                'estadio_id' => 15,
-                'equipo_1' => 7,
-                'goles_equipo_1' => 0,
-                'equipo_2' => 7,
-                'goles_equipo_2' => 0,
-                'equipo_ganador_id' => 8,
-            ),
-            4 =>
-            array(
-                'id' => 13,
-                'fase' => 'GRUPOS',
-                'jornada_id' => 1,
-                'fecha_partido' => '2026-06-13 22:00:00',
-                'estadio_id' => 13,
-                'equipo_1' => 9,
-                'goles_equipo_1' => 2,
-                'equipo_2' => 9,
-                'goles_equipo_2' => 2,
-                'equipo_ganador_id' => 9,
-            ),
-            5 =>
-            array(
-                'id' => 14,
-                'fase' => 'GRUPOS',
-                'jornada_id' => 1,
-                'fecha_partido' => '2026-06-14 01:00:00',
-                'estadio_id' => 7,
-                'equipo_1' => 11,
-                'goles_equipo_1' => 1,
-                'equipo_2' => 11,
-                'goles_equipo_2' => 1,
-                'equipo_ganador_id' => 12,
-            ),
-            6 =>
-            array(
-                'id' => 19,
+                'id' => 4,
                 'fase' => 'GRUPOS',
                 'jornada_id' => 1,
                 'fecha_partido' => '2026-06-13 01:00:00',
@@ -106,9 +67,48 @@ class TestService
                 'goles_equipo_2' => 3,
                 'equipo_ganador_id' => NULL,
             ),
+            4 =>
+            array(
+                'id' => 5,
+                'fase' => 'GRUPOS',
+                'jornada_id' => 1,
+                'fecha_partido' => '2026-06-13 19:00:00',
+                'estadio_id' => 15,
+                'equipo_1' => 7,
+                'goles_equipo_1' => 0,
+                'equipo_2' => 7,
+                'goles_equipo_2' => 0,
+                'equipo_ganador_id' => 8,
+            ),
+            5 =>
+            array(
+                'id' => 6,
+                'fase' => 'GRUPOS',
+                'jornada_id' => 1,
+                'fecha_partido' => '2026-06-13 22:00:00',
+                'estadio_id' => 13,
+                'equipo_1' => 9,
+                'goles_equipo_1' => 2,
+                'equipo_2' => 9,
+                'goles_equipo_2' => 2,
+                'equipo_ganador_id' => 9,
+            ),
+            6 =>
+            array(
+                'id' => 7,
+                'fase' => 'GRUPOS',
+                'jornada_id' => 1,
+                'fecha_partido' => '2026-06-14 01:00:00',
+                'estadio_id' => 7,
+                'equipo_1' => 11,
+                'goles_equipo_1' => 1,
+                'equipo_2' => 11,
+                'goles_equipo_2' => 1,
+                'equipo_ganador_id' => 12,
+            ),
             7 =>
             array(
-                'id' => 20,
+                'id' => 8,
                 'fase' => 'GRUPOS',
                 'jornada_id' => 1,
                 'fecha_partido' => '2026-06-13 04:00:00',
@@ -121,7 +121,7 @@ class TestService
             ),
             8 =>
             array(
-                'id' => 25,
+                'id' => 9,
                 'fase' => 'GRUPOS',
                 'jornada_id' => 1,
                 'fecha_partido' => '2026-06-14 17:00:00',
@@ -134,20 +134,7 @@ class TestService
             ),
             9 =>
             array(
-                'id' => 26,
-                'fase' => 'GRUPOS',
-                'jornada_id' => 1,
-                'fecha_partido' => '2026-06-14 23:00:00',
-                'estadio_id' => 14,
-                'equipo_1' => 19,
-                'goles_equipo_1' => 2,
-                'equipo_2' => 19,
-                'goles_equipo_2' => 2,
-                'equipo_ganador_id' => 19,
-            ),
-            10 =>
-            array(
-                'id' => 31,
+                'id' => 10,
                 'fase' => 'GRUPOS',
                 'jornada_id' => 1,
                 'fecha_partido' => '2026-06-14 20:00:00',
@@ -158,9 +145,22 @@ class TestService
                 'goles_equipo_2' => 1,
                 'equipo_ganador_id' => 22,
             ),
+            10 =>
+            array(
+                'id' => 11,
+                'fase' => 'GRUPOS',
+                'jornada_id' => 1,
+                'fecha_partido' => '2026-06-14 23:00:00',
+                'estadio_id' => 14,
+                'equipo_1' => 19,
+                'goles_equipo_1' => 2,
+                'equipo_2' => 19,
+                'goles_equipo_2' => 2,
+                'equipo_ganador_id' => 19,
+            ),
             11 =>
             array(
-                'id' => 32,
+                'id' => 12,
                 'fase' => 'GRUPOS',
                 'jornada_id' => 1,
                 'fecha_partido' => '2026-06-15 02:00:00',
@@ -173,33 +173,7 @@ class TestService
             ),
             12 =>
             array(
-                'id' => 37,
-                'fase' => 'GRUPOS',
-                'jornada_id' => 1,
-                'fecha_partido' => '2026-06-15 19:00:00',
-                'estadio_id' => 16,
-                'equipo_1' => 25,
-                'goles_equipo_1' => 0,
-                'equipo_2' => 25,
-                'goles_equipo_2' => 0,
-                'equipo_ganador_id' => 26,
-            ),
-            13 =>
-            array(
-                'id' => 38,
-                'fase' => 'GRUPOS',
-                'jornada_id' => 1,
-                'fecha_partido' => '2026-06-16 01:00:00',
-                'estadio_id' => 11,
-                'equipo_1' => 27,
-                'goles_equipo_1' => 4,
-                'equipo_2' => 27,
-                'goles_equipo_2' => 4,
-                'equipo_ganador_id' => 27,
-            ),
-            14 =>
-            array(
-                'id' => 43,
+                'id' => 13,
                 'fase' => 'GRUPOS',
                 'jornada_id' => 1,
                 'fecha_partido' => '2026-06-15 16:00:00',
@@ -210,9 +184,22 @@ class TestService
                 'goles_equipo_2' => 2,
                 'equipo_ganador_id' => NULL,
             ),
-            15 =>
+            13 =>
             array(
-                'id' => 44,
+                'id' => 14,
+                'fase' => 'GRUPOS',
+                'jornada_id' => 1,
+                'fecha_partido' => '2026-06-15 19:00:00',
+                'estadio_id' => 16,
+                'equipo_1' => 25,
+                'goles_equipo_1' => 0,
+                'equipo_2' => 25,
+                'goles_equipo_2' => 0,
+                'equipo_ganador_id' => 26,
+            ),
+            14 =>
+            array(
+                'id' => 15,
                 'fase' => 'GRUPOS',
                 'jornada_id' => 1,
                 'fecha_partido' => '2026-06-15 22:00:00',
@@ -223,9 +210,22 @@ class TestService
                 'goles_equipo_2' => 4,
                 'equipo_ganador_id' => 31,
             ),
+            15 =>
+            array(
+                'id' => 16,
+                'fase' => 'GRUPOS',
+                'jornada_id' => 1,
+                'fecha_partido' => '2026-06-16 01:00:00',
+                'estadio_id' => 11,
+                'equipo_1' => 27,
+                'goles_equipo_1' => 4,
+                'equipo_2' => 27,
+                'goles_equipo_2' => 4,
+                'equipo_ganador_id' => 27,
+            ),
             16 =>
             array(
-                'id' => 49,
+                'id' => 17,
                 'fase' => 'GRUPOS',
                 'jornada_id' => 1,
                 'fecha_partido' => '2026-06-16 19:00:00',
@@ -238,7 +238,7 @@ class TestService
             ),
             17 =>
             array(
-                'id' => 50,
+                'id' => 18,
                 'fase' => 'GRUPOS',
                 'jornada_id' => 1,
                 'fecha_partido' => '2026-06-16 22:00:00',
@@ -251,7 +251,7 @@ class TestService
             ),
             18 =>
             array(
-                'id' => 55,
+                'id' => 19,
                 'fase' => 'GRUPOS',
                 'jornada_id' => 1,
                 'fecha_partido' => '2026-06-17 01:00:00',
@@ -264,7 +264,7 @@ class TestService
             ),
             19 =>
             array(
-                'id' => 56,
+                'id' => 20,
                 'fase' => 'GRUPOS',
                 'jornada_id' => 1,
                 'fecha_partido' => '2026-06-17 04:00:00',
@@ -277,7 +277,7 @@ class TestService
             ),
             20 =>
             array(
-                'id' => 61,
+                'id' => 21,
                 'fase' => 'GRUPOS',
                 'jornada_id' => 1,
                 'fecha_partido' => '2026-06-17 17:00:00',
@@ -290,20 +290,7 @@ class TestService
             ),
             21 =>
             array(
-                'id' => 62,
-                'fase' => 'GRUPOS',
-                'jornada_id' => 1,
-                'fecha_partido' => '2026-06-18 02:00:00',
-                'estadio_id' => 3,
-                'equipo_1' => 43,
-                'goles_equipo_1' => 3,
-                'equipo_2' => 43,
-                'goles_equipo_2' => 3,
-                'equipo_ganador_id' => NULL,
-            ),
-            22 =>
-            array(
-                'id' => 67,
+                'id' => 22,
                 'fase' => 'GRUPOS',
                 'jornada_id' => 1,
                 'fecha_partido' => '2026-06-17 20:00:00',
@@ -314,9 +301,9 @@ class TestService
                 'goles_equipo_2' => 2,
                 'equipo_ganador_id' => 45,
             ),
-            23 =>
+            22 =>
             array(
-                'id' => 68,
+                'id' => 23,
                 'fase' => 'GRUPOS',
                 'jornada_id' => 1,
                 'fecha_partido' => '2026-06-17 23:00:00',
@@ -327,6 +314,19 @@ class TestService
                 'goles_equipo_2' => 2,
                 'equipo_ganador_id' => 47,
             ),
+            23 =>
+            array(
+                'id' => 24,
+                'fase' => 'GRUPOS',
+                'jornada_id' => 1,
+                'fecha_partido' => '2026-06-18 02:00:00',
+                'estadio_id' => 3,
+                'equipo_1' => 43,
+                'goles_equipo_1' => 3,
+                'equipo_2' => 43,
+                'goles_equipo_2' => 3,
+                'equipo_ganador_id' => NULL,
+            ),
         );
     }
 
@@ -335,7 +335,7 @@ class TestService
         return array(
             0 =>
             array(
-                'id' => 3,
+                'id' => 25,
                 'fase' => 'GRUPOS',
                 'jornada_id' => 2,
                 'fecha_partido' => '2026-06-18 16:00:00',
@@ -348,20 +348,7 @@ class TestService
             ),
             1 =>
             array(
-                'id' => 4,
-                'fase' => 'GRUPOS',
-                'jornada_id' => 2,
-                'fecha_partido' => '2026-06-19 01:00:00',
-                'estadio_id' => 4,
-                'equipo_1' => 1,
-                'goles_equipo_1' => 0,
-                'equipo_2' => 1,
-                'goles_equipo_2' => 0,
-                'equipo_ganador_id' => 3,
-            ),
-            2 =>
-            array(
-                'id' => 9,
+                'id' => 26,
                 'fase' => 'GRUPOS',
                 'jornada_id' => 2,
                 'fecha_partido' => '2026-06-18 19:00:00',
@@ -372,9 +359,9 @@ class TestService
                 'goles_equipo_2' => 3,
                 'equipo_ganador_id' => 8,
             ),
-            3 =>
+            2 =>
             array(
-                'id' => 10,
+                'id' => 27,
                 'fase' => 'GRUPOS',
                 'jornada_id' => 2,
                 'fecha_partido' => '2026-06-18 22:00:00',
@@ -385,35 +372,22 @@ class TestService
                 'goles_equipo_2' => 3,
                 'equipo_ganador_id' => 5,
             ),
+            3 =>
+            array(
+                'id' => 28,
+                'fase' => 'GRUPOS',
+                'jornada_id' => 2,
+                'fecha_partido' => '2026-06-19 01:00:00',
+                'estadio_id' => 4,
+                'equipo_1' => 1,
+                'goles_equipo_1' => 0,
+                'equipo_2' => 1,
+                'goles_equipo_2' => 0,
+                'equipo_ganador_id' => 3,
+            ),
             4 =>
             array(
-                'id' => 15,
-                'fase' => 'GRUPOS',
-                'jornada_id' => 2,
-                'fecha_partido' => '2026-06-19 22:00:00',
-                'estadio_id' => 7,
-                'equipo_1' => 12,
-                'goles_equipo_1' => 0,
-                'equipo_2' => 12,
-                'goles_equipo_2' => 0,
-                'equipo_ganador_id' => 10,
-            ),
-            5 =>
-            array(
-                'id' => 16,
-                'fase' => 'GRUPOS',
-                'jornada_id' => 2,
-                'fecha_partido' => '2026-06-20 01:00:00',
-                'estadio_id' => 14,
-                'equipo_1' => 9,
-                'goles_equipo_1' => 1,
-                'equipo_2' => 9,
-                'goles_equipo_2' => 1,
-                'equipo_ganador_id' => 11,
-            ),
-            6 =>
-            array(
-                'id' => 21,
+                'id' => 29,
                 'fase' => 'GRUPOS',
                 'jornada_id' => 2,
                 'fecha_partido' => '2026-06-19 19:00:00',
@@ -424,9 +398,35 @@ class TestService
                 'goles_equipo_2' => 2,
                 'equipo_ganador_id' => 15,
             ),
+            5 =>
+            array(
+                'id' => 30,
+                'fase' => 'GRUPOS',
+                'jornada_id' => 2,
+                'fecha_partido' => '2026-06-19 22:00:00',
+                'estadio_id' => 7,
+                'equipo_1' => 12,
+                'goles_equipo_1' => 0,
+                'equipo_2' => 12,
+                'goles_equipo_2' => 0,
+                'equipo_ganador_id' => 10,
+            ),
+            6 =>
+            array(
+                'id' => 31,
+                'fase' => 'GRUPOS',
+                'jornada_id' => 2,
+                'fecha_partido' => '2026-06-20 01:00:00',
+                'estadio_id' => 14,
+                'equipo_1' => 9,
+                'goles_equipo_1' => 1,
+                'equipo_2' => 9,
+                'goles_equipo_2' => 1,
+                'equipo_ganador_id' => 11,
+            ),
             7 =>
             array(
-                'id' => 22,
+                'id' => 32,
                 'fase' => 'GRUPOS',
                 'jornada_id' => 2,
                 'fecha_partido' => '2026-06-19 04:00:00',
@@ -439,32 +439,6 @@ class TestService
             ),
             8 =>
             array(
-                'id' => 27,
-                'fase' => 'GRUPOS',
-                'jornada_id' => 2,
-                'fecha_partido' => '2026-06-20 20:00:00',
-                'estadio_id' => 1,
-                'equipo_1' => 17,
-                'goles_equipo_1' => 0,
-                'equipo_2' => 17,
-                'goles_equipo_2' => 0,
-                'equipo_ganador_id' => 19,
-            ),
-            9 =>
-            array(
-                'id' => 28,
-                'fase' => 'GRUPOS',
-                'jornada_id' => 2,
-                'fecha_partido' => '2026-06-21 02:00:00',
-                'estadio_id' => 10,
-                'equipo_1' => 20,
-                'goles_equipo_1' => 0,
-                'equipo_2' => 20,
-                'goles_equipo_2' => 0,
-                'equipo_ganador_id' => 18,
-            ),
-            10 =>
-            array(
                 'id' => 33,
                 'fase' => 'GRUPOS',
                 'jornada_id' => 2,
@@ -476,9 +450,35 @@ class TestService
                 'goles_equipo_2' => 3,
                 'equipo_ganador_id' => 21,
             ),
-            11 =>
+            9 =>
             array(
                 'id' => 34,
+                'fase' => 'GRUPOS',
+                'jornada_id' => 2,
+                'fecha_partido' => '2026-06-20 20:00:00',
+                'estadio_id' => 1,
+                'equipo_1' => 17,
+                'goles_equipo_1' => 0,
+                'equipo_2' => 17,
+                'goles_equipo_2' => 0,
+                'equipo_ganador_id' => 19,
+            ),
+            10 =>
+            array(
+                'id' => 35,
+                'fase' => 'GRUPOS',
+                'jornada_id' => 2,
+                'fecha_partido' => '2026-06-21 02:00:00',
+                'estadio_id' => 10,
+                'equipo_1' => 20,
+                'goles_equipo_1' => 0,
+                'equipo_2' => 20,
+                'goles_equipo_2' => 0,
+                'equipo_ganador_id' => 18,
+            ),
+            11 =>
+            array(
+                'id' => 36,
                 'fase' => 'GRUPOS',
                 'jornada_id' => 2,
                 'fecha_partido' => '2026-06-20 04:00:00',
@@ -491,7 +491,20 @@ class TestService
             ),
             12 =>
             array(
-                'id' => 39,
+                'id' => 37,
+                'fase' => 'GRUPOS',
+                'jornada_id' => 2,
+                'fecha_partido' => '2026-06-21 16:00:00',
+                'estadio_id' => 6,
+                'equipo_1' => 29,
+                'goles_equipo_1' => 3,
+                'equipo_2' => 29,
+                'goles_equipo_2' => 3,
+                'equipo_ganador_id' => 29,
+            ),
+            13 =>
+            array(
+                'id' => 38,
                 'fase' => 'GRUPOS',
                 'jornada_id' => 2,
                 'fecha_partido' => '2026-06-21 19:00:00',
@@ -502,7 +515,20 @@ class TestService
                 'goles_equipo_2' => 2,
                 'equipo_ganador_id' => 27,
             ),
-            13 =>
+            14 =>
+            array(
+                'id' => 39,
+                'fase' => 'GRUPOS',
+                'jornada_id' => 2,
+                'fecha_partido' => '2026-06-21 22:00:00',
+                'estadio_id' => 12,
+                'equipo_1' => 32,
+                'goles_equipo_1' => 1,
+                'equipo_2' => 32,
+                'goles_equipo_2' => 1,
+                'equipo_ganador_id' => 30,
+            ),
+            15 =>
             array(
                 'id' => 40,
                 'fase' => 'GRUPOS',
@@ -515,61 +541,9 @@ class TestService
                 'goles_equipo_2' => 3,
                 'equipo_ganador_id' => 28,
             ),
-            14 =>
-            array(
-                'id' => 45,
-                'fase' => 'GRUPOS',
-                'jornada_id' => 2,
-                'fecha_partido' => '2026-06-21 16:00:00',
-                'estadio_id' => 6,
-                'equipo_1' => 29,
-                'goles_equipo_1' => 3,
-                'equipo_2' => 29,
-                'goles_equipo_2' => 3,
-                'equipo_ganador_id' => 29,
-            ),
-            15 =>
-            array(
-                'id' => 46,
-                'fase' => 'GRUPOS',
-                'jornada_id' => 2,
-                'fecha_partido' => '2026-06-21 22:00:00',
-                'estadio_id' => 12,
-                'equipo_1' => 32,
-                'goles_equipo_1' => 1,
-                'equipo_2' => 32,
-                'goles_equipo_2' => 1,
-                'equipo_ganador_id' => 30,
-            ),
             16 =>
             array(
-                'id' => 51,
-                'fase' => 'GRUPOS',
-                'jornada_id' => 2,
-                'fecha_partido' => '2026-06-22 21:00:00',
-                'estadio_id' => 14,
-                'equipo_1' => 33,
-                'goles_equipo_1' => 3,
-                'equipo_2' => 33,
-                'goles_equipo_2' => 3,
-                'equipo_ganador_id' => NULL,
-            ),
-            17 =>
-            array(
-                'id' => 52,
-                'fase' => 'GRUPOS',
-                'jornada_id' => 2,
-                'fecha_partido' => '2026-06-23 00:00:00',
-                'estadio_id' => 13,
-                'equipo_1' => 36,
-                'goles_equipo_1' => 0,
-                'equipo_2' => 36,
-                'goles_equipo_2' => 0,
-                'equipo_ganador_id' => NULL,
-            ),
-            18 =>
-            array(
-                'id' => 57,
+                'id' => 41,
                 'fase' => 'GRUPOS',
                 'jornada_id' => 2,
                 'fecha_partido' => '2026-06-22 17:00:00',
@@ -580,9 +554,35 @@ class TestService
                 'goles_equipo_2' => 4,
                 'equipo_ganador_id' => 37,
             ),
+            17 =>
+            array(
+                'id' => 42,
+                'fase' => 'GRUPOS',
+                'jornada_id' => 2,
+                'fecha_partido' => '2026-06-22 21:00:00',
+                'estadio_id' => 14,
+                'equipo_1' => 33,
+                'goles_equipo_1' => 3,
+                'equipo_2' => 33,
+                'goles_equipo_2' => 3,
+                'equipo_ganador_id' => NULL,
+            ),
+            18 =>
+            array(
+                'id' => 43,
+                'fase' => 'GRUPOS',
+                'jornada_id' => 2,
+                'fecha_partido' => '2026-06-23 00:00:00',
+                'estadio_id' => 13,
+                'equipo_1' => 36,
+                'goles_equipo_1' => 0,
+                'equipo_2' => 36,
+                'goles_equipo_2' => 0,
+                'equipo_ganador_id' => NULL,
+            ),
             19 =>
             array(
-                'id' => 58,
+                'id' => 44,
                 'fase' => 'GRUPOS',
                 'jornada_id' => 2,
                 'fecha_partido' => '2026-06-23 03:00:00',
@@ -595,7 +595,7 @@ class TestService
             ),
             20 =>
             array(
-                'id' => 63,
+                'id' => 45,
                 'fase' => 'GRUPOS',
                 'jornada_id' => 2,
                 'fecha_partido' => '2026-06-23 17:00:00',
@@ -608,20 +608,7 @@ class TestService
             ),
             21 =>
             array(
-                'id' => 64,
-                'fase' => 'GRUPOS',
-                'jornada_id' => 2,
-                'fecha_partido' => '2026-06-24 02:00:00',
-                'estadio_id' => 4,
-                'equipo_1' => 44,
-                'goles_equipo_1' => 4,
-                'equipo_2' => 44,
-                'goles_equipo_2' => 4,
-                'equipo_ganador_id' => 44,
-            ),
-            22 =>
-            array(
-                'id' => 69,
+                'id' => 46,
                 'fase' => 'GRUPOS',
                 'jornada_id' => 2,
                 'fecha_partido' => '2026-06-23 20:00:00',
@@ -632,9 +619,9 @@ class TestService
                 'goles_equipo_2' => 3,
                 'equipo_ganador_id' => 45,
             ),
-            23 =>
+            22 =>
             array(
-                'id' => 70,
+                'id' => 47,
                 'fase' => 'GRUPOS',
                 'jornada_id' => 2,
                 'fecha_partido' => '2026-06-23 23:00:00',
@@ -645,6 +632,19 @@ class TestService
                 'goles_equipo_2' => 1,
                 'equipo_ganador_id' => 46,
             ),
+            23 =>
+            array(
+                'id' => 48,
+                'fase' => 'GRUPOS',
+                'jornada_id' => 2,
+                'fecha_partido' => '2026-06-24 02:00:00',
+                'estadio_id' => 4,
+                'equipo_1' => 44,
+                'goles_equipo_1' => 4,
+                'equipo_2' => 44,
+                'goles_equipo_2' => 4,
+                'equipo_ganador_id' => 44,
+            ),
         );
     }
 
@@ -653,33 +653,7 @@ class TestService
         return array(
             0 =>
             array(
-                'id' => 5,
-                'fase' => 'GRUPOS',
-                'jornada_id' => 3,
-                'fecha_partido' => '2026-06-25 01:00:00',
-                'estadio_id' => 3,
-                'equipo_1' => 4,
-                'goles_equipo_1' => 3,
-                'equipo_2' => 4,
-                'goles_equipo_2' => 3,
-                'equipo_ganador_id' => 4,
-            ),
-            1 =>
-            array(
-                'id' => 6,
-                'fase' => 'GRUPOS',
-                'jornada_id' => 3,
-                'fecha_partido' => '2026-06-25 01:00:00',
-                'estadio_id' => 5,
-                'equipo_1' => 2,
-                'goles_equipo_1' => 2,
-                'equipo_2' => 2,
-                'goles_equipo_2' => 2,
-                'equipo_ganador_id' => 3,
-            ),
-            2 =>
-            array(
-                'id' => 11,
+                'id' => 49,
                 'fase' => 'GRUPOS',
                 'jornada_id' => 3,
                 'fecha_partido' => '2026-06-24 19:00:00',
@@ -690,9 +664,9 @@ class TestService
                 'goles_equipo_2' => 2,
                 'equipo_ganador_id' => 8,
             ),
-            3 =>
+            1 =>
             array(
-                'id' => 12,
+                'id' => 50,
                 'fase' => 'GRUPOS',
                 'jornada_id' => 3,
                 'fecha_partido' => '2026-06-24 19:00:00',
@@ -703,9 +677,9 @@ class TestService
                 'goles_equipo_2' => 0,
                 'equipo_ganador_id' => NULL,
             ),
-            4 =>
+            2 =>
             array(
-                'id' => 17,
+                'id' => 51,
                 'fase' => 'GRUPOS',
                 'jornada_id' => 3,
                 'fecha_partido' => '2026-06-24 22:00:00',
@@ -716,9 +690,9 @@ class TestService
                 'goles_equipo_2' => 1,
                 'equipo_ganador_id' => NULL,
             ),
-            5 =>
+            3 =>
             array(
-                'id' => 18,
+                'id' => 52,
                 'fase' => 'GRUPOS',
                 'jornada_id' => 3,
                 'fecha_partido' => '2026-06-24 22:00:00',
@@ -729,35 +703,35 @@ class TestService
                 'goles_equipo_2' => 4,
                 'equipo_ganador_id' => NULL,
             ),
+            4 =>
+            array(
+                'id' => 53,
+                'fase' => 'GRUPOS',
+                'jornada_id' => 3,
+                'fecha_partido' => '2026-06-25 01:00:00',
+                'estadio_id' => 3,
+                'equipo_1' => 4,
+                'goles_equipo_1' => 3,
+                'equipo_2' => 4,
+                'goles_equipo_2' => 3,
+                'equipo_ganador_id' => 4,
+            ),
+            5 =>
+            array(
+                'id' => 54,
+                'fase' => 'GRUPOS',
+                'jornada_id' => 3,
+                'fecha_partido' => '2026-06-25 01:00:00',
+                'estadio_id' => 5,
+                'equipo_1' => 2,
+                'goles_equipo_1' => 2,
+                'equipo_2' => 2,
+                'goles_equipo_2' => 2,
+                'equipo_ganador_id' => 3,
+            ),
             6 =>
             array(
-                'id' => 23,
-                'fase' => 'GRUPOS',
-                'jornada_id' => 3,
-                'fecha_partido' => '2026-06-26 02:00:00',
-                'estadio_id' => 11,
-                'equipo_1' => 16,
-                'goles_equipo_1' => 0,
-                'equipo_2' => 16,
-                'goles_equipo_2' => 0,
-                'equipo_ganador_id' => 13,
-            ),
-            7 =>
-            array(
-                'id' => 24,
-                'fase' => 'GRUPOS',
-                'jornada_id' => 3,
-                'fecha_partido' => '2026-06-26 02:00:00',
-                'estadio_id' => 15,
-                'equipo_1' => 14,
-                'goles_equipo_1' => 0,
-                'equipo_2' => 14,
-                'goles_equipo_2' => 0,
-                'equipo_ganador_id' => 15,
-            ),
-            8 =>
-            array(
-                'id' => 29,
+                'id' => 55,
                 'fase' => 'GRUPOS',
                 'jornada_id' => 3,
                 'fecha_partido' => '2026-06-25 20:00:00',
@@ -768,9 +742,9 @@ class TestService
                 'goles_equipo_2' => 4,
                 'equipo_ganador_id' => 18,
             ),
-            9 =>
+            7 =>
             array(
-                'id' => 30,
+                'id' => 56,
                 'fase' => 'GRUPOS',
                 'jornada_id' => 3,
                 'fecha_partido' => '2026-06-25 20:00:00',
@@ -781,9 +755,9 @@ class TestService
                 'goles_equipo_2' => 2,
                 'equipo_ganador_id' => NULL,
             ),
-            10 =>
+            8 =>
             array(
-                'id' => 35,
+                'id' => 57,
                 'fase' => 'GRUPOS',
                 'jornada_id' => 3,
                 'fecha_partido' => '2026-06-25 23:00:00',
@@ -794,9 +768,9 @@ class TestService
                 'goles_equipo_2' => 0,
                 'equipo_ganador_id' => 23,
             ),
-            11 =>
+            9 =>
             array(
-                'id' => 36,
+                'id' => 58,
                 'fase' => 'GRUPOS',
                 'jornada_id' => 3,
                 'fecha_partido' => '2026-06-25 23:00:00',
@@ -807,35 +781,61 @@ class TestService
                 'goles_equipo_2' => 1,
                 'equipo_ganador_id' => 21,
             ),
-            12 =>
+            10 =>
             array(
-                'id' => 41,
+                'id' => 59,
                 'fase' => 'GRUPOS',
                 'jornada_id' => 3,
-                'fecha_partido' => '2026-06-27 03:00:00',
-                'estadio_id' => 16,
-                'equipo_1' => 26,
-                'goles_equipo_1' => 4,
-                'equipo_2' => 26,
-                'goles_equipo_2' => 4,
-                'equipo_ganador_id' => 26,
+                'fecha_partido' => '2026-06-26 02:00:00',
+                'estadio_id' => 11,
+                'equipo_1' => 16,
+                'goles_equipo_1' => 0,
+                'equipo_2' => 16,
+                'goles_equipo_2' => 0,
+                'equipo_ganador_id' => 13,
+            ),
+            11 =>
+            array(
+                'id' => 60,
+                'fase' => 'GRUPOS',
+                'jornada_id' => 3,
+                'fecha_partido' => '2026-06-26 02:00:00',
+                'estadio_id' => 15,
+                'equipo_1' => 14,
+                'goles_equipo_1' => 0,
+                'equipo_2' => 14,
+                'goles_equipo_2' => 0,
+                'equipo_ganador_id' => 15,
+            ),
+            12 =>
+            array(
+                'id' => 61,
+                'fase' => 'GRUPOS',
+                'jornada_id' => 3,
+                'fecha_partido' => '2026-06-26 19:00:00',
+                'estadio_id' => 7,
+                'equipo_1' => 36,
+                'goles_equipo_1' => 2,
+                'equipo_2' => 36,
+                'goles_equipo_2' => 2,
+                'equipo_ganador_id' => NULL,
             ),
             13 =>
             array(
-                'id' => 42,
+                'id' => 62,
                 'fase' => 'GRUPOS',
                 'jornada_id' => 3,
-                'fecha_partido' => '2026-06-27 03:00:00',
-                'estadio_id' => 2,
-                'equipo_1' => 28,
-                'goles_equipo_1' => 0,
-                'equipo_2' => 28,
-                'goles_equipo_2' => 0,
-                'equipo_ganador_id' => 25,
+                'fecha_partido' => '2026-06-26 19:00:00',
+                'estadio_id' => 1,
+                'equipo_1' => 34,
+                'goles_equipo_1' => 2,
+                'equipo_2' => 34,
+                'goles_equipo_2' => 2,
+                'equipo_ganador_id' => 35,
             ),
             14 =>
             array(
-                'id' => 47,
+                'id' => 63,
                 'fase' => 'GRUPOS',
                 'jornada_id' => 3,
                 'fecha_partido' => '2026-06-27 00:00:00',
@@ -848,7 +848,7 @@ class TestService
             ),
             15 =>
             array(
-                'id' => 48,
+                'id' => 64,
                 'fase' => 'GRUPOS',
                 'jornada_id' => 3,
                 'fecha_partido' => '2026-06-27 00:00:00',
@@ -861,59 +861,59 @@ class TestService
             ),
             16 =>
             array(
-                'id' => 53,
+                'id' => 65,
                 'fase' => 'GRUPOS',
                 'jornada_id' => 3,
-                'fecha_partido' => '2026-06-26 19:00:00',
-                'estadio_id' => 7,
-                'equipo_1' => 36,
-                'goles_equipo_1' => 2,
-                'equipo_2' => 36,
-                'goles_equipo_2' => 2,
-                'equipo_ganador_id' => NULL,
+                'fecha_partido' => '2026-06-27 03:00:00',
+                'estadio_id' => 16,
+                'equipo_1' => 26,
+                'goles_equipo_1' => 4,
+                'equipo_2' => 26,
+                'goles_equipo_2' => 4,
+                'equipo_ganador_id' => 26,
             ),
             17 =>
             array(
-                'id' => 54,
+                'id' => 66,
                 'fase' => 'GRUPOS',
                 'jornada_id' => 3,
-                'fecha_partido' => '2026-06-26 19:00:00',
-                'estadio_id' => 1,
-                'equipo_1' => 34,
-                'goles_equipo_1' => 2,
-                'equipo_2' => 34,
-                'goles_equipo_2' => 2,
-                'equipo_ganador_id' => 35,
+                'fecha_partido' => '2026-06-27 03:00:00',
+                'estadio_id' => 2,
+                'equipo_1' => 28,
+                'goles_equipo_1' => 0,
+                'equipo_2' => 28,
+                'goles_equipo_2' => 0,
+                'equipo_ganador_id' => 25,
             ),
             18 =>
             array(
-                'id' => 59,
+                'id' => 67,
                 'fase' => 'GRUPOS',
                 'jornada_id' => 3,
-                'fecha_partido' => '2026-06-28 02:00:00',
-                'estadio_id' => 10,
-                'equipo_1' => 38,
-                'goles_equipo_1' => 3,
-                'equipo_2' => 38,
-                'goles_equipo_2' => 3,
-                'equipo_ganador_id' => 38,
+                'fecha_partido' => '2026-06-27 21:00:00',
+                'estadio_id' => 13,
+                'equipo_1' => 48,
+                'goles_equipo_1' => 1,
+                'equipo_2' => 48,
+                'goles_equipo_2' => 1,
+                'equipo_ganador_id' => 45,
             ),
             19 =>
             array(
-                'id' => 60,
+                'id' => 68,
                 'fase' => 'GRUPOS',
                 'jornada_id' => 3,
-                'fecha_partido' => '2026-06-28 02:00:00',
-                'estadio_id' => 8,
-                'equipo_1' => 40,
-                'goles_equipo_1' => 3,
-                'equipo_2' => 40,
-                'goles_equipo_2' => 3,
+                'fecha_partido' => '2026-06-27 21:00:00',
+                'estadio_id' => 14,
+                'equipo_1' => 46,
+                'goles_equipo_1' => 1,
+                'equipo_2' => 46,
+                'goles_equipo_2' => 1,
                 'equipo_ganador_id' => NULL,
             ),
             20 =>
             array(
-                'id' => 65,
+                'id' => 69,
                 'fase' => 'GRUPOS',
                 'jornada_id' => 3,
                 'fecha_partido' => '2026-06-27 23:30:00',
@@ -926,7 +926,7 @@ class TestService
             ),
             21 =>
             array(
-                'id' => 66,
+                'id' => 70,
                 'fase' => 'GRUPOS',
                 'jornada_id' => 3,
                 'fecha_partido' => '2026-06-27 23:30:00',
@@ -942,25 +942,25 @@ class TestService
                 'id' => 71,
                 'fase' => 'GRUPOS',
                 'jornada_id' => 3,
-                'fecha_partido' => '2026-06-27 21:00:00',
-                'estadio_id' => 13,
-                'equipo_1' => 48,
-                'goles_equipo_1' => 1,
-                'equipo_2' => 48,
-                'goles_equipo_2' => 1,
-                'equipo_ganador_id' => 45,
+                'fecha_partido' => '2026-06-28 02:00:00',
+                'estadio_id' => 10,
+                'equipo_1' => 38,
+                'goles_equipo_1' => 3,
+                'equipo_2' => 38,
+                'goles_equipo_2' => 3,
+                'equipo_ganador_id' => 38,
             ),
             23 =>
             array(
                 'id' => 72,
                 'fase' => 'GRUPOS',
                 'jornada_id' => 3,
-                'fecha_partido' => '2026-06-27 21:00:00',
-                'estadio_id' => 14,
-                'equipo_1' => 46,
-                'goles_equipo_1' => 1,
-                'equipo_2' => 46,
-                'goles_equipo_2' => 1,
+                'fecha_partido' => '2026-06-28 02:00:00',
+                'estadio_id' => 8,
+                'equipo_1' => 40,
+                'goles_equipo_1' => 3,
+                'equipo_2' => 40,
+                'goles_equipo_2' => 3,
                 'equipo_ganador_id' => NULL,
             ),
         );

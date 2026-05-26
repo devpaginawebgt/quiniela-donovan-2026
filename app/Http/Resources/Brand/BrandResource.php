@@ -16,9 +16,12 @@ class BrandResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->id,
-            'name' => $this->name,
+            'id'    => $this->id,
+            'name'  => $this->name,
+            'background'  => $this->background,
+            'onBackground'  => $this->on_background,
             'image' => HelperService::ImagePath($this->image),
+            'url'   => $this->url,
         ];
     }
 }

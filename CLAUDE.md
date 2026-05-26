@@ -2,7 +2,7 @@
 
 ## Stack
 
-- **Backend**: Laravel 10, PHP
+- **Backend**: Laravel 12, PHP ^8.1 (esqueleto legacy de Laravel 10 — conserva `app/Http/Kernel.php`, `App\Providers\EventServiceProvider`, etc.)
 - **Plantillas**: Blade
 - **Bundler**: Vite 7
 
@@ -67,3 +67,71 @@
 
 - Logos: `public/images/logos/`
 - Imágenes decorativas/fondos: `public/images/decoracion/`
+
+## Feature — Bracket Mundial 2026
+
+### Modelo de datos
+
+- **Tabla**: `bracket_games` (modelo `App\Models\BracketGame`)
+- **Campos clave**:
+  - `journey_id` — FK a `jornadas`. En este bracket: 4 = 32vos, 5 = 8vos, 6 = 4tos, 7 = semis, **8 = tercer lugar**, **9 = final**.
+  - `bracket_position` — posición ordinal dentro de la jornada (define el orden de llenado y los pareos).
+  - `match_id` — FK a `partidos` (se setea cuando se registra el partido real).
+  - `team_one_id` / `team_two_id` — equipos en los slots (se llenan por feeder o por evento).
+  - `result_id` — FK a `resultados_partidos`.
+  - `status` — `0` vacío, `1` con equipos/partido asignado, `2` con resultado cargado.
+  - `local_game_id` / `visitor_game_id` — FK autoreferencial: bracket game "padre" que alimenta cada slot.
+  - `local_source` / `visitor_source` — `'perdedor'` cuando el slot se alimenta del **perdedor** del feeder (caso tercer lugar). `null`/otro valor => **ganador**.
+  - `local_slot_label` / `visitor_slot_label` — etiqueta manual ej. `'1A'`, `'2B'` (solo 32vos, donde aún no hay feeder).
+
+### Seeder
+
+- `database/seeders/BracketGameSeeder.php` crea los 16 + 8 + 4 + 2 + 1 (tercer lugar) + 1 (final) = **32 bracket games**.
+- Los feeders (`local_game_id`, `visitor_game_id`) se enlazan automáticamente entre jornadas consecutivas.
+- **Tercer lugar** (`journey_id=8`, `bracket_position=1`) se alimenta de las dos semis con `local_source='perdedor'` y `visitor_source='perdedor'`.
+- **Final** (`journey_id=9`) se alimenta de las dos semis con sources vacíos (=> ganadores).
+
+### Eventos y listeners
+
+Registrados en `app/Providers/EventServiceProvider.php` (auto-discovery **desactivada** por el esqueleto legacy, mapeo manual):
+
+| Evento | Listener | Efecto |
+|---|---|---|
+| `App\Events\MatchCreated` | `App\Listeners\AddBracketGame` | Llama `BracketGameService::addBracketGame($partido)` |
+| `App\Events\ResultCreated` | `App\Listeners\AddBracketGameResult` | Llama `BracketGameService::addBracketGameResult($resultado)` |
+
+- Ambos listeners corren **síncronos** (no implementan `ShouldQueue`) → no se necesita `queue:work`.
+- **Dispatch**: usar `MatchCreated::dispatch($partido)` / `ResultCreated::dispatch($resultado)`. `new MatchCreated(...)` solo instancia, **no** emite.
+
+### BracketGameService — comportamiento
+
+Ubicación: `app/Http/Services/BracketGameService.php`.
+
+**`addBracketGame(Partido $partido)`**
+1. Ignora jornadas 1–3 (fase de grupos).
+2. Guard anti-duplicado: si ya existe un bracket con ese `match_id`, sale.
+3. Valida que `$partido->equipos` (relación `EquipoPartido`) exista.
+4. Busca el primer `BracketGame` de esa jornada con `status=0` ordenado por `bracket_position` ASC → actualiza con `match_id`, `team_one_id`, `team_two_id` y `status=1`.
+5. Errores → `notify()` (log + mail).
+
+**`addBracketGameResult(ResultadoPartido $resultado)`**
+1. Valida `$resultado->partido` y que no sea jornada 1–3.
+2. Busca `BracketGame` con `match_id` y `status=1` → actualiza con `result_id` y `status=2`. Si falla, `return` (no propaga).
+3. **Propaga al siguiente nivel**:
+   - Calcula `$loser_id` desde `$resultado->equiposPartido` (el equipo que no es `equipo_ganador_id`).
+   - Busca **todos** los children con `local_game_id = $bracketGame->id` OR `visitor_game_id = $bracketGame->id` (pueden ser 2: final + tercer lugar cuando el padre es una semi).
+   - Por cada child, para cada lado (local/visitor) que apunte al padre: si `*_source === 'perdedor'` inserta `$loser_id`, si no inserta `$winner_id`.
+
+**`notify($subject, $body)`** — helper privado: `Log::warning(...)` + `Mail::to(config('quiniela.system_notifications_email'))->send(new SystemNotification(...))`.
+
+### Vistas del bracket
+
+- Embed: ruta `/embed/bracket` → `BracketController::show` agrupa los games por `journey_id` y renderiza `resources/views/embed/bracket.blade.php`.
+- Componentes por ronda en `resources/views/components/bracket/`: `round-of-32`, `round-of-16`, `quarterfinals`, `semifinals`, `final` (que incluye tercer lugar), `match-card`.
+- Los conectores entre rondas colorean `border-light/80` cuando el partido tiene `status === 2`, o `border-complementary-light/40` en otro caso (el horizontal usa `$anyFinished = $topFinished || $botFinished`).
+- La card de la final tiene un efecto `.bracket-final-glow` (conic-gradient rotativo con `@property --bracket-final-angle`) definido en `app.css`.
+
+### Config
+
+- `config/quiniela.php` expone `system_notifications_email` vía `env('SYSTEM_NOTIFICATIONS_EMAIL')`. Uso: `config('quiniela.system_notifications_email')`.
+- Mailable: `App\Mail\SystemNotification` acepta `customSubject` y `body` (vista `emails.system-notification`). Nota: la propiedad se llama `customSubject` (no `subject`) porque `Mailable` ya reserva `$subject`.

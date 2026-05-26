@@ -14,13 +14,25 @@ class QuizResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $user_timezone = $request->user()->country->timezone;
+        $expires_at    = $this->expires_at?->copy()->setTimezone($user_timezone);
+
         return [
-            'id'        => $this->id,
-            'title'     => $this->name,
-            'retry'     => $this->retry,
-            'attempts'  => $this->attempts,
-            'attempt'   => $this->attempt,
-            'questions' => !empty($this->questions) ? QuizQuestionResource::collection($this->questions) : [],
+            'id'                   => $this->id,
+            'title'                => $this->name,
+            'attempts'             => $this->attempts,
+            'availableScore'       => $this->points,
+            'currentScore'         => $this->current_score,
+            'expiresAt'            => $expires_at?->format('Y-m-d H:i:s'),
+            'expired'              => $expires_at?->isPast() ?? false,
+            
+            'retry'                => $this->retry,
+            'nextAttemptNumber'    => $this->next_attempt_number,
+            'hasAnsweredCorrectly' => $this->has_answered_correctly,
+
+            'lastAttemptNumber'    => $this->last_attempt_number,
+        
+            'questions'            => !empty($this->questions) ? QuizQuestionResource::collection($this->questions) : [],
 
         ];
     }

@@ -28,8 +28,9 @@ class PremioController extends Controller
         $user = $request->user();
 
         $id_pais = (int) $user->pais_id;
+        $id_user_type = (int) $user->user_type_id;
 
-        $premios = $this->premioService->getPremios($id_pais);
+        $premios = $this->premioService->getPremios($id_pais, $id_user_type);
 
         $premios = PremioResource::collection($premios);
 
@@ -43,11 +44,12 @@ class PremioController extends Controller
     {
         $user = Auth::user();
         $id_pais = $user->pais_id;
+        $id_user_type = $user->user_type_id;
 
         $user = $this->userService->getUserRank($user);
         $user = $this->userService->getUserPredictionsCount($user);
 
-        $premios = $this->premioService->getPremios($id_pais);
+        $premios = $this->premioService->getPremios($id_pais, $id_user_type);
 
         $brands = Brand::all();
 

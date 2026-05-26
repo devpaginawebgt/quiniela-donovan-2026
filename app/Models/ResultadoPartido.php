@@ -23,4 +23,9 @@ class ResultadoPartido extends Model
     {
         return $this->belongsTo(EquipoPartido::class, 'partido_id', 'partido_id');
     }
+
+    public function partido(): BelongsTo
+    {
+        return $this->belongsTo(Partido::class, 'partido_id');
+    }
 }

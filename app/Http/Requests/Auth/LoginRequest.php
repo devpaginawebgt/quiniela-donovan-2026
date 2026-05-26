@@ -30,7 +30,7 @@ class LoginRequest extends FormRequest
     public function rules()
     {
         return [
-            'numero_documento' => ['required', 'integer', 'digits:13'],
+            'numero_documento' => ['required', 'regex:/^\d+$/', 'digits:13'],
         ];
     }
 
@@ -39,7 +39,7 @@ class LoginRequest extends FormRequest
 
         return [
             'numero_documento.required' => 'Por favor ingrese su número de documento.',
-            'numero_documento.integer'  => 'Ingresa un número de documento válido (solo números).',
+            'numero_documento.regex'    => 'Ingresa un número de documento válido (solo números).',
             'numero_documento.digits'   => 'Ingresa un número de documento válido (debe contener 13 dígitos).',
         ];
 
@@ -68,13 +68,7 @@ class LoginRequest extends FormRequest
             ]);
         }
 
-        $credentials = ['email' => $user->email, 'password' => env('DEFAULT_PASS')];
-
-        if (! Auth::attempt($credentials)) {
-            throw ValidationException::withMessages([
-                'numero_documento' => 'Ha ocurrido un error al iniciar la sesión, contacta a Soporte.',
-            ]);
-        }
+        Auth::login($user);
 
         RateLimiter::clear($this->throttleKey());
     }

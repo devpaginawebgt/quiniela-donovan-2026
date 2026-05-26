@@ -20,7 +20,14 @@ class CreatePremiosTable extends Migration
             $table->string('nombre');
             $table->string('imagen');
             $table->string('descripcion')->nullable();
-            $table->integer('pais_id');
+            $table->foreignId('pais_id')
+                ->constrained('countries')
+                ->onUpdate('cascade')
+                ->onDelete('restrict');
+            $table->foreignId('user_type_id')
+                ->constrained('user_types')
+                ->onUpdate('cascade')
+                ->onDelete('restrict');
             $table->timestamps();
         });
     }

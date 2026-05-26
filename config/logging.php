@@ -60,6 +60,18 @@ return [
             'level' => env('LOG_LEVEL', 'debug'),
         ],
 
+        'push-notifications' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/push-notifications.log'),
+            'level' => env('LOG_LEVEL', 'debug'),
+        ],
+
+        'push-notifications-deactivate' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/push-notifications-deactivate.log'),
+            'level' => env('LOG_LEVEL', 'debug'),
+        ],
+
         'daily' => [
             'driver' => 'daily',
             'path' => storage_path('logs/laravel.log'),

@@ -21,17 +21,24 @@ class DatabaseSeeder extends Seeder
             BrandSeeder::class,
             BrandPositionSeeder::class,
             CompanySeeder::class,
-            BranchSeeder::class,
             VisitorSeeder::class,
             CodigoSeeder::class,
             UserTypeSeeder::class,
+            RolePermissionSeeder::class,
             UserSeeder::class,
+            RankingTabSeeder::class,
             GrupoSeeder::class,
             EquipoSeeder::class,
             EstadioSeeder::class,
             JornadaSeeder::class,
+
+            // Scaffolding requerido por los listeners de MatchCreated.
+            SystemSettingSeeder::class,
+            PushNotificationTypeSeeder::class,
+
             PartidoSeeder::class,
             EquipoPartidoSeeder::class,
+            BracketGameSeeder::class,
             // PrediccionSeeder::class,
             // ResultadoPartidoSeeder::class,
             PremioSeeder::class,
@@ -39,8 +46,7 @@ class DatabaseSeeder extends Seeder
             QuizSeeder::class,
             QuizQuestionSeeder::class,
             QuizOptionSeeder::class,
-            QuizUserSeeder::class,
-            QuizResponseSeeder::class,
+            BonusSeeder::class,
         ]);
     }
 }

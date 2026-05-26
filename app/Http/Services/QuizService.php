@@ -6,11 +6,14 @@ use App\Models\Quiz;
 
 class QuizService {
 
-    public function getCurrentQuiz()
+    public function getQuizzes()
     {
-        return Quiz::with('questions.options')
-            ->where('is_active', true)
-            ->firstOrFail();
+        return Quiz::where('is_visible', true)->get();
+    }
+
+    public function getQuizById(string|int $id)
+    {
+        return Quiz::find($id);
     }
 
 }

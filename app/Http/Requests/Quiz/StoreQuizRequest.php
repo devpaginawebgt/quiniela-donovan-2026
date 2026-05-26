@@ -38,9 +38,9 @@ class StoreQuizRequest extends FormRequest
     {
         return [
             // QUIZ ID
-            'quiz_id.required' => 'El identificador de la trivia es obligatorio.',
-            'quiz_id.integer'  => 'El identificador de la trivia debe ser un número válido.',
-            'quiz_id.exists'   => 'La trivia seleccionada no existe en nuestros registros.',
+            'quiz_id.required' => 'El código de trivia es obligatorio.',
+            'quiz_id.integer'  => 'El código de trivia debe ser un número válido.',
+            'quiz_id.exists'   => 'El código de trivia no existe.',
 
             // ANSWERS
             'answers.required' => 'Las respuestas son obligatorias.',

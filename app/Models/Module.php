@@ -10,6 +10,7 @@ class Module extends Model
     protected $fillable = [
         'name',
         'code',
+        'permission_name',
     ];
 
     public function banners(): HasMany

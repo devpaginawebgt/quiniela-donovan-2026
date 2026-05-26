@@ -40,7 +40,7 @@ class EquipoController extends Controller
     {
         // Banners
 
-        $banners = $this->moduleService->getBanners(12);        
+        $banners = $this->moduleService->getBanners(16);        
 
         // User Info
 

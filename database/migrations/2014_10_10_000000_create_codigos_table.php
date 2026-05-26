@@ -13,14 +13,14 @@ class CreateCodigosTable extends Migration
      */
     public function up()
     {
-        Schema::create('codigos', function (Blueprint $table) {
-            $table->id();
-            $table->string('codigo')->unique();
-            $table->integer('estado')->default(0);
-            // $table->integer('id_dependiente')->default(0);
-            // $table->string('nombre_dependiente');
-            $table->timestamps();
-        });
+        // Schema::create('codigos', function (Blueprint $table) {
+        //     $table->id();
+        //     $table->string('codigo')->unique();
+        //     $table->integer('estado')->default(0);
+        //     // $table->integer('id_dependiente')->default(0);
+        //     // $table->string('nombre_dependiente');
+        //     $table->timestamps();
+        // });
     }
 
     /**

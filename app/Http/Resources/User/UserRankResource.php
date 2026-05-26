@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\User;
 
+use App\Http\Resources\UserType\UserTypeResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -45,6 +46,7 @@ class UserRankResource extends JsonResource
             'posicion'      => $this->posicion,
             'color'         => $color,
             'partidos'      => $this->partidos,
+            'user_type'     => new UserTypeResource($this->type),
             'fechaRegistro' => $fecha_registro->format('Y-m-d H:i:s'),
         ];
     }

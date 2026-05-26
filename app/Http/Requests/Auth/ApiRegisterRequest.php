@@ -31,6 +31,7 @@ class ApiRegisterRequest extends FormRequest
             'email'            => ['required', 'email', 'min:5', 'max:255', 'unique:users'],
             'direccion'        => ['required', 'string', 'min:5', 'max:255'],
             'pais_id'          => ['required', 'integer', 'exists:countries,id'],
+            'visitor_id'       => ['nullable', 'integer', 'exists:visitors,id'],
             'user_type_id'     => ['required', 'integer', 'exists:user_types,id'],
 
             'colegiado' => [
@@ -50,21 +51,6 @@ class ApiRegisterRequest extends FormRequest
                 'min:2',
                 'max:100',
             ],
-            'capital' => [
-                'nullable',
-                'required_if:user_type_id,2',
-                'prohibited_unless:user_type_id,2',
-                'string',
-                'min:2',
-                'max:100',
-            ],
-            'visitor_id' => [
-                'nullable',
-                'prohibited_unless:user_type_id,2',
-                'integer',
-                'exists:visitors,id',
-            ],
-
             'company_id' => [
                 'nullable',
                 'required_if:user_type_id,1',
@@ -172,15 +158,8 @@ class ApiRegisterRequest extends FormRequest
             'region.min'               => 'El campo región debe tener al menos 2 caracteres.',
             'region.max'               => 'El campo región no puede tener más de 100 caracteres.',
 
-            // CAPITAL
-            'capital.required_if'       => 'Por favor, ingrese su capital.',
-            'capital.prohibited_unless' => 'La capital solo aplica para usuarios tipo doctor.',
-            'capital.string'            => 'El campo capital debe ser un texto válido.',
-            'capital.min'               => 'El campo capital debe tener al menos 2 caracteres.',
-            'capital.max'               => 'El campo capital no puede tener más de 100 caracteres.',
-
             // VISITOR
-            'visitor_id.prohibited_unless' => 'El campo visitador no aplica para usuarios tipo dependiente.',
+            'visitor_id.required'          => 'Por favor, selecciona un visitador médico del listado.',
             'visitor_id.integer'           => 'El visitador seleccionado no es válido.',
             'visitor_id.exists'            => 'El visitador seleccionado no existe en nuestros registros.',
 

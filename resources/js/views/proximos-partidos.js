@@ -122,15 +122,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
         let brandHTML = '';
         if (prediccion.marca) {
-            brandHTML = `
-                <div class="flex rounded-t-3xl overflow-hidden">
-                    <div class="bg-red-700/80 flex items-center py-2 px-3">
-                        <span class="text-light text-sm font-medium whitespace-nowrap">Partido patrocinado por</span>
-                    </div>
-                    <div class="flex-1 flex items-center justify-center p-2 bg-green-700">
-                        <img src="${prediccion.marca.image}" alt="${prediccion.marca.name}" class="w-full max-w-28 object-contain">
-                    </div>
+            const brandInner = `
+                <div class="bg-red-700/80 flex items-center py-2 px-3">
+                    <span class="text-light text-sm font-medium whitespace-nowrap">Partido patrocinado por</span>
+                </div>
+                <div class="flex-1 flex items-center justify-center p-2 bg-green-700">
+                    <img src="${prediccion.marca.image}" alt="${prediccion.marca.name}" class="w-full max-w-28 object-contain">
                 </div>`;
+
+            brandHTML = prediccion.marca.url
+                ? `<a class="flex rounded-t-3xl overflow-hidden" href="${prediccion.marca.url}" target="_blank">${brandInner}</a>`
+                : `<div class="flex rounded-t-3xl overflow-hidden">${brandInner}</div>`;
         }
 
         return `

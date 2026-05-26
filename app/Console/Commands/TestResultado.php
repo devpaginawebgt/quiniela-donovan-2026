@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Events\ResultCreated;
 use App\Models\Partido;
 use App\Models\ResultadoPartido;
 use Illuminate\Console\Command;
@@ -59,8 +60,8 @@ class TestResultado extends Command
 
         $resultado_creado = ResultadoPartido::create([
             'partido_id'     => $id_partido,
-            'goles_equipo_1' => rand(0, 6),
-            'goles_equipo_2' => rand(0, 6)
+            'goles_equipo_1' => fake()->numberBetween(0, 4),
+            'goles_equipo_2' => fake()->numberBetween(0, 4)
         ]);
 
         if (empty($resultado_creado)) {
@@ -70,6 +71,8 @@ class TestResultado extends Command
             return Command::INVALID;
         
         }
+
+        ResultCreated::dispatch($resultado_creado);
 
         $this->info('Se ha generado el resultado con éxito');
 

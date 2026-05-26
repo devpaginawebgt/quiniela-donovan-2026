@@ -17,8 +17,8 @@
                     {{-- Logo --}}
                     <div class="mb-6">
                         <img
-                            src="/images/logos/logo-white.png"
-                            class="w-full max-w-92 mx-auto"
+                            src="/images/logos/logo-liga.png"
+                            class="w-full max-w-48 aspect-square object-contain mx-auto"
                             alt="{{ config('app.name', 'Quiniela') }}"
                         >
                     </div>
@@ -83,10 +83,17 @@
                     {{-- Tab Content --}}
                     <div id="register-tab-content">
                         <div class="hidden" id="dependiente-panel" role="tabpanel" aria-labelledby="dependiente-tab">
-                            <x-register-dependent-form :companies="$companies" :country="$country" />
+                            <x-register-dependent-form
+                                :companies="$companies"
+                                :visitors="$visitors"
+                                :country="$country"
+                            />
                         </div>
                         <div class="hidden" id="doctor-panel" role="tabpanel" aria-labelledby="doctor-tab">
-                            <x-register-doctor-form :visitors="$visitors" :country="$country" />
+                            <x-register-doctor-form
+                                :visitors="$visitors"
+                                :country="$country"
+                            />
                         </div>
                     </div>
 

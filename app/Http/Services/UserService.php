@@ -7,11 +7,49 @@ use App\Models\Brand;
 use App\Models\BrandPosition;
 use App\Models\Country;
 use App\Models\EquipoPartido;
+use App\Models\Jornada;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 
 class UserService {
+
+    public function getGuestCountry()
+    {
+        $cached = session('guest_country');
+        
+        if ($cached instanceof Country) {
+            return $cached;
+        }
+
+        $ip = request()->ip();
+        // $ip = '45.164.150.249'; // GT
+        // $ip = '190.181.222.119'; // HN
+        // $ip = '190.62.80.251'; // SV
+        // $ip = '152.231.33.166'; // NI
+
+        $country_code = 'GT';
+
+        try {
+            $response = Http::timeout(3)->get("http://api.ipinfo.io/lite/{$ip}", [
+                'token' => config('services.geolocation.key'),
+            ]);
+
+            if ($response->ok() && !empty($response->json('country_code'))) {
+                $country_code = $response->json('country_code');
+            }
+        } catch (\Exception $e) {
+            // fallback silencioso, $country_code ya es 'GT'
+        }
+
+        $country = Country::where('country_code', $country_code)->first()
+            ?? Country::where('country_code', 'GT')->first();
+
+        session(['guest_country' => $country]);
+
+        return $country;
+    }
 
     public function getUsers()
     {
@@ -22,6 +60,15 @@ class UserService {
 
     }
 
+    public function getEmployees(string|int $country_id)
+    {
+        return User::where('user_type_id', 3)
+            ->whereNull('numero_documento')
+            ->where('pais_id', $country_id)
+            ->orderBy('nombres', 'asc')
+            ->get();
+    }
+
     public function getUser(int $userId)
     {
         return User::find($userId);
@@ -30,79 +77,146 @@ class UserService {
     public function getUserLogin(ApiLoginRequest $request)
     {
         return User::where('numero_documento', $request->numero_documento)
-            ->select('id', 'email', 'password', 'nombres', 'apellidos', 'pais_id', 'numero_documento', 'email', 'telefono', 'puntos', 'status_user', 'created_at')
+            ->select('id', 'email', 'password', 'nombres', 'apellidos', 'pais_id', 'numero_documento', 'email', 'telefono', 'puntos', 'status_user', 'user_type_id', 'created_at')
             ->first();
     }
 
-    public function getRanking($id_pais)
+    private function getRankingGruposQuery(string|int $id_pais, string|int $type_id)
     {
-        $participantes = User::select('id', 'nombres', 'apellidos', 'pais_id', 'numero_documento', 'email', 'telefono', 'puntos', 'created_at')
-            ->selectRaw('RANK() OVER (ORDER BY puntos DESC, nombres ASC) as posicion')
+        return User::select('id', 'nombres', 'apellidos', 'puntos_grupos', 'pais_id', 'numero_documento', 'email', 'telefono', 'user_type_id', 'created_at')
+            ->selectRaw('RANK() OVER (ORDER BY puntos_grupos DESC, created_at ASC, nombres ASC) as posicion')
+            ->when($type_id !== 3, function(Builder $query) use($id_pais) {
+                $query->where('pais_id', $id_pais);
+            })
+            ->where('user_type_id', $type_id)
             ->where(function (Builder $query) {
                 return $query
-                    ->has('predictions')
-                    ->orHas('quizzes');
+                    ->whereHas('predictions', function ($query) {
+                        $query->whereHas('partido', function ($query) {
+                            $query->whereIn('jornada_id', [1, 2, 3]);
+                        });
+                    })
+                    ->orWhereHas('quizzes', function ($query) {
+                        $query->whereHas('quiz', function ($query) {
+                            $query->where('ranking_tab_id', 1);
+                        });
+                    });
             })
-            ->where('status_user', 1)
-            ->where('pais_id', $id_pais)
-            ->where('puntos', '>', 0)
-            ->get();
-
-        return $participantes;
-
+            ->where('status_user', 1);
     }
 
-    /**
-     * Obtiene el ranking de participantes activos con predicciones, paginado.
-     *
-     * @param  int    $id_pais   ID del país para filtrar participantes.
-     * @param  int    $perPage   Cantidad de registros por página.
-     * @param  array  $columns   Columnas adicionales a seleccionar.
-     * @return \Illuminate\Contracts\Pagination\Paginator
-     */
-    public function getRankingWeb($id_pais, $perPage = 100)
+    private function getRankingQuery(string|int $id_pais, string|int $type_id)
     {
-        return User::select('id', 'nombres', 'apellidos', 'puntos', 'pais_id', 'numero_documento', 'email', 'telefono', 'created_at')
-            ->selectRaw('RANK() OVER (ORDER BY puntos DESC, nombres ASC) as posicion')
+        return User::select('id', 'nombres', 'apellidos', 'pais_id', 'numero_documento', 'email', 'telefono', 'puntos', 'user_type_id', 'created_at')
+            ->selectRaw('RANK() OVER (ORDER BY puntos DESC, created_at ASC, nombres ASC) as posicion')
+            ->when($type_id !== 3, function(Builder $query) use($id_pais) {
+                $query->where('pais_id', $id_pais);
+            })
+            ->where('user_type_id', $type_id)
             ->where(function (Builder $query) {
                 return $query
-                    ->has('predictions')
-                    ->orHas('quizzes');
+                    ->whereHas('predictions', function ($query) {
+                        $query->whereHas('partido', function ($query) {
+                            $query->where('jornada_id', '>', 3);
+                        });
+                    })
+                    ->orWhereHas('quizzes', function ($query) {
+                        $query->whereHas('quiz', function ($query) {
+                            $query->where('ranking_tab_id', 2);
+                        });
+                    });
             })
-            ->where('status_user', 1)
-            ->where('pais_id', $id_pais)
-            ->where('puntos', '>', 0)
-            ->simplePaginate($perPage);
+            ->where('status_user', 1);
     }
 
-    public function getUserRank($user)
+    public function getRankingGrupos(string|int $id_pais, string|int $type_id)
     {
-        $rankingQuery = User::select('id', 'nombres', 'apellidos', 'pais_id', 'puntos', 'created_at')
-            ->selectRaw('RANK() OVER (ORDER BY puntos DESC, nombres ASC) as posicion')
-            ->where(function (Builder $query) {
-                return $query
-                    ->has('predictions')
-                    ->orHas('quizzes');
-            })
-            ->where('status_user', 1)
-            ->where('pais_id', $user->pais_id)
-            ->where('puntos', '>', 0);
-        
+        return $this->getRankingGruposQuery($id_pais, $type_id)->get();
+    }
+
+    public function getRanking(string|int $id_pais, string|int $type_id)
+    {
+        return $this->getRankingQuery($id_pais, $type_id)->get();
+    }
+
+    public function getRankingGruposWeb(string|int $id_pais, string|int $type_id, int $perPage = 100)
+    {
+        return $this->getRankingGruposQuery($id_pais, $type_id)->simplePaginate($perPage);
+    }
+
+    public function getRankingWeb(string|int $id_pais, string|int $type_id, int $perPage = 100)
+    {
+        return $this->getRankingQuery($id_pais, $type_id)->simplePaginate($perPage);
+    }
+
+    public function getUserRank(User $user)
+    {
+        $jornadaActiva = Jornada::where('is_current', true)->first();
+
+        $isEliminatorias = $jornadaActiva->id > 3;
+
+        return $isEliminatorias 
+            ? $this->getUserRankEliminatorias($user)
+            : $this->getUserRankGrupos($user);
+    }
+
+    public function getUserRankGrupos(User $user)
+    {
+        $rankingQuery = $this->getRankingGruposQuery($user->pais_id, $user->user_type_id);
+
         $rank = DB::query()
             ->fromSub($rankingQuery, 'ranking')
             ->where('id', $user->id)
-            ->value('posicion');
+            ->first(['puntos_grupos', 'posicion']);
 
-        $user->posicion = $rank;
+        $user->puntos = $rank?->puntos_grupos ?? 0;
+        $user->posicion = $rank?->posicion;
 
         return $user;
     }
 
-    public function getUserPredictionsCount($user)
+    public function getUserRankEliminatorias(User $user)
     {
-        $partidos_existentes = EquipoPartido::whereHas('partido')->count();
+        $rankingQuery = $this->getRankingQuery($user->pais_id, $user->user_type_id);
 
-        $predicciones_realizadas = $user->predictions->count();
+        $rank = DB::query()
+            ->fromSub($rankingQuery, 'ranking')
+            ->where('id', $user->id)
+            ->first(['puntos', 'posicion']);
+
+        $user->puntos = $rank?->puntos ?? 0;
+        $user->posicion = $rank?->posicion;
+
+        return $user;
+    }
+
+    public function getUserPredictionsCount(User $user)
+    {
+        $jornadaActiva = Jornada::where('is_current', true)->first();
+
+        $isEliminatorias = $jornadaActiva->id > 3;
+
+        if ($isEliminatorias) {
+
+            $partidos_existentes = EquipoPartido::whereHas('partido', function(Builder $query) {
+                $query->where('jornada_id', '>', 3);
+            })->count();
+
+            $predicciones_realizadas = $user->predictions()->whereHas('partido', function(Builder $query) {
+                $query->where('jornada_id', '>', 3);
+            })->count();
+
+        } else {
+
+            $partidos_existentes = EquipoPartido::whereHas('partido', function(Builder $query) {
+                $query->where('jornada_id', '<', 4);
+            })->count();
+
+            $predicciones_realizadas = $user->predictions()->whereHas('partido', function(Builder $query) {
+                $query->where('jornada_id', '<', 4);
+            })->count();
+
+        }
 
         $predicciones_pendientes = $partidos_existentes - $predicciones_realizadas;
 

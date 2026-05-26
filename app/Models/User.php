@@ -6,14 +6,17 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
-    
+    use HasApiTokens, HasFactory, Notifiable, HasRoles, SoftDeletes;
+
     public $timestamps = true;
 
     /**
@@ -22,7 +25,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'codigo_id',
+        // 'codigo_id',
         'nombres',
         'apellidos',
         'numero_documento',
@@ -34,12 +37,17 @@ class User extends Authenticatable
         'status_user',
         'user_type_id',
 
+        'puntos_predicciones_grupos',
+        'puntos_trivias_grupos',
+        'puntos_bonus_grupos',
+        'puntos_grupos',
+
         'puntos_trivias',
         'puntos_predicciones',
+        'puntos_bonus',
         'puntos',
 
         'region',
-        'capital',
         'visitor_id',
 
         'company_id',
@@ -49,6 +57,7 @@ class User extends Authenticatable
 
         'password',
         'email_verified_at',
+        'created_at',
     ];
 
     /**
@@ -75,14 +84,30 @@ class User extends Authenticatable
         return $this->belongsTo(UserType::class, 'user_type_id');
     }
 
-    public function codigo() : BelongsTo
-    {
-        return $this->belongsTo(Codigo::class, 'codigo_id');
-    }
+    // public function codigo() : BelongsTo
+    // {
+    //     return $this->belongsTo(Codigo::class, 'codigo_id');
+    // }
 
     public function pushTokens(): HasMany
     {
         return $this->hasMany(UserPushToken::class);
+    }
+
+    // Firebase notifications
+    public function routeNotificationForFcm(): array
+    {
+        return $this->pushTokens()
+            ->where('is_active', true)
+            ->pluck('device_token')
+            ->all();
+    }
+
+    public function latestPushToken(): HasOne
+    {
+        return $this->hasOne(UserPushToken::class)
+            ->where('is_active', 1)
+            ->latestOfMany();
     }
 
     public function predictions(): HasMany
@@ -98,5 +123,20 @@ class User extends Authenticatable
     public function quizzes(): HasMany
     {
         return $this->hasMany(QuizUser::class);
+    }
+
+    public function bonuses(): HasMany
+    {
+        return $this->hasMany(BonusUser::class);
+    }
+
+    public function company(): BelongsTo
+    {
+        return $this->belongsTo(Company::class, 'company_id');
+    }
+
+    public function visitor(): BelongsTo
+    {
+        return $this->belongsTo(Visitor::class, 'visitor_id');
     }
 }

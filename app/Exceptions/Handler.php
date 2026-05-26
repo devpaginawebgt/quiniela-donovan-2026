@@ -6,6 +6,7 @@ use App\Traits\ApiResponse;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -43,7 +44,7 @@ class Handler extends ExceptionHandler
             //
         });
 
-        $this->renderable(function (ValidationException $e, $request) 
+        $this->renderable(function (ValidationException $e, $request)
         {
 
             if ($request->expectsJson()) {
@@ -51,6 +52,17 @@ class Handler extends ExceptionHandler
                 $error = $e->validator->errors()->first();
 
                 return $this->errorResponse($error, 422, $e->errors());
+
+            }
+
+        });
+
+        $this->renderable(function (AccessDeniedHttpException $e, $request)
+        {
+
+            if ($request->expectsJson()) {
+
+                return $this->errorResponse('No tienes permisos para acceder a este recurso', 403);
 
             }
 

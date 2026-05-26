@@ -51,14 +51,21 @@
                         </div>
                     </div>
 
+                    {{-- Términos y condiciones --}}
+                    <button
+                        type="button"
+                        id="btn-terms"
+                        class="w-full flex items-center gap-2 py-3 text-light font-semibold hover:text-secondary transition-colors duration-150 cursor-pointer">
+                        <span class="icon-[material-symbols--shield] w-7 h-7"></span>
+                        Términos y condiciones
+                    </button>
+
                     {{-- Cerrar sesión --}}
                     <button
                         type="button"
                         id="btn-logout"
                         class="w-full flex items-center gap-2 py-3 text-light font-semibold hover:text-red-400 transition-colors duration-150 cursor-pointer">
-                        <span>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" viewBox="0 0 24 24"><path fill="currentColor" d="m17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5M4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4z"/></svg>
-                        </span>
+                        <span class="icon-[material-symbols--login] w-7 h-7"></span>
                         Salir
                     </button>
                 </div>
@@ -66,6 +73,9 @@
             </div>
         </div>
     </div>
+
+    {{-- Modal Términos y Condiciones (solo lectura) --}}
+    <x-terms-modal-readonly :terms="$terms" />
 
     {{-- Modal Cerrar Sesión --}}
     <div id="modal-logout" class="pointer-events-none fixed inset-0 z-50 flex items-center justify-center p-4">
@@ -130,6 +140,35 @@
 
             document.addEventListener('keydown', (e) => {
                 if (e.key === 'Escape' && !modal.classList.contains('pointer-events-none')) close();
+            });
+
+            // Modal Términos y Condiciones
+            const termsModal    = document.getElementById('modal-terms-readonly');
+            const termsBackdrop = document.getElementById('modal-terms-readonly-backdrop');
+            const termsPanel    = document.getElementById('modal-terms-readonly-panel');
+            const termsTrigger  = document.getElementById('btn-terms');
+
+            const openTerms = () => {
+                termsModal.classList.remove('pointer-events-none');
+                termsBackdrop.classList.remove('opacity-0');
+                termsPanel.classList.remove('translate-y-full', 'opacity-0');
+                document.body.style.overflow = 'hidden';
+            };
+
+            const closeTerms = () => {
+                termsBackdrop.classList.add('opacity-0');
+                termsPanel.classList.add('translate-y-full', 'opacity-0');
+                document.body.style.overflow = '';
+                termsPanel.addEventListener('transitionend', () => {
+                    termsModal.classList.add('pointer-events-none');
+                }, { once: true });
+            };
+
+            termsTrigger.addEventListener('click', openTerms);
+            termsBackdrop.addEventListener('click', closeTerms);
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && !termsModal.classList.contains('pointer-events-none')) closeTerms();
             });
         });
     </script>

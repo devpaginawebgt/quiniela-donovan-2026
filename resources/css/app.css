@@ -7,6 +7,12 @@
 @source "../../public/js/*.js";
 @source "../../node_modules/flowbite/dist/flowbite.js";
 
+/* Backdrop de Flowbite drawer — oscurecer más sobre fondo dark */
+[drawer-backdrop] {
+    background-color: rgba(0, 0, 0, 0.6) !important;
+    backdrop-filter: blur(1px);
+}
+
 [class*="brands-swiper-"][class*="-pagination"] .swiper-pagination-bullet,
 .carousel-home-banners .swiper-pagination-bullet,
 .carousel-section-banners .swiper-pagination-bullet {
@@ -26,7 +32,51 @@
     --color-dark: #101820;
     --color-light: #FFFFFF;
     --color-complementary-primary: #1F2A44;
+    --color-complementary-primary-dark: #192136;
     --color-complementary-secondary: #84754E;
     --color-complementary-dark: #63666A;
     --color-complementary-light: #D9D9D6;
+}
+
+@property --bracket-final-angle {
+    syntax: '<angle>';
+    initial-value: 0deg;
+    inherits: false;
+}
+
+@keyframes bracket-final-rotate {
+    to { --bracket-final-angle: 360deg; }
+}
+
+.bracket-final-glow {
+    position: relative;
+    padding: 2px;
+    border-radius: 1.5rem;
+    background: conic-gradient(
+        from var(--bracket-final-angle),
+        #FFDD00 0deg,
+        #FFFFFF 40deg,
+        #FFDD00 80deg,
+        rgba(255, 221, 0, 0.35) 180deg,
+        #FFDD00 320deg,
+        #FFDD00 360deg
+    );
+    animation: bracket-final-rotate 3.5s linear infinite;
+}
+
+.bracket-final-glow::before {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    z-index: -1;
+    border-radius: inherit;
+    background: conic-gradient(
+        from var(--bracket-final-angle),
+        rgba(255, 221, 0, 0.3) 0deg,
+        rgba(255, 255, 255, 0.2) 40deg,
+        rgba(255, 221, 0, 0) 180deg,
+        rgba(255, 221, 0, 0.3) 360deg
+    );
+    filter: blur(8px);
+    animation: bracket-final-rotate 3.5s linear infinite;
 }

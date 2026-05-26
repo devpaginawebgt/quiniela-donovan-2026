@@ -43,6 +43,8 @@ class JornadaController extends Controller
 
         }
 
+        $this->partidoService->actualizarPartidosPasados();
+
         $jornada = $this->partidoService->getJornada($get_jornada);
 
         if ( empty($jornada) ) {
@@ -61,9 +63,11 @@ class JornadaController extends Controller
 
     public function calendarioWeb() {
 
+        $this->partidoService->actualizarPartidosPasados();
+
         // Banners
 
-        $banners = $this->moduleService->getBanners(9);
+        $banners = $this->moduleService->getBanners(13);
 
         // User Info
 

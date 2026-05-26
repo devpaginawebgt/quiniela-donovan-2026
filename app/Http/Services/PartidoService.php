@@ -2,18 +2,21 @@
 
 namespace App\Http\Services;
 
+use App\Events\JourneyCompleted;
+use App\Models\BracketGame;
 use App\Models\EquipoPartido;
 use App\Models\Jornada;
 use App\Models\Partido;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 
 class PartidoService {
 
     public function getJornadas()
     {
-        return Jornada::whereHas('partidos')->get();
+        return Jornada::all();
     }
 
     public function getJornada(int $jornada)
@@ -34,6 +37,10 @@ class PartidoService {
                 'equipoUno:id,nombre,imagen,grupo',
                 'equipoDos:id,nombre,imagen,grupo'
             ])
+            ->orderBy(
+                Partido::select('fecha_partido')
+                    ->whereColumn('partidos.id', 'equipo_partidos.partido_id')
+            )
             ->get();
 
         return $partidos;
@@ -66,6 +73,10 @@ class PartidoService {
                     'equipoUno:id,nombre,imagen,grupo',
                     'equipoDos:id,nombre,imagen,grupo'
                 ])
+                ->orderBy(
+                    Partido::select('fecha_partido')
+                        ->whereColumn('partidos.id', 'equipo_partidos.partido_id')
+                )
                 ->get();
 
             $jornada_db->partidos = $partidosJornada;
@@ -105,41 +116,44 @@ class PartidoService {
 
         foreach ($partidosJugados as $partido) {
 
-            $equipo1 = $partido->equipoUno;
-            $equipo2 = $partido->equipoDos;
+            if (in_array((int)$partido->partido->jornada_id, [1, 2, 3])) {
 
-            $goles_e1 = (int)$partido->resultado->goles_equipo_1;
-            $goles_e2 = (int)$partido->resultado->goles_equipo_2;
+                $equipo1 = $partido->equipoUno;
+                $equipo2 = $partido->equipoDos;
 
-            // Goles a favor y en contra
+                $goles_e1 = (int)$partido->resultado->goles_equipo_1;
+                $goles_e2 = (int)$partido->resultado->goles_equipo_2;
 
-            $equipo1->increment('goles_favor', $goles_e1);
-            $equipo1->increment('goles_contra', $goles_e2);
-            $equipo1->increment('partidos_jugados');
+                // Goles a favor y en contra
 
-            $equipo2->increment('goles_favor', $goles_e2);
-            $equipo2->increment('goles_contra', $goles_e1);
-            $equipo2->increment('partidos_jugados');
+                $equipo1->increment('goles_favor', $goles_e1);
+                $equipo1->increment('goles_contra', $goles_e2);
+                $equipo1->increment('partidos_jugados');
 
-            // Determinar resultado
+                $equipo2->increment('goles_favor', $goles_e2);
+                $equipo2->increment('goles_contra', $goles_e1);
+                $equipo2->increment('partidos_jugados');
 
-            $gano_equipo_1 = $goles_e1 > $goles_e2;
-            $gano_equipo_2 = $goles_e2 > $goles_e1;
-            $empate = $goles_e1 === $goles_e2;
+                // Determinar resultado
 
-            if ($gano_equipo_1) {
-                $equipo1->increment('partidos_ganados');
-                $equipo1->increment('puntos', 3);
-                $equipo2->increment('partidos_perdidos');
-            } elseif ($gano_equipo_2) {
-                $equipo2->increment('partidos_ganados');
-                $equipo2->increment('puntos', 3);
-                $equipo1->increment('partidos_perdidos');
-            } elseif ($empate) {
-                $equipo1->increment('partidos_empatados');
-                $equipo1->increment('puntos');
-                $equipo2->increment('partidos_empatados');
-                $equipo2->increment('puntos');
+                $gano_equipo_1 = $goles_e1 > $goles_e2;
+                $gano_equipo_2 = $goles_e2 > $goles_e1;
+                $empate = $goles_e1 === $goles_e2;
+
+                if ($gano_equipo_1) {
+                    $equipo1->increment('partidos_ganados');
+                    $equipo1->increment('puntos', 3);
+                    $equipo2->increment('partidos_perdidos');
+                } elseif ($gano_equipo_2) {
+                    $equipo2->increment('partidos_ganados');
+                    $equipo2->increment('puntos', 3);
+                    $equipo1->increment('partidos_perdidos');
+                } elseif ($empate) {
+                    $equipo1->increment('partidos_empatados');
+                    $equipo1->increment('puntos');
+                    $equipo2->increment('partidos_empatados');
+                    $equipo2->increment('puntos');
+                }
             }
 
             // Marcar partido como procesado
@@ -149,4 +163,41 @@ class PartidoService {
         }
     }
 
+    public function verifyJourneyStatus()
+    {
+        $journey = Jornada::where('is_current', true)->first();
+
+        if (empty($journey)) return;
+
+        $next_journey = Jornada::find((int)$journey->id + 1);
+
+        if (empty($next_journey)) return;
+
+        // Obtener y validar que los partidos de la jornada actual hayan concluido
+
+        $pending = Partido::where('jornada_id', $journey->id)
+            ->where('estado', '!=', 1)
+            ->exists();
+
+        $completed = ! $pending;
+
+        // Verificar que ya exitan partidos de la siguiente jornada
+
+        $next_matches = Partido::where('jornada_id', $next_journey->id)->exists();
+
+        if ($completed === true && $next_matches === true) {
+
+            JourneyCompleted::dispatch($journey);
+
+        }
+    }
+
+    public function updateCurrentJourney(Jornada $journey)
+    {
+        $journey->update(['is_current' => false]);
+
+        $next_journey = Jornada::find((int)$journey->id + 1);
+
+        $next_journey->update(['is_current' => true]);
+    }
 }

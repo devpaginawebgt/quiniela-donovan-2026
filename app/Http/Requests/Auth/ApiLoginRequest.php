@@ -27,7 +27,7 @@ class ApiLoginRequest extends FormRequest
     public function rules()
     {
         return [
-            'numero_documento' => ['required', 'integer', 'digits:13'],
+            'numero_documento' => ['required', 'regex:/^\d+$/', 'digits:13'],
         ];
     }
 
@@ -36,7 +36,7 @@ class ApiLoginRequest extends FormRequest
 
         return [
             'numero_documento.required' => 'Por favor ingrese su número de documento.',
-            'numero_documento.integer'  => 'Ingresa un número de documento válido (solo números).',
+            'numero_documento.regex'    => 'Ingresa un número de documento válido (solo números).',
             'numero_documento.digits'   => 'Ingresa un número de documento válido (debe contener 13 dígitos).',
         ];
 

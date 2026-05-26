@@ -11,6 +11,7 @@ export default defineConfig({
                 'resources/css/styles.css', 
                 'resources/js/app.js',                
                 'resources/js/functions.js',
+                'resources/js/views/login.js',
                 'resources/js/views/register.js'
             ],
             refresh: true,

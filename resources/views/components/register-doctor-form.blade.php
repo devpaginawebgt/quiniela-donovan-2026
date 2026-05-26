@@ -41,12 +41,13 @@
     </x-auth-input>
 
     <x-auth-input
-        label="DPI del Doctor"
+        label="{{ ($country->document_name ?? 'Número de documento') . ' del Doctor' }}"
         id="doc_numero_documento"
         name="numero_documento"
-        placeholder="Ingrese su DPI"
-        minlength="6"
+        placeholder="Ingrese su {{ $country->document_name ?? 'Número de documento' }}"
         maxlength="20"
+        pattern="{{ $country->document_regex }}"
+        title="{{ $country->document_regex_message }}"
         :required="true"
     >
         <x-slot name="prefix">
@@ -136,17 +137,17 @@
     </x-auth-input>
 
     <x-auth-input
-        label="Capital del Doctor"
-        id="doc_capital"
-        name="capital"
-        placeholder="Ingrese la capital"
+        label="Número de colegiado"
+        id="doc_numero_colegiado"
+        name="colegiado"
+        placeholder="Ingrese su colegiado"
         minlength="2"
-        maxlength="100"
+        maxlength="20"
         :required="true"
     >
         <x-slot name="prefix">
             <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Zm6-10.125a1.875 1.875 0 1 1-3.75 0 1.875 1.875 0 0 1 3.75 0Zm1.294 6.336a6.721 6.721 0 0 1-3.17.789 6.721 6.721 0 0 1-3.168-.789 3.376 3.376 0 0 1 6.338 0Z" />
             </svg>
         </x-slot>
     </x-auth-input>
@@ -164,22 +165,6 @@
             </option>
         @endforeach
     </x-auth-select>
-
-    <x-auth-input
-        label="Número de colegiado"
-        id="doc_numero_colegiado"
-        name="colegiado"
-        placeholder="Ingrese su colegiado"
-        minlength="2"
-        maxlength="20"
-        :required="true"
-    >
-        <x-slot name="prefix">
-            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Zm6-10.125a1.875 1.875 0 1 1-3.75 0 1.875 1.875 0 0 1 3.75 0Zm1.294 6.336a6.721 6.721 0 0 1-3.17.789 6.721 6.721 0 0 1-3.168-.789 3.376 3.376 0 0 1 6.338 0Z" />
-            </svg>
-        </x-slot>
-    </x-auth-input>
 
     {{-- Submit --}}
     <div class="mt-2 md:col-span-2">
