@@ -26,23 +26,23 @@ Route::middleware('guest')->group(function () {
 
         Route::get('donovan', 'createEmployee')->name('.employee');
 
-        Route::post('', 'store')->name('.store');
+        Route::post('', 'store')->name('.store')->middleware('throttle:auth-sensitive');
 
-        Route::post('donovan', 'storeEmployee')->name('.store-employee');
-     
+        Route::post('donovan', 'storeEmployee')->name('.store-employee')->middleware('throttle:auth-sensitive');
+
     });
 
     // Reset contraseña
-    
+
     Route::get('forgot-password', [PasswordResetLinkController::class, 'create'])->name('password.request');
 
-    Route::post('forgot-password', [PasswordResetLinkController::class, 'store'])->name('password.email');
+    Route::post('forgot-password', [PasswordResetLinkController::class, 'store'])->name('password.email')->middleware('throttle:auth-sensitive');
 
     // Guardar nueva contraseña
 
     Route::get('reset-password/{token}', [NewPasswordController::class, 'create'])->name('password.reset');
 
-    Route::post('reset-password', [NewPasswordController::class, 'store'])->name('password.update');
+    Route::post('reset-password', [NewPasswordController::class, 'store'])->name('password.update')->middleware('throttle:auth-sensitive');
     
 });
 
