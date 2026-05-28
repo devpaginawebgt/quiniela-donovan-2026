@@ -15,7 +15,7 @@
                     <x-search-input id="buscar-trivias" name="buscar_trivias" placeholder="Buscar trivias" />
                 </div>
 
-                @if(isset($quizzes) && !empty($quizzes))
+                @if(isset($quizzes) && $quizzes->isNotEmpty())
                     <ul id="trivias-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4 2xl:gap-8 max-w-4xl mx-auto min-h-32 py-8">
                         @foreach($quizzes as $quiz)
                             <x-quiz-card :quiz="$quiz" />

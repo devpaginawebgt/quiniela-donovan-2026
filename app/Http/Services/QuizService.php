@@ -6,14 +6,17 @@ use App\Models\Quiz;
 
 class QuizService {
 
-    public function getQuizzes()
+    public function getQuizzes(?int $country_id = null)
     {
-        return Quiz::where('is_visible', true)->get();
+        return Quiz::where('is_visible', true)
+            ->when($country_id !== null, fn ($q) => $q->where('country_id', $country_id))
+            ->get();
     }
 
-    public function getQuizById(string|int $id)
+    public function getQuizById(string|int $id, ?int $country_id = null)
     {
-        return Quiz::find($id);
+        return Quiz::when($country_id !== null, fn ($q) => $q->where('country_id', $country_id))
+            ->find($id);
     }
 
 }

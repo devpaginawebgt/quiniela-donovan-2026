@@ -25,9 +25,11 @@ class QuizController extends Controller
         private readonly ModuleService $moduleService,        
     ) {}
 
-    public function index() 
+    public function index()
     {
-        $quizzes = $this->quizService->getQuizzes();
+        $country_id = Auth::user()->pais_id;
+
+        $quizzes = $this->quizService->getQuizzes($country_id);
 
         if (empty($quizzes)) {
             return $this->successResponse([]);
@@ -47,7 +49,9 @@ class QuizController extends Controller
     {
         $quiz_id = (int)$id;
 
-        $quiz = $this->quizService->getQuizById($quiz_id);
+        $country_id = Auth::user()->pais_id;
+
+        $quiz = $this->quizService->getQuizById($quiz_id, $country_id);
 
         if (empty($quiz)) {
             return $this->errorResponse('No se ha encontrado la información trivia.', 404);
@@ -67,7 +71,13 @@ class QuizController extends Controller
     {
         $data = $request->validated();
 
-        $quiz = $this->quizService->getQuizById($data['quiz_id']);
+        $country_id = Auth::user()->pais_id;
+
+        $quiz = $this->quizService->getQuizById($data['quiz_id'], $country_id);
+
+        if (empty($quiz)) {
+            return $this->errorResponse('No se ha encontrado la información trivia.', 404);
+        }
 
         $is_active = empty($quiz->expires_at) || $quiz->expires_at->isFuture();
 
@@ -121,7 +131,9 @@ class QuizController extends Controller
     {
         $quiz_id = (int)$id;
 
-        $quiz = $this->quizService->getQuizById($quiz_id);
+        $country_id = Auth::user()->pais_id;
+
+        $quiz = $this->quizService->getQuizById($quiz_id, $country_id);
 
         if (empty($quiz)) {
             return $this->errorResponse('No se ha encontrado la información de la trivia.', 404);
@@ -159,7 +171,7 @@ class QuizController extends Controller
 
         $user = $this->userService->getUserPredictionsCount($user);
 
-        $quizzes = $this->quizService->getQuizzes();
+        $quizzes = $this->quizService->getQuizzes($user->pais_id);
 
         if (empty($quizzes)) {
             return $this->successResponse([]);
@@ -173,7 +185,9 @@ class QuizController extends Controller
 
     public function triviaWeb(Request $request, string $quiz_id)
     {
-        $quiz = $this->quizService->getQuizById((int)$quiz_id);
+        $country_id = Auth::user()->pais_id;
+
+        $quiz = $this->quizService->getQuizById((int)$quiz_id, $country_id);
 
         if (empty($quiz)) {
             return redirect()->route('web.inicio.trivias.index');
@@ -199,7 +213,9 @@ class QuizController extends Controller
     */
     public function lastAttemptWeb(Request $request, string $quiz_id)
     {
-        $quiz = $this->quizService->getQuizById((int)$quiz_id);
+        $country_id = Auth::user()->pais_id;
+
+        $quiz = $this->quizService->getQuizById((int)$quiz_id, $country_id);
 
         if (empty($quiz)) {
             return redirect()->route('web.inicio.trivias.index');

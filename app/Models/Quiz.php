@@ -17,6 +17,7 @@ class Quiz extends Model
         'attempts',
         'points',
         'ranking_tab_id',
+        'country_id',
         'is_visible',
         'expires_at',
     ];
@@ -34,5 +35,10 @@ class Quiz extends Model
     public function rankingTab(): BelongsTo
     {
         return $this->belongsTo(RankingTab::class);
+    }
+
+    public function country(): BelongsTo
+    {
+        return $this->belongsTo(Country::class);
     }
 }
