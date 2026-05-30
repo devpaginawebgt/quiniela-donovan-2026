@@ -14,6 +14,7 @@ class VisitorService {
             ->when(is_numeric($country_id), function (Builder $query) use($country_id) {
                 return $query->where('country_id', $country_id);
             })
+            ->orderBy('name')
             ->get();
     }
 
