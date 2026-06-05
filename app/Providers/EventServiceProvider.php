@@ -15,6 +15,7 @@ use App\Listeners\UpdateCurrentJourney;
 use App\Listeners\UpdateGroupPoints;
 use App\Listeners\UpdatePredictionPoints;
 use App\Listeners\VerifyJourneyStatus;
+use App\Listeners\VerifyJourneyStatusOnMatch;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -37,6 +38,7 @@ class EventServiceProvider extends ServiceProvider
             AddBracketGame::class,
             ScheduleMatchPushNotification::class,
             AddMatchBrand::class,
+            VerifyJourneyStatusOnMatch::class,
         ],
         ResultCreated::class => [
             AddBracketGameResult::class,

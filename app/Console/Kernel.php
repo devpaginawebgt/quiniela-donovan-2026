@@ -23,6 +23,17 @@ class Kernel extends ConsoleKernel
             ->everyFiveMinutes()
             ->withoutOverlapping(10)  // el lock expira a los 10 min
             ->runInBackground();
+
+        $schedule->command('app:obtener-resultados-pendientes')
+            ->everyFiveMinutes()
+            ->withoutOverlapping()
+            ->runInBackground();
+
+        $schedule->command('app:sincronizar-rondas')
+            ->dailyAt('07:00')
+            ->timezone('America/Mexico_City')
+            ->withoutOverlapping()
+            ->runInBackground();
     }
 
     /**
