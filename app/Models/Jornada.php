@@ -9,12 +9,21 @@ class Jornada extends Model
 {
     protected $fillable = [
         'name',
-        'is_current'
+        'api_round',
+        'fixtures',
+        'fixtures_pending_date',
+        'completed',
+        'is_current',
     ];
 
     protected function casts(): array
     {
-        return [ 'is_current' => 'boolean' ];
+        return [
+            'fixtures'              => 'integer',
+            'fixtures_pending_date' => 'integer',
+            'completed'             => 'boolean',
+            'is_current'            => 'boolean',
+        ];
     }
 
     public function partidos(): HasMany
