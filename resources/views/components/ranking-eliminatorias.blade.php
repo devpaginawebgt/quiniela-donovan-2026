@@ -205,9 +205,9 @@
                     renderList(data);
                 }
 
-                if (hasMore) {
-                    btnCargarMas.classList.remove('hidden');
-                }
+                // if (hasMore) {
+                //     btnCargarMas.classList.remove('hidden');
+                // }
 
                 currentPage = page;
             })

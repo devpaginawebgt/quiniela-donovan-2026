@@ -131,12 +131,12 @@ class UserService {
 
     public function getRankingGrupos(string|int $id_pais, string|int $type_id)
     {
-        return $this->getRankingGruposQuery($id_pais, $type_id)->get();
+        return $this->getRankingGruposQuery($id_pais, $type_id)->limit(100)->get();
     }
 
     public function getRanking(string|int $id_pais, string|int $type_id)
     {
-        return $this->getRankingQuery($id_pais, $type_id)->get();
+        return $this->getRankingQuery($id_pais, $type_id)->limit(100)->get();
     }
 
     public function getRankingGruposWeb(string|int $id_pais, string|int $type_id, int $perPage = 100)
