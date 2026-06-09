@@ -126,8 +126,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div class="bg-red-700/80 flex items-center py-2 px-3">
                     <span class="text-light text-sm font-medium whitespace-nowrap">Partido patrocinado por</span>
                 </div>
-                <div class="flex-1 flex items-center justify-center p-2 bg-green-700">
-                    <img src="${prediccion.marca.image}" alt="${prediccion.marca.name}" class="w-full max-w-28 object-contain">
+                <div class="flex-1 flex items-center justify-center p-2" style="background-color: ${prediccion.marca.background};">
+                    <img src="${prediccion.marca.image}" alt="${prediccion.marca.name}" class="w-full max-w-40 lg:max-w-44 aspect-6/3 object-contain">
                 </div>`;
 
             brandHTML = prediccion.marca.url
