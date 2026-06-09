@@ -11,7 +11,7 @@
                     </div>
 
                     <a href="{{ route('web.admin.match-score-requests.index') }}"
-                       class="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-sm font-medium bg-primary/60 text-light hover:bg-primary/80 transition-colors">
+                       class="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-sm font-medium bg-teal-700 text-light hover:brightness-110 transition-colors">
                         <span class="icon-[material-symbols--arrow-back-rounded] w-5 h-5"></span>
                         Volver
                     </a>

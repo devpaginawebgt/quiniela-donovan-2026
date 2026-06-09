@@ -90,7 +90,7 @@
                                         <td class="px-4 py-3 border border-gray-200 whitespace-nowrap">{{ $row->created_at?->timezone('America/Guatemala')->format('d/m/Y h:i A') ?? '—' }}</td>
                                         <td class="px-4 py-3 border border-gray-200 text-right">
                                             @if ($isActive)
-                                                <form action="{{ route('web.admin.match-score-requests.destroy', $row) }}" method="POST" class="inline" onsubmit="return confirm('¿Cancelar el polling para este partido?');">
+                                                <form action="{{ route('web.admin.match-score-requests.destroy', $row) }}" method="POST" class="inline" onsubmit="return confirm('¿Cancelar la notificación de marcadores para este partido?');">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-medium bg-red-600 text-white hover:bg-red-700 transition-colors">
