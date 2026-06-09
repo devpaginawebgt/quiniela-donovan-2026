@@ -1,0 +1,38 @@
+<?php
+
+namespace App\Notifications;
+
+use App\Models\PushNotification;
+use Illuminate\Bus\Queueable;
+use Illuminate\Notifications\Notification;
+use NotificationChannels\Fcm\FcmChannel;
+use NotificationChannels\Fcm\FcmMessage;
+use NotificationChannels\Fcm\Resources\Notification as FcmNotificationResource;
+
+class LiveScoreNotification extends Notification
+{
+    use Queueable;
+
+    public function __construct(public PushNotification $pushNotification)
+    {
+        //
+    }
+
+    /**
+     * @return array<int, string>
+     */
+    public function via(object $notifiable): array
+    {
+        return [FcmChannel::class];
+    }
+
+    public function toFcm(object $notifiable): FcmMessage
+    {
+        $title = $this->pushNotification->title ?? '¡Marcador actualizado!';
+        $body  = $this->pushNotification->description ?? '';
+
+        $resource = FcmNotificationResource::create()->title($title)->body($body);
+
+        return FcmMessage::create()->notification($resource);
+    }
+}

@@ -14,84 +14,98 @@ class RolePermissionSeeder extends Seeder
         // Limpia el cache de permisos antes de sembrar
         app(PermissionRegistrar::class)->forgetCachedPermissions();
 
-        // 1. Definir permisos
-        $permissions = [
-            'read pools',
-            'create pools',
-            'update pools',
-            'read pools results',
-            'read quizzes',
-            'create quizzes response',
-            'read calendar',
-            'read stadiums',
-            'read groups',
-            'read teams',
-            'read ranking',
-            'read prizes',
-            // Permisos de admin
-            'read admin',
-            'read admin reports',
-            'create admin notifications',
-        ];
+        // Crear permiso 'manage match polling' y asignarlo al rol admin (idempotente).
+        Permission::firstOrCreate(['name' => 'manage match polling', 'guard_name' => 'web']);
 
-        foreach ($permissions as $name) {
-            Permission::firstOrCreate(['name' => $name, 'guard_name' => 'web']);
-        }
-
-        // 2. Crear rol admin y asignarle TODOS los permisos
         $admin = Role::firstOrCreate(['name' => 'admin', 'guard_name' => 'web']);
-        $admin->syncPermissions([
-            'read pools',
-            'read pools results',
-            'read quizzes',
-            'read calendar',
-            'read stadiums',
-            'read groups',
-            'read teams',
-            'read ranking',
-            'read prizes',
+        $admin->givePermissionTo('manage match polling');
 
-            // Permisos de admin
-            'read admin',
-            'read admin reports',
-            'create admin notifications',
-        ]);
+        // -----------------------------------------------------------------------
+        // Lógica original del seeder comentada para evitar re-sincronizar el set
+        // completo de permisos de cada rol. Se mantiene como referencia para
+        // futuras instalaciones desde cero.
+        // -----------------------------------------------------------------------
 
-        // 3. Crear rol participante con permisos limitados
-        $participante = Role::firstOrCreate(['name' => 'participant', 'guard_name' => 'web']);
-        $participante->syncPermissions([
-            'read pools',
-            'create pools',
-            'update pools',
+        // // 1. Definir permisos
+        // $permissions = [
+        //     'read pools',
+        //     'create pools',
+        //     'update pools',
+        //     'read pools results',
+        //     'read quizzes',
+        //     'create quizzes response',
+        //     'read calendar',
+        //     'read stadiums',
+        //     'read groups',
+        //     'read teams',
+        //     'read ranking',
+        //     'read prizes',
+        //     // Permisos de admin
+        //     'read admin',
+        //     'read admin reports',
+        //     'create admin notifications',
+        //     'manage match polling',
+        // ];
 
-            'read pools results',
+        // foreach ($permissions as $name) {
+        //     Permission::firstOrCreate(['name' => $name, 'guard_name' => 'web']);
+        // }
 
-            'read quizzes',
-            'create quizzes response',
+        // // 2. Crear rol admin y asignarle TODOS los permisos
+        // $admin = Role::firstOrCreate(['name' => 'admin', 'guard_name' => 'web']);
+        // $admin->syncPermissions([
+        //     'read pools',
+        //     'read pools results',
+        //     'read quizzes',
+        //     'read calendar',
+        //     'read stadiums',
+        //     'read groups',
+        //     'read teams',
+        //     'read ranking',
+        //     'read prizes',
 
-            'read calendar',
-            'read stadiums',
-            'read groups',
-            'read teams',
-            'read ranking',
-            'read prizes',
-        ]);
+        //     // Permisos de admin
+        //     'read admin',
+        //     'read admin reports',
+        //     'create admin notifications',
+        //     'manage match polling',
+        // ]);
 
-        // 3. Crear rol trabajador con permisos limitados
-        $employee = Role::firstOrCreate(['name' => 'employee', 'guard_name' => 'web']);
-        $employee->syncPermissions([
-            'read pools',
-            'create pools',
-            'update pools',
+        // // 3. Crear rol participante con permisos limitados
+        // $participante = Role::firstOrCreate(['name' => 'participant', 'guard_name' => 'web']);
+        // $participante->syncPermissions([
+        //     'read pools',
+        //     'create pools',
+        //     'update pools',
 
-            'read pools results',
+        //     'read pools results',
 
-            'read calendar',
-            'read stadiums',
-            'read groups',
-            'read teams',
-            'read ranking',
-            'read prizes',
-        ]);
+        //     'read quizzes',
+        //     'create quizzes response',
+
+        //     'read calendar',
+        //     'read stadiums',
+        //     'read groups',
+        //     'read teams',
+        //     'read ranking',
+        //     'read prizes',
+        // ]);
+
+        // // 3. Crear rol trabajador con permisos limitados
+        // $employee = Role::firstOrCreate(['name' => 'employee', 'guard_name' => 'web']);
+        // $employee->syncPermissions([
+        //     'read pools',
+        //     'create pools',
+        //     'update pools',
+
+        //     'read pools results',
+
+        //     'read calendar',
+        //     'read stadiums',
+        //     'read groups',
+        //     'read teams',
+        //     'read ranking',
+        //     'read prizes',
+        // ]);
     }
 }

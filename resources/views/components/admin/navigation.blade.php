@@ -33,4 +33,18 @@
         </a>
     </li>
     @endcan
+
+    @can('manage match polling')
+    <li>
+        <a href="{{ route('web.admin.match-score-requests.index') }}"
+            @class([
+                'flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors',
+                'bg-secondary text-complementary-primary font-semibold' => request()->routeIs('web.admin.match-score-requests.*'),
+                'text-light hover:bg-complementary-primary/60' => ! request()->routeIs('web.admin.match-score-requests.*'),
+            ])>
+            <span class="icon-[material-symbols--scoreboard-outline-rounded] w-5 h-5"></span>
+            <span>Notificación de marcadores</span>
+        </a>
+    </li>
+    @endcan
 </ul>

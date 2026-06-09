@@ -49,4 +49,9 @@ class Partido extends Model
         return $this->hasOne(PartidoPuntos::class, 'partido_id');
     }
 
+    public function scoreRequest(): HasOne
+    {
+        return $this->hasOne(MatchScoreRequest::class, 'partido_id');
+    }
+
 }

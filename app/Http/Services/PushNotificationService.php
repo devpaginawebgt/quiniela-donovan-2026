@@ -5,6 +5,7 @@ namespace App\Http\Services;
 use App\Models\PushNotification;
 use App\Models\User;
 use App\Notifications\AdminNotification;
+use App\Notifications\LiveScoreNotification;
 use App\Notifications\MatchWithPredictionNotification;
 use App\Notifications\MatchWithoutPredictionNotification;
 use Illuminate\Database\Eloquent\Collection;
@@ -97,6 +98,23 @@ class PushNotificationService
             $pushNotification,
             $recipients,
             new MatchWithoutPredictionNotification($pushNotification),
+        );
+    }
+
+    /**
+     * Envía la notificación de cambio de marcador a TODOS los usuarios activos
+     * con token FCM activo. Sin filtros de audiencia.
+     *
+     * @return array{success: bool, total: int, failed: int, error: ?string}
+     */
+    public function sendLiveScoreNotification(PushNotification $pushNotification): array
+    {
+        $recipients = $this->baseRecipientsQuery()->get();
+
+        return $this->dispatch(
+            $pushNotification,
+            $recipients,
+            new LiveScoreNotification($pushNotification),
         );
     }
 

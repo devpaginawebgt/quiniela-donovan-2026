@@ -9,6 +9,7 @@ use App\Http\Controllers\ResultadoPartidoController;
 use App\Http\Controllers\EquipoController;
 use App\Http\Controllers\GrupoController;
 use App\Http\Controllers\JornadaController;
+use App\Http\Controllers\MatchScoreRequestController;
 use App\Http\Controllers\PushNotificationController;
 use App\Http\Controllers\QuizController;
 use App\Http\Controllers\RankingController;
@@ -142,6 +143,17 @@ Route::middleware(['auth'])->as('web.')->group(function () {
             Route::get('notificaciones/nueva', 'create')->name('create');
             Route::post('notificaciones', 'store')->name('store');
         });
+
+        Route::controller(MatchScoreRequestController::class)
+            ->prefix('marcadores-en-vivo')
+            ->as('match-score-requests.')
+            ->middleware('can:manage match polling')
+            ->group(function () {
+                Route::get('/',                       'index')->name('index');
+                Route::get('/agendar',                'create')->name('create');
+                Route::post('/',                      'store')->name('store');
+                Route::delete('/{matchScoreRequest}', 'destroy')->name('destroy');
+            });
 
     });
 
