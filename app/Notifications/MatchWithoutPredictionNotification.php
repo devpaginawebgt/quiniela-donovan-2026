@@ -38,7 +38,7 @@ class MatchWithoutPredictionNotification extends Notification
         $humanOffset = CarbonInterval::seconds($offset)->cascade()->forHumans(['locale' => 'es']);
 
         $title = "¡{$equipoUno} vs {$equipoDos} arranca pronto!";
-        $body  = "Inicia en {$humanOffset}. ¡Aún tienes tiempo de hacer tu predicción!";
+        $body  = $this->randomBody($equipoUno, $equipoDos, $humanOffset);
 
         $resource = FcmNotificationResource::create()->title($title)->body($body);
 
@@ -47,5 +47,18 @@ class MatchWithoutPredictionNotification extends Notification
         }
 
         return FcmMessage::create()->notification($resource);
+    }
+
+    private function randomBody(string $equipoUno, string $equipoDos, string $humanOffset): string
+    {
+        $bodies = [
+            "El partido {$equipoUno} vs {$equipoDos} arranca en {$humanOffset}. Aún no registras tu predicción — ¡no te quedes fuera de la jugada y suma puntos al ranking! 🏆",
+            "¡Atención! En {$humanOffset} rueda el balón en {$equipoUno} vs {$equipoDos} y tu predicción sigue vacía. Acertar te acerca al premio — entra ahora y elige tu favorito. 🔥",
+            "Faltan {$humanOffset} para {$equipoUno} vs {$equipoDos}. No dejes pasar la oportunidad de pronosticar: cada acierto te sube en la tabla y te acerca a los premios. 🔥",
+            "{$equipoUno} vs {$equipoDos} en {$humanOffset}. ¿Tienes corazonada del marcador? Regístrala ya — los puntos no esperan y el ranking se mueve rápido. 🥇",
+            "Sin predicción aún para {$equipoUno} vs {$equipoDos}. Quedan {$humanOffset} para el pitazo inicial. Toma 30 segundos, decide tu resultado y compite por los premios. ⚽",
+        ];
+
+        return $bodies[array_rand($bodies)];
     }
 }
