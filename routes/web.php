@@ -140,8 +140,14 @@ Route::middleware(['auth'])->as('web.')->group(function () {
         });
 
         Route::controller(PushNotificationController::class)->as('notifications.')->middleware('can:create admin notifications')->group(function() {
+            Route::get('notificaciones', 'index')->name('index');
+            Route::get('notificaciones/data', 'data')->name('data');
             Route::get('notificaciones/nueva', 'create')->name('create');
             Route::post('notificaciones', 'store')->name('store');
+            Route::get('notificaciones/{notification}', 'show')->name('show');
+            Route::get('notificaciones/{notification}/editar', 'edit')->name('edit');
+            Route::put('notificaciones/{notification}', 'update')->name('update');
+            Route::patch('notificaciones/{notification}/cancelar', 'cancel')->name('cancel');
         });
 
         Route::controller(MatchScoreRequestController::class)

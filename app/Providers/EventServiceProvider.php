@@ -45,7 +45,7 @@ class EventServiceProvider extends ServiceProvider
             UpdatePredictionPoints::class,
             UpdateGroupPoints::class,
             VerifyJourneyStatus::class,
-        ],
+        ],  
         JourneyCompleted::class => [
             UpdateCurrentJourney::class,
         ],

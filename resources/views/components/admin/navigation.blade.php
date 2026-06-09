@@ -22,11 +22,11 @@
 
     @can('create admin notifications')
     <li>
-        <a href="{{ route('web.admin.notifications.create') }}"
+        <a href="{{ route('web.admin.notifications.index') }}"
             @class([
                 'flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors',
-                'bg-secondary text-complementary-primary font-semibold' => request()->routeIs('web.admin.notifications.create'),
-                'text-light hover:bg-complementary-primary/60' => ! request()->routeIs('web.admin.notifications.create'),
+                'bg-secondary text-complementary-primary font-semibold' => request()->routeIs('web.admin.notifications.*'),
+                'text-light hover:bg-complementary-primary/60' => ! request()->routeIs('web.admin.notifications.*'),
             ])>
             <span class="icon-[material-symbols--notifications-active-outline-rounded] w-5 h-5"></span>
             <span>Notificaciones</span>

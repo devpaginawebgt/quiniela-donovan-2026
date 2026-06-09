@@ -47,11 +47,15 @@ class PushNotificationService
      * Envía la notificación creada desde el panel admin. Aplica filtros de
      * audiencia (user_type_id, country_id) y despacha AdminNotification.
      *
+     * Si se reciben los `$recipients` ya resueltos (caso del controlador admin),
+     * se reutilizan para evitar una segunda consulta. Si llega null (caso del
+     * comando programado), se resuelven aquí.
+     *
      * @return array{success: bool, total: int, failed: int, error: ?string}
      */
-    public function sendAdminNotification(PushNotification $pushNotification): array
+    public function sendAdminNotification(PushNotification $pushNotification, ?Collection $recipients = null): array
     {
-        $recipients = $this->baseRecipientsQuery()
+        $recipients ??= $this->baseRecipientsQuery()
             ->when($pushNotification->country_id,   fn ($q, $id) => $q->where('pais_id', $id))
             ->when($pushNotification->user_type_id, fn ($q, $id) => $q->where('user_type_id', $id))
             ->get();

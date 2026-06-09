@@ -2,16 +2,24 @@
 
 namespace App\Http\Requests\PushNotification;
 
+use App\Models\PushNotification;
 use Carbon\Carbon;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Throwable;
 
-class StorePushNotificationRequest extends FormRequest
+class UpdatePushNotificationRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return $this->user()?->can('create admin notifications') ?? false;
+        if (! $this->user()?->can('create admin notifications')) {
+            return false;
+        }
+
+        $notification = $this->route('notification');
+
+        return $notification instanceof PushNotification
+            && $notification->status === PushNotification::STATUS_PENDING;
     }
 
     public function rules(): array
@@ -22,6 +30,7 @@ class StorePushNotificationRequest extends FormRequest
             'user_type_id'     => ['nullable', 'integer', 'exists:user_types,id'],
             'country_id'       => ['nullable', 'integer', 'exists:countries,id'],
             'image'            => ['nullable', 'image', 'max:500'], // 500 KB
+            'remove_image'     => ['nullable', 'in:0,1'],
             'schedule_enabled' => ['nullable', 'in:0,1'],
             'send_at_date'     => ['required_if:schedule_enabled,1', 'nullable', 'date_format:Y-m-d'],
             'send_at_time'     => ['required_if:schedule_enabled,1', 'nullable', 'date_format:H:i'],
