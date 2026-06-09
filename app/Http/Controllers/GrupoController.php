@@ -29,7 +29,7 @@ class GrupoController extends Controller
 
     public function getGrupos(Request $request)
     {
-        $this->partidoService->actualizarPuntosEquipos();
+        // $this->partidoService->actualizarPuntosEquipos();
         
         $grupos = $this->grupoService->getGrupos();
 
@@ -94,7 +94,7 @@ class GrupoController extends Controller
 
     public function gruposWeb()
     {
-        $this->partidoService->actualizarPuntosEquipos();
+        // $this->partidoService->actualizarPuntosEquipos();
 
         // Banners
 
