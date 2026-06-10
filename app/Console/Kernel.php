@@ -35,7 +35,7 @@ class Kernel extends ConsoleKernel
             ->runInBackground();
 
         $schedule->command('app:sincronizar-rondas')
-            ->dailyAt('07:00')
+            ->dailyAt('07:30')
             ->timezone('America/Mexico_City')
             ->withoutOverlapping()
             ->runInBackground();
