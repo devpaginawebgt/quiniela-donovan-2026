@@ -9,6 +9,7 @@ use App\Listeners\AddBracketGame;
 use App\Listeners\AddBracketGameResult;
 use App\Listeners\AddMatchBrand;
 use App\Listeners\DeactivateInvalidFcmToken;
+use App\Listeners\LogFailedPushNotification;
 use App\Listeners\ScheduleMatchPushNotification;
 use App\Listeners\SendWelcomeEmail;
 use App\Listeners\UpdateCurrentJourney;
@@ -50,6 +51,7 @@ class EventServiceProvider extends ServiceProvider
             UpdateCurrentJourney::class,
         ],
         NotificationFailed::class => [
+            LogFailedPushNotification::class,
             DeactivateInvalidFcmToken::class,
         ],
     ];

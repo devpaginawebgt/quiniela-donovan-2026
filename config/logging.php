@@ -72,6 +72,12 @@ return [
             'level' => env('LOG_LEVEL', 'debug'),
         ],
 
+        'push-notifications-failed' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/push-notifications-failed.log'),
+            'level' => env('LOG_LEVEL', 'debug'),
+        ],
+
         'daily' => [
             'driver' => 'daily',
             'path' => storage_path('logs/laravel.log'),
