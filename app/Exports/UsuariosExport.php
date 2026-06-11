@@ -30,7 +30,8 @@ class UsuariosExport implements FromQuery, WithHeadings, WithMapping, WithChunkR
                 });
             })
             ->whereDoesntHave('roles', fn($q) => $q->where('name', 'admin'))
-            ->orderBy('puntos', 'desc');
+            ->orderBy('puntos', 'desc')
+            ->orderBy('id');
     }
 
 
