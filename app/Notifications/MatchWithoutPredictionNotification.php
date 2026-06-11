@@ -6,12 +6,13 @@ use App\Models\PushNotification;
 use App\Models\SystemSetting;
 use Carbon\CarbonInterval;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Notification;
 use NotificationChannels\Fcm\FcmChannel;
 use NotificationChannels\Fcm\FcmMessage;
 use NotificationChannels\Fcm\Resources\Notification as FcmNotificationResource;
 
-class MatchWithoutPredictionNotification extends Notification
+class MatchWithoutPredictionNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 

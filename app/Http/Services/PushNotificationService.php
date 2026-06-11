@@ -9,9 +9,7 @@ use App\Notifications\LiveScoreNotification;
 use App\Notifications\MatchWithPredictionNotification;
 use App\Notifications\MatchWithoutPredictionNotification;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Notifications\Events\NotificationFailed;
 use Illuminate\Notifications\Notification as BaseNotification;
-use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Notification;
 use Throwable;
@@ -123,8 +121,11 @@ class PushNotificationService
     }
 
     /**
-     * Lógica común de despacho: captura fallos por token, maneja excepciones
-     * globales y registra logs.
+     * Lógica común de despacho: encola la notificación en la cola configurada
+     * (la entrega real a FCM ocurre en `queue:work`) y registra el resultado
+     * del encolado. El conteo de fallos por token ya no se trackea aquí: una
+     * vez encolado, el éxito/fracaso de cada envío vive en la cola/logs de los
+     * workers.
      *
      * @return array{success: bool, total: int, failed: int, error: ?string}
      */
@@ -141,18 +142,10 @@ class PushNotificationService
             ];
         }
 
-        $failures = [];
-        Event::listen(NotificationFailed::class, function (NotificationFailed $event) use (&$failures) {
-            $failures[] = [
-                'channel' => $event->channel,
-                'data'    => $event->data,
-            ];
-        });
-
         try {
             Notification::send($recipients, $notification);
         } catch (Throwable $e) {
-            Log::channel('push-notifications')->error('[PushNotificationService] Falló el envío de push notifications', [
+            Log::channel('push-notifications')->error('[PushNotificationService] Falló al encolar push notifications', [
                 'push_notification_id' => $pushNotification->id,
                 'notification_class'   => $notification::class,
                 'recipients'           => $total,
@@ -168,19 +161,16 @@ class PushNotificationService
             ];
         }
 
-        $failedCount = count($failures);
-
-        Log::channel('push-notifications')->info('[PushNotificationService] Push notification enviada', [
+        Log::channel('push-notifications')->info('[PushNotificationService] Push notification encolada', [
             'push_notification_id' => $pushNotification->id,
             'notification_class'   => $notification::class,
             'recipients'           => $total,
-            'failures'             => $failedCount,
         ]);
 
         return [
             'success' => true,
             'total'   => $total,
-            'failed'  => $failedCount,
+            'failed'  => 0,
             'error'   => null,
         ];
     }

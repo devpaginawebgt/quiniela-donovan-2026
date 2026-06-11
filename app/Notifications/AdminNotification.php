@@ -4,12 +4,13 @@ namespace App\Notifications;
 
 use App\Models\PushNotification;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Notification;
 use NotificationChannels\Fcm\FcmChannel;
 use NotificationChannels\Fcm\FcmMessage;
 use NotificationChannels\Fcm\Resources\Notification as FcmNotificationResource;
 
-class AdminNotification extends Notification
+class AdminNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
