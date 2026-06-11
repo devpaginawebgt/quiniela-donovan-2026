@@ -392,6 +392,7 @@ class PrediccionService {
     {
         Preccion::where('status', 0)
             ->whereHas('resultado')
+            ->whereHas('user')
             ->with('partido', 'resultado', 'user', 'partido.puntos')
             ->chunkById(1000, function ($predicciones) {
                 $porUsuario = $predicciones->groupBy('user_id');
