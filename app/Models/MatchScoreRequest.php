@@ -14,9 +14,9 @@ class MatchScoreRequest extends Model
     public const STATUS_FAILED    = 'failed';
     public const STATUS_CANCELED  = 'canceled';
 
-    public const INITIAL_OFFSET_MINUTES = 5;
-    public const RETRY_INTERVAL_MINUTES = 5;
-    public const MAX_ATTEMPTS           = 36;
+    public const INITIAL_OFFSET_MINUTES = 3;
+    public const RETRY_INTERVAL_MINUTES = 1;
+    public const MAX_ATTEMPTS           = 180;
 
     public const ACTIVE_STATUSES = [
         self::STATUS_PENDING,

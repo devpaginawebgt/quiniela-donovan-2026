@@ -193,25 +193,25 @@ class MatchScoreService
         $trailer   = $homeLeads ? $nombre2 : $nombre1;
 
         $bodies = [
-            "¡El balón no deja de moverse! {$nombre1} vs {$nombre2} está imparable. No te lo puedes perder. ⚽🔥",
-            "¡Atención! Algo está pasando en {$nombre1} vs {$nombre2}. Enciende la tele y vive la emoción. 📺⚡",
-            "El marcador cambió en {$nombre1} vs {$nombre2}. ¿Vas a dejar que te cuenten lo que pasó? 👀",
-            "¡Esto se pone bueno! {$nombre1} {$homeGoals} - {$awayGoals} {$nombre2}. La adrenalina está al máximo. 💥",
-            "¡{$nombre1} y {$nombre2} están regalando un partidazo! Súmate y vive cada jugada. 🏟️🔥",
-            "¡Un nuevo gol sacude el partido! Corre a verlo, {$nombre1} vs {$nombre2} está que arde. 🚨",
-            "El estadio explota: {$nombre1} {$homeGoals} - {$awayGoals} {$nombre2}. ¿Lo estás viendo? 🤯",
-            "¡Drama puro en {$nombre1} vs {$nombre2}! Quien parpadee se pierde lo mejor. 😱",
+            "El marcador se mueve en {$nombre1} vs {$nombre2}. Sigue el partido en vivo.",
+            "¡Cambio en el marcador de {$nombre1} vs {$nombre2}! No te pierdas los detalles.",
+            "Nueva acción en {$nombre1} vs {$nombre2}. Revisa tu pronóstico y disfruta el encuentro. ⚽",
+            "Cambio en el marcador: {$nombre1} {$homeGoals} - {$awayGoals} {$nombre2}. El partido continúa y la adrenalina sube.",
+            "{$nombre1} y {$nombre2} nos regalan un gran encuentro. ¡Qué emoción!",
+            "¡Se mueve el marcador en {$nombre1} vs {$nombre2}! Revisa cómo va tu quiniela.",
+            "Resultado parcial: {$nombre1} {$homeGoals} - {$awayGoals} {$nombre2}. ¡Mantente al tanto, esto no para!",
+            "¡Partido intenso entre {$nombre1} y {$nombre2}! Las emociones están al máximo.",
         ];
 
         if (! $isDraw) {
             $leaderGoals  = $homeLeads ? $homeGoals : $awayGoals;
             $trailerGoals = $homeLeads ? $awayGoals : $homeGoals;
-            $bodies[] = "¡{$leader} se adelanta {$leaderGoals} - {$trailerGoals}! ¿{$trailer} podrá reaccionar? Velo en vivo. 🔥";
-            $bodies[] = "¡{$leader} está al frente! El marcador no miente: {$nombre1} {$homeGoals} - {$awayGoals} {$nombre2}. Conéctate ya. ⚽";
-            $bodies[] = "{$trailer} necesita despertar… {$leader} ya golpea primero. ¿Habrá remontada? 👀🔥";
+            $bodies[] = "¡{$leader} se pone al frente {$leaderGoals} - {$trailerGoals}! Veamos la reacción de {$trailer}.";
+            $bodies[] = "{$leader} toma la ventaja. Marcador: {$nombre1} {$homeGoals} - {$awayGoals} {$nombre2}. ¡El partido se enciende!";
+            $bodies[] = "¡{$leader} se adelanta en el marcador! {$trailer} buscará la respuesta en lo que resta del partido.";
         } else {
-            $bodies[] = "¡Empate dramático! {$nombre1} {$homeGoals} - {$awayGoals} {$nombre2}. Cualquiera puede ganarlo. 🔥";
-            $bodies[] = "¡Iguales en el marcador! {$nombre1} vs {$nombre2} promete final de película. 💓";
+            $bodies[] = "¡Empate en el marcador! {$nombre1} {$homeGoals} - {$awayGoals} {$nombre2}. El partido sigue abierto y la emoción crece.";
+            $bodies[] = "¡Igualdad en {$nombre1} vs {$nombre2}! Cualquiera puede definirlo en los próximos minutos.";
         }
 
         return $bodies[array_rand($bodies)];
