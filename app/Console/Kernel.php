@@ -26,12 +26,12 @@ class Kernel extends ConsoleKernel
             ->runInBackground();
 
         $schedule->command('app:obtener-resultados-pendientes')
-            ->everyMinute()
+            ->everyTwoMinutes()
             ->withoutOverlapping()
             ->runInBackground();
 
         $schedule->command('app:obtener-marcadores-pendientes')
-            ->everyMinute()
+            ->everyTwoMinutes()
             ->withoutOverlapping()
             ->runInBackground();
 
