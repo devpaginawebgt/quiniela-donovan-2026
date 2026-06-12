@@ -7,6 +7,7 @@ use App\Models\Partido;
 use App\Models\Preccion;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Throwable;
 
 class PrediccionService {
 
@@ -390,51 +391,60 @@ class PrediccionService {
      */
     public function actualizarPuntosGlobalChunked()
     {
-        Preccion::where('status', 0)
-            ->whereHas('resultado')
-            ->whereHas('user')
-            ->with('partido', 'resultado', 'user', 'partido.puntos')
-            ->chunkById(1000, function ($predicciones) {
-                $porUsuario = $predicciones->groupBy('user_id');
-                $prediccionIds = [];
+        try {
 
-                foreach ($porUsuario as $prediccionesUsuario) {
+            Preccion::where('status', 0)
+                ->whereHas('resultado')
+                ->whereHas('user')
+                ->with('partido', 'resultado', 'user', 'partido.puntos')
+                ->chunkById(1000, function ($predicciones) {
+                    $porUsuario = $predicciones->groupBy('user_id');
+                    $prediccionIds = [];
 
-                    $usuario = $prediccionesUsuario->first()->user;
+                    foreach ($porUsuario as $prediccionesUsuario) {
 
-                    $puntosGrupos = 0;
-                    $puntosEliminatorias = 0;
+                        $usuario = $prediccionesUsuario->first()->user;
 
-                    foreach ($prediccionesUsuario as $prediccion) {
-                        
-                        $puntos_prediccion = $this->getResultadoPrediccion($prediccion, $prediccion->resultado, $prediccion->partido->puntos);
+                        $puntosGrupos = 0;
+                        $puntosEliminatorias = 0;
 
-                        $prediccion->partido->jornada_id > 3
-                            ? $puntosEliminatorias += $puntos_prediccion
-                            : $puntosGrupos += $puntos_prediccion;
+                        foreach ($prediccionesUsuario as $prediccion) {
+                            
+                            $puntos_prediccion = $this->getResultadoPrediccion($prediccion, $prediccion->resultado, $prediccion->partido->puntos);
 
-                        $prediccionIds[] = $prediccion->id;
+                            $prediccion->partido->jornada_id > 3
+                                ? $puntosEliminatorias += $puntos_prediccion
+                                : $puntosGrupos += $puntos_prediccion;
 
+                            $prediccionIds[] = $prediccion->id;
+
+                        }
+
+                        $usuario->puntos_predicciones_grupos += $puntosGrupos;
+                        $usuario->puntos_predicciones += $puntosEliminatorias;
+
+                        $usuario->puntos_grupos = 
+                            $usuario->puntos_bonus_grupos + 
+                            $usuario->puntos_trivias_grupos + 
+                            $usuario->puntos_predicciones_grupos;
+
+                        $usuario->puntos = 
+                            $usuario->puntos_bonus + 
+                            $usuario->puntos_trivias + 
+                            $usuario->puntos_predicciones;
+
+                        $usuario->save();
                     }
 
-                    $usuario->puntos_predicciones_grupos += $puntosGrupos;
-                    $usuario->puntos_predicciones += $puntosEliminatorias;
+                    Preccion::whereIn('id', $prediccionIds)->update(['status' => 1]);
+                });   
 
-                    $usuario->puntos_grupos = 
-                        $usuario->puntos_bonus_grupos + 
-                        $usuario->puntos_trivias_grupos + 
-                        $usuario->puntos_predicciones_grupos;
-
-                    $usuario->puntos = 
-                        $usuario->puntos_bonus + 
-                        $usuario->puntos_trivias + 
-                        $usuario->puntos_predicciones;
-
-                    $usuario->save();
-                }
-
-                Preccion::whereIn('id', $prediccionIds)->update(['status' => 1]);
-            });
+        } catch (Throwable $e) {
+            ErrorService::notify(
+                'UpdateGroupPoints — Excepción',
+                $e->getMessage() . "\n" . $e->getTraceAsString()
+            );
+        }
     }
 
 
