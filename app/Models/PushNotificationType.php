@@ -9,6 +9,7 @@ class PushNotificationType extends Model
 {
     public const ADMIN = 'admin';
     public const MATCH = 'match';
+    public const MATCH_RESULT = 'match-result';
 
     protected $fillable = [
         'name',

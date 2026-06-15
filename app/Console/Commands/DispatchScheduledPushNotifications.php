@@ -48,9 +48,10 @@ class DispatchScheduledPushNotifications extends Command
             $slug = $pushNotification->type?->slug;
 
             $result = match ($slug) {
-                PushNotificationType::ADMIN => $service->sendAdminNotification($pushNotification),
-                PushNotificationType::MATCH => $this->dispatchMatchNotification($service, $pushNotification),
-                default                     => $this->handleUnknownType($pushNotification, $slug),
+                PushNotificationType::ADMIN        => $service->sendAdminNotification($pushNotification),
+                // PushNotificationType::MATCH_RESULT => $service->sendMatchResultNotification($pushNotification),
+                PushNotificationType::MATCH        => $this->dispatchMatchNotification($service, $pushNotification),
+                default                            => $this->handleUnknownType($pushNotification, $slug),
             };
 
             $pushNotification->update([

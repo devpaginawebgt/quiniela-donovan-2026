@@ -11,6 +11,8 @@ use App\Models\EquipoPartido;
 use App\Models\Jornada;
 use App\Models\MatchResultRequest;
 use App\Models\Partido;
+use App\Models\PushNotification;
+use App\Models\PushNotificationType;
 use App\Models\ResultadoPartido;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -388,6 +390,120 @@ class MatchService
 
             $this->bumpFailedAttempt($request, $e->getMessage());
         }
+    }
+
+    public function dispatchResultNotification(ResultadoPartido $resultado)
+    {
+        try {
+        
+            $partido_id = $resultado->partido_id;
+
+            $partido = Partido::with('equipos.equipoUno:id,nombre', 'equipos.equipoDos:id,nombre')->find($partido_id);
+
+            if (! $partido || ! $partido->equipos) {
+                $this->notify(
+                    'MatchService::dispatchResultNotification — Partido/equipos faltantes',
+                    "Partido id = {$partido_id} no tiene partido/equipos. No se envió notificación."
+                );
+                return;
+            }
+
+            $nombre1 = $partido->equipos->equipoUno?->nombre ?? 'Local';
+            $nombre2 = $partido->equipos->equipoDos?->nombre ?? 'Visitante';
+
+            $homeGoals = $resultado->goles_equipo_1;
+            $awayGoals = $resultado->goles_equipo_2;
+
+            $title = $this->getRandomResultTitle($nombre1, $nombre2, $homeGoals, $awayGoals);
+            $body  = $this->getRandomResultBody($nombre1, $nombre2, $homeGoals, $awayGoals);
+
+            $matchType = PushNotificationType::where('slug', PushNotificationType::MATCH_RESULT)->first();
+
+            $pushNotification = PushNotification::create([
+                'push_notification_type_id' => $matchType?->id,
+                'partido_id'   => $partido->id,
+                'title'        => $title,
+                'description'  => $body,
+                'status'       => PushNotification::STATUS_SENDING,
+                'scheduled_at' => now(),
+                'from_system'  => true,
+            ]);
+
+            $result = app(PushNotificationService::class)->sendMatchResultNotification($pushNotification);
+
+            $pushNotification->update([
+                'status'     => $result['success'] ? PushNotification::STATUS_SENT : PushNotification::STATUS_FAILED,
+                'sent_at'    => now(),
+                'recipients' => $result['total'],
+                'success'    => $result['success'],
+                'failed'     => $result['failed'],
+                'comment'    => $result['error'],
+            ]);
+
+        } catch (Throwable $e) {
+            ErrorService::notify(
+                'Dispatch Result Notification — Excepción',
+                $e->getMessage() . "\n" . $e->getTraceAsString()
+            );
+        }
+    }
+
+    private function getRandomResultTitle(string $nombre1, string $nombre2, int $homeGoals, int $awayGoals): string
+    {
+        $titles = [
+            "Resultado final: {$nombre1} {$homeGoals} - {$awayGoals} {$nombre2}",
+            "¡Final del partido! {$nombre1} {$homeGoals} - {$awayGoals} {$nombre2}",
+            "Marcador final — {$nombre1} {$homeGoals} - {$awayGoals} {$nombre2}",
+            "Terminó: {$nombre1} {$homeGoals} - {$awayGoals} {$nombre2}",
+            "Y el partido terminó: {$nombre1} {$homeGoals} - {$awayGoals} {$nombre2}",
+            "Cierre del encuentro: {$nombre1} {$homeGoals} - {$awayGoals} {$nombre2}",
+            "¡Pitazo final! {$nombre1} {$homeGoals} - {$awayGoals} {$nombre2}",
+            "Resultado oficial: {$nombre1} {$homeGoals} - {$awayGoals} {$nombre2}",
+            "Así terminó: {$nombre1} {$homeGoals} - {$awayGoals} {$nombre2}",
+            "Partido finalizado — {$nombre1} {$homeGoals} - {$awayGoals} {$nombre2}",
+        ];
+
+        return $titles[array_rand($titles)];
+    }
+
+    private function getRandomResultBody(string $nombre1, string $nombre2, int $homeGoals, int $awayGoals): string
+    {
+        $isDraw    = $homeGoals === $awayGoals;
+        $homeWins  = $homeGoals > $awayGoals;
+        $winner    = $homeWins ? $nombre1 : $nombre2;
+        $loser     = $homeWins ? $nombre2 : $nombre1;
+        $winnerGoals = $homeWins ? $homeGoals : $awayGoals;
+        $loserGoals  = $homeWins ? $awayGoals : $homeGoals;
+
+        if ($isDraw) {
+            $bodies = [
+                "¡Empate en {$nombre1} vs {$nombre2}! Cerraron {$homeGoals} - {$awayGoals}. Revisa cómo quedó tu quiniela.",
+                "{$nombre1} y {$nombre2} ha estado muy igualado: {$homeGoals} - {$awayGoals}. ¡Qué duelo!",
+                "Igualdad en el marcador: {$nombre1} {$homeGoals} - {$awayGoals} {$nombre2}. Ambos equipos nos han regalado un partidazo.",
+                "El duelo ha estado reñido entre {$nombre1} y {$nombre2}. Resultado final: {$homeGoals} - {$awayGoals}.",
+                "Empate {$homeGoals} - {$homeGoals} entre {$nombre1} y {$nombre2}. ¿Lo viste venir? Checa tu pronóstico.",
+            ];
+        } else {
+            $bodies = [
+                "¡{$winner} se lleva la victoria! Venció a {$loser} por {$winnerGoals} - {$loserGoals}. Revisa tu quiniela.",
+                "Triunfo de {$winner} sobre {$loser}: {$winnerGoals} - {$loserGoals}. ¡A celebrar!",
+                "{$winner} gana {$winnerGoals} - {$loserGoals} a {$loser}. ¿Acertaste el resultado?",
+                "Final con sabor a victoria para {$winner}: {$winnerGoals} - {$loserGoals} ante {$loser}.",
+                "{$winner} se impone {$winnerGoals} - {$loserGoals} frente a {$loser}. ¡Gran partido!",
+                "¡{$winner} es el ganador! Doblegó a {$loser} {$winnerGoals} - {$loserGoals}.",
+                "Resultado para los libros: {$winner} {$winnerGoals} - {$loserGoals} {$loser}. Revisa tus puntos.",
+                "{$winner} se lleva la victoria derrotando {$winnerGoals} - {$loserGoals} a {$loser}.",
+                "Tarde redonda para {$winner}: derrotó a {$loser} {$winnerGoals} - {$loserGoals}.",
+                "Cayó {$loser} ante {$winner} por {$winnerGoals} - {$loserGoals}. Mira cómo quedó tu pronóstico.",
+                "¡Victoria para {$winner}! Marcador final {$nombre1} {$homeGoals} - {$awayGoals} {$nombre2}.",
+                "{$winner} hizo lo suyo y se quedó con el partido: {$winnerGoals} - {$loserGoals} sobre {$loser}.",
+                "{$winner} le ganó a {$loser} por {$winnerGoals} - {$loserGoals}. ¿Lo tenías en tu quiniela?",
+                "Trabajo cumplido para {$winner}: superó a {$loser} {$winnerGoals} - {$loserGoals}.",
+                "{$winner} se queda con el triunfo {$winnerGoals} - {$loserGoals} contra {$loser}. Qué partidazo.",
+            ];
+        }
+
+        return $bodies[array_rand($bodies)];
     }
 
     private function bumpFailedAttempt(MatchResultRequest $request, string $error): void

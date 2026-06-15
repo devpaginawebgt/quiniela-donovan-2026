@@ -10,6 +10,7 @@ use App\Listeners\AddBracketGameResult;
 use App\Listeners\AddMatchBrand;
 use App\Listeners\DeactivateInvalidFcmToken;
 use App\Listeners\LogFailedPushNotification;
+use App\Listeners\NotifyResultCreated;
 use App\Listeners\ScheduleMatchPushNotification;
 use App\Listeners\SendWelcomeEmail;
 use App\Listeners\UpdateCurrentJourney;
@@ -46,6 +47,7 @@ class EventServiceProvider extends ServiceProvider
             UpdatePredictionPoints::class,
             UpdateGroupPoints::class,
             VerifyJourneyStatus::class,
+            NotifyResultCreated::class,
         ],  
         JourneyCompleted::class => [
             UpdateCurrentJourney::class,

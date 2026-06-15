@@ -6,6 +6,7 @@ use App\Models\PushNotification;
 use App\Models\User;
 use App\Notifications\AdminNotification;
 use App\Notifications\LiveScoreNotification;
+use App\Notifications\MatchResultNotification;
 use App\Notifications\MatchWithPredictionNotification;
 use App\Notifications\MatchWithoutPredictionNotification;
 use Illuminate\Database\Eloquent\Collection;
@@ -117,6 +118,22 @@ class PushNotificationService
             $pushNotification,
             $recipients,
             new LiveScoreNotification($pushNotification),
+        );
+    }
+
+    /**
+     * Envía la notificación de el registro de un resultado de partido.
+     *
+     * @return array{success: bool, total: int, failed: int, error: ?string}
+     */
+    public function sendMatchResultNotification(PushNotification $pushNotification): array
+    {
+        $recipients = $this->baseRecipientsQuery()->get();
+
+        return $this->dispatch(
+            $pushNotification,
+            $recipients,
+            new MatchResultNotification($pushNotification),
         );
     }
 

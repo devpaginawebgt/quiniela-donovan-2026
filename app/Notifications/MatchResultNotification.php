@@ -10,7 +10,7 @@ use NotificationChannels\Fcm\FcmChannel;
 use NotificationChannels\Fcm\FcmMessage;
 use NotificationChannels\Fcm\Resources\Notification as FcmNotificationResource;
 
-class LiveScoreNotification extends Notification implements ShouldQueue
+class MatchResultNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -26,7 +26,7 @@ class LiveScoreNotification extends Notification implements ShouldQueue
 
     public function toFcm(object $notifiable): FcmMessage
     {
-        $title = $this->pushNotification->title ?? '¡Marcador actualizado!';
+        $title = $this->pushNotification->title ?? '¡Resultado Registrado!';
         $body  = $this->pushNotification->description ?? '';
 
         $resource = FcmNotificationResource::create()->title($title)->body($body);
