@@ -38,9 +38,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         MatchCreated::class => [
             AddBracketGame::class,
-            // ScheduleMatchPushNotification::class,
             AddMatchBrand::class,
             VerifyJourneyStatusOnMatch::class,
+            ScheduleMatchPushNotification::class,
         ],
         ResultCreated::class => [
             AddBracketGameResult::class,
