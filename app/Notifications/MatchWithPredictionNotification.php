@@ -53,9 +53,9 @@ class MatchWithPredictionNotification extends Notification implements ShouldQueu
     private function randomBody(string $equipoUno, string $equipoDos, string $humanOffset): string
     {
         $bodies = [
-            "{$equipoUno} vs {$equipoDos} arranca en {$humanOffset}. Tu predicción ya está lista — ¡cruza los dedos y prepárate para sumar puntos! 🍀",
-            "¡Es la hora! En {$humanOffset} rueda el balón en {$equipoUno} vs {$equipoDos}. Tu pronóstico está en juego, no te pierdas ni un minuto. 📺",
-            "Faltan {$humanOffset} para {$equipoUno} vs {$equipoDos}. Cada gol cuenta para tu predicción — vívelo en vivo y celebra tus aciertos. 🎉",
+            "{$equipoUno} vs {$equipoDos} arranca en {$humanOffset}. Tu predicción ya está lista — ¡cruza los dedos y prepárate para sumar puntos!",
+            "¡Es la hora! En {$humanOffset} rueda el balón en {$equipoUno} vs {$equipoDos}. Tu pronóstico está en juego, no te lo pierdas.",
+            "Faltan {$humanOffset} para {$equipoUno} vs {$equipoDos}. Cada gol cuenta para tu predicción — vívelo y celebra tus aciertos.",
             "Tu predicción para {$equipoUno} vs {$equipoDos} está en marcha. Arranca en {$humanOffset} — sintoniza, vive el partido y mira cómo subes en el ranking. 📈",
             "{$equipoUno} vs {$equipoDos} en {$humanOffset}. Apostaste por tu favorito — ahora sólo queda disfrutar el partido y ver si tus puntos llegan. 🏆",
         ];
