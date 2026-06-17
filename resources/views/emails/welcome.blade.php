@@ -111,13 +111,10 @@
                   El objetivo es fomentar un espacio de entretenimiento y sana competencia durante el torneo.
                 </li>
                 <li style="margin-bottom:8px;">
-                  La premiación se realizará por Departamento dentro de cada país, según la división territorial administrativa correspondiente.
-                </li>
-                <li style="margin-bottom:8px;">
                   Cada usuario podrá ingresar una predicción por partido.
                 </li>
                 <li style="margin-bottom:8px;">
-                  Los pronósticos podrán registrarse o modificarse hasta diez minutos antes del inicio de cada encuentro.
+                  Los pronósticos podrán registrarse o modificarse hasta diez minutos después de iniciado el encuentro.
                 </li>
                 <li style="margin-bottom:8px;">
                   Si no registras una predicción dentro del plazo, no acumularás puntos en ese partido.
@@ -139,16 +136,8 @@
                   <td align="right" style="padding:8px 0; border-bottom:1px solid #a1a1aa;"><strong>3 pts</strong></td>
                 </tr>
                 <tr>
-                  <td style="padding:8px 0; border-bottom:1px solid #a1a1aa;">Acertó el equipo ganador</td>
-                  <td align="right" style="padding:8px 0; border-bottom:1px solid #a1a1aa;"><strong>2 pts</strong></td>
-                </tr>
-                <tr>
-                  <td style="padding:8px 0; border-bottom:1px solid #a1a1aa;">Predijo empate sin marcador exacto</td>
-                  <td align="right" style="padding:8px 0; border-bottom:1px solid #a1a1aa;"><strong>2 pts</strong></td>
-                </tr>
-                <tr>
-                  <td style="padding:8px 0; border-bottom:1px solid #a1a1aa;">Acertó uno de los marcadores</td>
-                  <td align="right" style="padding:8px 0; border-bottom:1px solid #a1a1aa;"><strong>1 pt</strong></td>
+                  <td style="padding:8px 0; border-bottom:1px solid #a1a1aa;">Acertó el equipo ganador o predijo empate (sin acertar marcadores)</td>
+                  <td align="right" style="padding:8px 0; border-bottom:1px solid #a1a1aa;"><strong>1 pts</strong></td>
                 </tr>
               </table>
 
