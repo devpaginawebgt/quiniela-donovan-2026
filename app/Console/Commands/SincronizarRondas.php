@@ -92,15 +92,51 @@ class SincronizarRondas extends Command
                 continue;
             }
 
-            $needsSync = $jornada->fixtures == 0 || $jornada->fixtures_pending_date > 0;
+            $expectedMatches = 24;
+
+            switch((int)$jornada->id) {
+                case 4:
+                    $expectedMatches = 16;
+                    break;
+                case 5:
+                    $expectedMatches = 8;
+                    break;
+                case 6:
+                    $expectedMatches = 4;
+                    break;
+                case 7:
+                    $expectedMatches = 2;
+                    break;
+                case 8:
+                    $expectedMatches = 1;
+                    break;
+                case 9:
+                    $expectedMatches = 1;
+                    break;
+                default:
+                    $expectedMatches = 24;
+                    break;
+            }
+
+            $currentFixtures = (int)$jornada->fixtures;
+            $pendingDate     = (int)$jornada->fixtures_pending_date;
+            $hasAllMatches   = $currentFixtures >= $expectedMatches;
+
+            $needsSync = $currentFixtures === 0 || $pendingDate > 0 || ! $hasAllMatches;
 
             if (! $needsSync) {
                 $skipped++;
-                $this->line("· Jornada [{$jornada->id}] '{$jornada->name}' sin pendientes (fixtures={$jornada->fixtures}, pending=0), skip.");
+                $this->line("· Jornada [{$jornada->id}] '{$jornada->name}' sin pendientes (fixtures={$currentFixtures}/{$expectedMatches}, pending_date={$pendingDate}), skip.");
                 continue;
             }
 
-            $this->info("→ Disparando app:sincronizar-fixtures para Jornada [{$jornada->id}] '{$jornada->name}'...");
+            $reason = $currentFixtures === 0
+                ? 'sin fixtures'
+                : (! $hasAllMatches
+                    ? "fixtures incompletos ({$currentFixtures}/{$expectedMatches})"
+                    : "pending={$pendingDate}");
+
+            $this->info("→ Disparando app:sincronizar-fixtures para Jornada [{$jornada->id}] '{$jornada->name}' ({$reason})...");
 
             $exitCode = Artisan::call('app:sincronizar-fixtures', [
                 '--jornada' => $jornada->id,
