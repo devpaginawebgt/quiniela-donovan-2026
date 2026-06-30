@@ -16,7 +16,7 @@
 
                 <p id="podio-2-name" class="text-xs xl:text-base font-semibold text-center leading-tight my-1"></p>
 
-                <div class="border-t border-x border-secondary rounded-t-xl p-2 sm:p-4 pt-8 w-full text-center h-40 lg:h-52" style="background: linear-gradient(var(--color-complementary-primary), 88%, transparent);">
+                <div class="border-t border-x border-dark text-dark rounded-t-xl p-2 sm:p-4 pt-8 w-full text-center h-40 lg:h-52" style="background: linear-gradient(#d2d4da, 88%, transparent);">
                     <p class="text-2xl font-bold">2°</p>
                     <p id="podio-2-points" class="text-sm"></p>
                 </div>
@@ -38,7 +38,7 @@
 
                 <p id="podio-1-name" class="text-xs xl:text-base font-semibold text-center leading-tight my-1"></p>
 
-                <div class="border-t border-x border-secondary rounded-t-xl p-2 sm:p-4 pt-8 w-full text-center h-56 lg:h-72" style="background: linear-gradient(var(--color-complementary-primary), 93%, transparent);">
+                <div class="border-t border-x border-dark text-dark rounded-t-xl p-2 sm:p-4 pt-8 w-full text-center h-56 lg:h-72" style="background: linear-gradient(#d2d4da, 93%, transparent);">
                     <p class="text-3xl font-bold">1°</p>
                     <p id="podio-1-points" class="text-sm font-semibold"></p>
                     @if (isset($first_place_brand) && !empty($first_place_brand))
@@ -58,7 +58,7 @@
 
                 <p id="podio-3-name" class="text-xs sm:text-sm xl:text-base font-semibold text-center leading-tight my-1"></p>
 
-                <div class="border-t border-x border-secondary rounded-t-xl p-2 sm:p-4 pt-8 w-full text-center h-28 lg:h-32" style="background: linear-gradient(var(--color-complementary-primary), 85%, transparent);">
+                <div class="border-t border-x border-dark text-dark rounded-t-xl p-2 sm:p-4 pt-8 w-full text-center h-28 lg:h-32" style="background: linear-gradient(#d2d4da, 85%, transparent);">
                     <p class="text-2xl font-bold">3°</p>
                     <p id="podio-3-points" class="text-sm"></p>
                 </div>
@@ -159,15 +159,15 @@
 
         function renderList(participantes) {
             const html = participantes.map(function (p) {
-                return '<div class="flex items-center gap-4 border border-secondary rounded-xl bg-complementary-primary px-4 py-3 w-full max-w-140">' +
-                    '<span class="flex items-center gap-2 text-lg font-bold min-w-16" style="color: ' + escapeHtml(p.color) + '">' +
+                return '<div class="flex items-center gap-4 border rounded-xl bg-[#d2d4da] border-dark text-dark px-4 py-3 w-full max-w-140">' +
+                    '<span class="flex items-center gap-2 text-lg font-bold min-w-16">' +
                         medalSvg + p.posicion + ' °' +
                     '</span>' +
                     '<div class="flex-1 min-w-0 flex items-center gap-2">' +
                         '<p class="font-semibold truncate text-xs sm:text-sm lg:text-base">' + escapeHtml(p.nombres + ' ' + p.apellidos) + '</p>' +
                         flagImg(p) +
                     '</div>' +
-                    '<span class="text-light font-bold shrink-0">' + p.puntos + ' puntos</span>' +
+                    '<span class="font-bold shrink-0">' + p.puntos + ' puntos</span>' +
                 '</div>';
             }).join('');
 
