@@ -16,7 +16,7 @@ html {
 
 
 
-@keyframes spin {
+@keyframes spin-2 {
 
     from {
 
@@ -58,7 +58,7 @@ html {
 
 
 
-.animate-spin {
+.animate-spin-2 {
 
     content: " ";
 

@@ -226,7 +226,7 @@
                     <button type="submit"
                             id="submit_button"
                             data-mode="{{ $isEdit ? 'edit' : 'create' }}"
-                            class="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold bg-secondary text-complementary-primary hover:brightness-110 transition-colors">
+                            class="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold bg-secondary text-complementary-primary hover:brightness-110 transition-colors disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:brightness-100">
                         <span id="submit_icon" class="{{ $scheduleEnabledOld ? 'icon-[material-symbols--schedule-send-outline-rounded]' : 'icon-[material-symbols--send-rounded]' }} w-5 h-5"></span>
                         <span id="submit_label">{{ $submitInitialLabel }}</span>
                     </button>
@@ -371,6 +371,29 @@
 
             const sizeKb = (file.size / 1024).toFixed(1);
             imageHelp.textContent = `Imagen seleccionada: ${file.name} (${sizeKb} KB).`;
+        });
+
+        const form = submitButton?.closest('form');
+        const spinnerIconClass = 'icon-[material-symbols--progress-activity]';
+        const submittingLabels = {
+            create: { schedule: 'Programando...',   immediate: 'Enviando...' },
+            edit:   { schedule: 'Actualizando...',  immediate: 'Enviando...' },
+        };
+
+        form?.addEventListener('submit', () => {
+            if (submitButton.disabled) return;
+
+            submitButton.disabled = true;
+
+            if (submitIcon) {
+                submitIcon.classList.remove(sendIconClass, scheduleIconClass);
+                submitIcon.classList.add(spinnerIconClass, 'animate-spin');
+            }
+
+            if (submitLabel) {
+                const enabled = scheduleToggle?.checked ?? false;
+                submitLabel.textContent = submittingLabels[mode][enabled ? 'schedule' : 'immediate'];
+            }
         });
     })();
 </script>
