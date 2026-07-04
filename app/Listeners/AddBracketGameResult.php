@@ -4,25 +4,32 @@ namespace App\Listeners;
 
 use App\Events\ResultCreated;
 use App\Http\Services\BracketGameService;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\Log;
+use Throwable;
 
 class AddBracketGameResult
 {
-    /**
-     * Create the event listener.
-     */
     public function __construct(
         private readonly BracketGameService $bracketGameService
     ) {}
 
     /**
      * Handle the event.
+     *
+     * Nota: cualquier excepción se atrapa y loguea para no interrumpir los
+     * siguientes listeners de ResultCreated (UpdatePredictionPoints,
+     * UpdateGroupPoints, VerifyJourneyStatus, NotifyResultCreated).
      */
     public function handle(ResultCreated $event): void
     {
-        $result = $event->result;
-
-        $this->bracketGameService->addBracketGameResult($result);
+        try {
+            $this->bracketGameService->addBracketGameResult($event->result);
+        } catch (Throwable $e) {
+            Log::error('[AddBracketGameResult] Falla procesando ResultCreated', [
+                'resultado_id' => $event->result?->id,
+                'partido_id'   => $event->result?->partido_id,
+                'exception'    => $e->getMessage(),
+            ]);
+        }
     }
 }
