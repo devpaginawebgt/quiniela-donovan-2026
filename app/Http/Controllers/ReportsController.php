@@ -37,10 +37,10 @@ class ReportsController extends Controller
             ->addColumn('visitador', fn($u) => $u->visitor ? $u->visitor->name . ' ' . $u->visitor->lastname : 'N/A')
             ->addColumn('region', fn($u) => $u->region ?? 'N/A')
             ->addColumn('farmacia', fn($u) => $u->branch ?? 'N/A')
-            ->addColumn('puntos_trivias', fn($u) => $u->puntos_trivias_grupos ?? 0)
-            ->addColumn('puntos_predicciones', fn($u) => $u->puntos_predicciones_grupos ?? 0)
-            ->addColumn('puntos_bonus', fn($u) => $u->puntos_bonus_grupos ?? 0)
-            ->addColumn('puntos', fn($u) => $u->puntos_grupos ?? 0)
+            ->addColumn('puntos_trivias', fn($u) => $u->puntos_trivias ?? 0)
+            ->addColumn('puntos_predicciones', fn($u) => $u->puntos_predicciones ?? 0)
+            ->addColumn('puntos_bonus', fn($u) => $u->puntos_bonus ?? 0)
+            ->addColumn('puntos', fn($u) => $u->puntos ?? 0)
             ->addColumn('fecha_registro', fn($u) => $u->created_at->timezone('America/Guatemala')->format('d/m/Y h:i:s A'))
             ->addColumn('estado_badge', function ($u) {
                 if ($u->status_user) {

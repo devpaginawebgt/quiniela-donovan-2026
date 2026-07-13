@@ -12,7 +12,7 @@ class ReportService
         return User::with(['country', 'type', 'company', 'visitor', 'pushTokens'])
             ->whereDoesntHave('roles', fn($q) => $q->where('name', 'admin'))
             ->select('users.*')
-            ->orderBy('puntos_grupos', 'desc')
+            ->orderBy('puntos', 'desc')
             ->orderBy('created_at', 'asc')
             ->orderBy('id');
     }

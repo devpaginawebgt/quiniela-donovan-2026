@@ -30,7 +30,7 @@ class UsuariosExport implements FromQuery, WithHeadings, WithMapping, WithChunkR
                 });
             })
             ->whereDoesntHave('roles', fn($q) => $q->where('name', 'admin'))
-            ->orderBy('puntos_grupos', 'desc')
+            ->orderBy('puntos', 'desc')
             ->orderBy('created_at', 'asc')
             ->orderBy('id');
     }
@@ -86,10 +86,10 @@ class UsuariosExport implements FromQuery, WithHeadings, WithMapping, WithChunkR
             $user->visitor ? $user->visitor->name . ' ' . $user->visitor->lastname : 'N/A',
             $user->region ?? 'N/A',
             $user->branch ?? 'N/A',
-            $user->puntos_trivias_grupos ?? '0',
-            $user->puntos_predicciones_grupos ?? '0',
-            $user->puntos_bonus_grupos ?? '0',
-            $user->puntos_grupos ?? '0',
+            $user->puntos_trivias ?? '0',
+            $user->puntos_predicciones ?? '0',
+            $user->puntos_bonus ?? '0',
+            $user->puntos ?? '0',
             $user->created_at->timezone('America/Guatemala')->format('d/m/Y H:i:s'),
             $user->status_user ? 'Activo' : 'Inactivo',
             $user->pushTokens->where('is_active', true)->isNotEmpty() ? 'Sí' : 'No',
