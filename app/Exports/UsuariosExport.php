@@ -17,6 +17,11 @@ class UsuariosExport implements FromQuery, WithHeadings, WithMapping, WithChunkR
     public function query()
     {
         return User::with(['country', 'type', 'company', 'visitor', 'pushTokens'])
+            ->whereDoesntHave('roles', fn($q) => $q->where('name', 'admin'))
+            ->where(function($q) {
+                $q->has('predictions')
+                ->orHas('quizzes');
+            })
             ->when($this->search, function ($query) {
                 $query->where(function ($q) {
                     $q->where('nombres', 'like', "%{$this->search}%")
@@ -29,7 +34,6 @@ class UsuariosExport implements FromQuery, WithHeadings, WithMapping, WithChunkR
                         ->orWhereHas('visitor', fn($visitor) => $visitor->whereRaw("CONCAT(name, ' ', lastname) LIKE ?", ["%{$this->search}%"]));
                 });
             })
-            ->whereDoesntHave('roles', fn($q) => $q->where('name', 'admin'))
             ->orderBy('puntos', 'desc')
             ->orderBy('created_at', 'asc')
             ->orderBy('id');

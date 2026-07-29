@@ -11,6 +11,10 @@ class ReportService
     {
         return User::with(['country', 'type', 'company', 'visitor', 'pushTokens'])
             ->whereDoesntHave('roles', fn($q) => $q->where('name', 'admin'))
+            ->where(function($q) {
+                $q->has('predictions')
+                ->orHas('quizzes');
+            })
             ->select('users.*')
             ->orderBy('puntos', 'desc')
             ->orderBy('created_at', 'asc')
